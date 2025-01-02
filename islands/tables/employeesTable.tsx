@@ -1,7 +1,7 @@
-import {Employee} from "../../components/utils/api-client/types/Employee.ts";
-import {h} from "preact";
-import {useState} from "preact/hooks";
-import {Users} from "https://esm.sh/lucide-preact@latest";
+import { Employee } from "../../components/utils/api-client/types/Employee.ts";
+import { h } from "preact";
+import { useState } from "preact/hooks";
+import { Users } from "https://esm.sh/lucide-preact@latest";
 import OverviewTable from "../../components/tables/overviewTable.tsx";
 import OverviewTableNav from "../../components/tables/overviewTableNav.tsx";
 
@@ -37,8 +37,11 @@ export default function EmployeesTable(
 
   return (
     <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="flex items-center text-white text-xl font-bold"><Users class="mr-2"/>Pracownicy</h1>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+        <h1 class="flex items-center text-white text-xl font-bold mb-2 md:mb-0">
+          <Users class="mr-2 w-5 h-5 md:w-6 md:h-6" />
+          Pracownicy
+        </h1>
         <OverviewTableNav handleSort={handleSort} />
       </div>
       <OverviewTable employees={sortedEmployees} />

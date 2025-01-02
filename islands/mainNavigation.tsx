@@ -8,7 +8,6 @@ type MainNavigationProps = {
 export default function MainNavigation({ toggleSidebar }: MainNavigationProps) {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
-    const appName = Deno.env.get("APP_NAME");
 
     const toggleProfileMenu = () => {
         setIsProfileOpen(!isProfileOpen);
@@ -40,7 +39,7 @@ export default function MainNavigation({ toggleSidebar }: MainNavigationProps) {
                 <a href="/">
                     <img src="/images/logo_256x256.png" alt="Logo" class="w-8 h-8 mx-auto md:mx-0 md:ml-4"/>
                 </a>
-                <span class="ml-2 text-xl font-semibold text-gray-800" style={{fontFamily: 'Arial, sans-serif' }}>{appName}</span>
+                <span class="ml-2 text-xl font-semibold text-gray-800" style={{fontFamily: 'Arial, sans-serif' }}>SORA</span>
             </div>
             <div class="relative flex items-center ml-auto">
                 <Bell size={24} class="mr-4 text-gray-600 hover:text-gray-900" />
