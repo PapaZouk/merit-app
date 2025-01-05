@@ -1,4 +1,5 @@
 name: Deploy
+
 on:
   push:
     branches: master
@@ -11,9 +12,12 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
+    environment:
+      name: production
+
     permissions:
       id-token: write # Needed for auth with Deno Deploy
-      contents: read # Needed to clone the repository
+      contents: read  # Needed to clone the repository
 
     steps:
       - name: Clone repository
@@ -26,6 +30,13 @@ jobs:
 
       - name: Build step
         run: "deno task build"
+        env:
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_SUBTITLE: ${{ secrets.APP_SUBTITLE }}
+          API_URL: ${{ secrets.API_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          AUTH_PROJECT_ID: ${{ secrets.AUTH_PROJECT_ID }}
+          AUTH_ENDPOINT: ${{ secrets.AUTH_ENDPOINT }}
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
@@ -35,4 +46,9 @@ jobs:
           root: "."
         env:
           DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
-
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_SUBTITLE: ${{ secrets.APP_SUBTITLE }}
+          API_URL: ${{ secrets.API_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          AUTH_PROJECT_ID: ${{ secrets.AUTH_PROJECT_ID }}
+          AUTH_ENDPOINT: ${{ secrets.AUTH_ENDPOINT }}
