@@ -13,7 +13,7 @@ type EmployeesTableProps = {
 export default function EmployeesTable(
   { sortedEmployees, setSortedEmployees }: EmployeesTableProps,
 ): h.JSX.Element {
-  const [isNameAscending, setIsNameAscending] = useState(true);
+  const [isLastNameAscending, setIsLastNameAscending] = useState(true);
   const [isDepartmentAscending, setIsDepartmentAscending] = useState(true);
   const [isJobTitleAscending, setIsJobTitleAscending] = useState(true);
 
@@ -23,14 +23,14 @@ export default function EmployeesTable(
   };
 
   const getOrder = (key: string) => {
-    if (key === "firstName") return isNameAscending;
+    if (key === "lastName") return isLastNameAscending;
     if (key === "department") return isDepartmentAscending;
     if (key === "jobTitle") return isJobTitleAscending;
     return true;
   };
 
   const toggleOrder = (key: string) => {
-    if (key === "firstName") setIsNameAscending((prev) => !prev);
+    if (key === "lastName") setIsLastNameAscending((prev) => !prev);
     if (key === "department") setIsDepartmentAscending((prev) => !prev);
     if (key === "jobTitle") setIsJobTitleAscending((prev) => !prev);
   };

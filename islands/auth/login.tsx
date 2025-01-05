@@ -1,7 +1,7 @@
-import {useLogin} from "../context/LoginProvider.tsx";
-import {useState} from "preact/hooks";
+import { useLogin } from "../context/LoginProvider.tsx";
+import { useEffect, useState } from "preact/hooks";
 import FormInput from "../../components/employee/forms/FormInput.tsx";
-import {AuthConfig} from "./getAuthConfig.ts";
+import { AuthConfig } from "./getAuthConfig.ts";
 
 type LoginProps = {
   loginData: {
@@ -12,12 +12,23 @@ type LoginProps = {
   authConfig: AuthConfig;
 };
 
-export default function Login({ loginData, setLoginData, authConfig }: LoginProps) {
-  const { handleLogin } = useLogin();
+export default function Login(
+  { loginData, setLoginData, authConfig }: LoginProps,
+) {
+  const { handleLogin, loginError } = useLogin();
   const [userCredentials, setUserCredentials] = useState({
     login: "",
     password: "",
   });
+  const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    if (loginError) {
+      setShowError(true);
+      const timer = setTimeout(() => setShowError(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [loginError]);
 
   const handleChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
@@ -54,6 +65,7 @@ export default function Login({ loginData, setLoginData, authConfig }: LoginProp
               handleChange={handleChange}
               min={3}
               required={true}
+              autoComplete={"username"}
             />
           </div>
           <div>
@@ -65,6 +77,7 @@ export default function Login({ loginData, setLoginData, authConfig }: LoginProp
               handleChange={handleChange}
               min={8}
               required={true}
+              autoComplete={"current-password"}
             />
           </div>
           <button
@@ -74,6 +87,15 @@ export default function Login({ loginData, setLoginData, authConfig }: LoginProp
             Zaloguj
           </button>
         </form>
+        {loginError && (
+          <p
+            class={`text-red-500 text-center mt-4 transition-opacity duration-1000 ${
+              showError ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <strong>Niepoprawny login lub hasło</strong>
+          </p>
+        )}
       </div>
     </div>
   );

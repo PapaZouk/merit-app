@@ -18,7 +18,7 @@ export default function OverviewTableNav(
         <span class="inline">Sortuj według:</span>
       </p>
       <div class="flex flex-wrap">
-        <SortButton handleSort={() => handleSort("firstName")} type={"Imię"} />
+        <SortButton handleSort={() => handleSort("lastName")} type={"Nazwisko"} />
         <SortButton handleSort={() => handleSort("department")} type={"Dział"} />
         <SortButton handleSort={() => handleSort("jobTitle")} type={"Stanowisko"} />
       </div>

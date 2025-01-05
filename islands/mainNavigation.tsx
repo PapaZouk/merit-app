@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from "preact/hooks";
 import {useLogin} from "./context/LoginProvider.tsx";
 import {getAuthClient} from "../components/utils/auth/auth-client/authClient.ts";
 import {AuthConfig} from "./auth/getAuthConfig.ts";
+import {UserRoleEnum} from "../components/utils/auth/types/userRoles.ts";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;
@@ -35,7 +36,7 @@ export default function MainNavigation({ toggleSidebar, authConfig }: MainNaviga
         console.error('Logout failed', error);
     }
 
-    setUserRole("guest");
+    setUserRole([UserRoleEnum.GUEST]);
     globalThis.location.href = '/';
   };
 

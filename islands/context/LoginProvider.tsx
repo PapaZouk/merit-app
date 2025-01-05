@@ -1,15 +1,15 @@
 import { createContext, h } from "preact";
 import { useContext, useEffect, useState } from "preact/hooks";
-import { UserRole } from "../../components/utils/auth/types/userRoles.ts";
+import {UserRole, UserRoleEnum} from "../../components/utils/auth/types/userRoles.ts";
 import {
   AuthClientConfig,
   getAuthClient,
 } from "../../components/utils/auth/auth-client/authClient.ts";
-import {AuthConfig} from "../auth/getAuthConfig.ts";
+import { AuthConfig } from "../auth/getAuthConfig.ts";
 
 type LoginContextProps = {
-  userRole: UserRole | string;
-  setUserRole: (role: UserRole) => void;
+  userRoles: UserRole[] | string[];
+  setUserRole: (roles: UserRole[]) => void;
   isLoggedIn: () => boolean;
   handleLogin: (
     login: string,
@@ -18,28 +18,30 @@ type LoginContextProps = {
   ) => void;
   handleLogout: () => void;
   isLoading: boolean;
+  loginError: boolean;
 };
 
 const LoginContext = createContext<LoginContextProps | undefined>(undefined);
 
 type LoginProviderProps = {
-    children: h.JSX.Element;
-    authConfig: AuthConfig;
-}
+  children: h.JSX.Element;
+  authConfig: AuthConfig;
+};
 
 export const LoginProvider = ({ children, authConfig }: LoginProviderProps) => {
-  const [userRole, setUserRole] = useState<UserRole | string>("guest");
-  const [isLoading, setIsLoading] = useState(true);
+  const [userRoles, setUserRoles] = useState<UserRole[] | string[]>([UserRoleEnum.GUEST]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loginError, setLoginError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const user = await getAuthClient({ config: authConfig}).get();
-        const role = user.labels[0];
-        setUserRole(role);
+        const user = await getAuthClient({ config: authConfig }).get();
+        const roles = user.labels;
+        setUserRoles(roles);
       } catch (error) {
         console.error("Failed to fetch user role:", error);
-        setUserRole("guest");
+        setUserRoles([UserRoleEnum.GUEST]);
       } finally {
         setIsLoading(false);
       }
@@ -48,7 +50,10 @@ export const LoginProvider = ({ children, authConfig }: LoginProviderProps) => {
     fetchUserRole();
   }, []);
 
-  const isLoggedIn = (): boolean => userRole !== "guest";
+  const isLoggedIn = (): boolean => {
+    return !(userRoles.length === 0 ||
+      (userRoles.length === 1 && userRoles[0] === UserRoleEnum.GUEST));
+  };
 
   const handleLogin = async (
     login: string,
@@ -58,18 +63,23 @@ export const LoginProvider = ({ children, authConfig }: LoginProviderProps) => {
     try {
       await getAuthClient(config).createEmailPasswordSession(login, password);
       const user = await getAuthClient(config).get();
-      const role = user.labels[0];
-      setUserRole(role);
+      const roles = user.labels;
+      setLoginError(false);
+      setUserRoles(roles);
     } catch (e) {
       console.error("Error during login:", e);
-      setUserRole("guest");
+      setLoginError(true);
+      setTimeout(() => {
+        setLoginError(false);
+      }, 3000);
+      setUserRoles([UserRoleEnum.GUEST]);
     }
   };
 
   const handleLogout = async () => {
     try {
       await getAuthClient({ config: authConfig }).deleteSessions();
-      setUserRole("guest");
+      setUserRoles([UserRoleEnum.GUEST]);
     } catch (error) {
       console.error("Failed to logout:", error);
     }
@@ -78,12 +88,13 @@ export const LoginProvider = ({ children, authConfig }: LoginProviderProps) => {
   return (
     <LoginContext.Provider
       value={{
-        userRole,
-        setUserRole,
+        userRoles: userRoles,
+        setUserRole: setUserRoles,
         isLoggedIn,
         handleLogin,
         handleLogout,
         isLoading,
+        loginError,
       }}
     >
       {children}

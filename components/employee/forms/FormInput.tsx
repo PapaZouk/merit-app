@@ -15,10 +15,11 @@ type UpdateInputProps = {
   pattern?: string;
   placeholder?: string;
   className?: string;
-  min?: string|number;
-  max?: string|number;
+  min?: string | number;
+  max?: string | number;
   required?: boolean;
   error?: string;
+  autoComplete?: string;
 };
 
 export default function FormInput(
@@ -35,6 +36,7 @@ export default function FormInput(
     max,
     required,
     error,
+    autoComplete,
   }: UpdateInputProps,
 ) {
   return (
@@ -54,6 +56,7 @@ export default function FormInput(
         min={min}
         max={max}
         required={required ?? false}
+        autoComplete={autoComplete}
       />
       {error && (
         <p class="text-red-500 text-sm">
