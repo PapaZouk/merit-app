@@ -3,8 +3,8 @@ import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import {countries} from "./utils/countries.ts";
 import {voivodeships} from "./utils/voivodeships.ts";
 import UpdateForm from "./UpdateForm.tsx";
-import UpdateInput from "./UpdateInput.tsx";
-import UpdateSelect from "./UpdateSelect.tsx";
+import FormInput from "./FormInput.tsx";
+import FormSelect from "./FormSelect.tsx";
 
 type EmployeeAddress1FormProps = {
   employeeData: Employee;
@@ -41,7 +41,7 @@ export default function EmployeeAddress1Form({
     >
       <>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"street1"}
             value={formData.street1}
@@ -50,7 +50,7 @@ export default function EmployeeAddress1Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"number"}
             name={"house1"}
             value={formData.house1}
@@ -59,7 +59,7 @@ export default function EmployeeAddress1Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"city1"}
             value={formData.city1}
@@ -68,7 +68,7 @@ export default function EmployeeAddress1Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"zip1"}
             value={formData.zip1}
@@ -77,7 +77,7 @@ export default function EmployeeAddress1Form({
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"state1"}
             text={"Państwo"}
             options={countries}
@@ -87,7 +87,7 @@ export default function EmployeeAddress1Form({
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"voivodeship1"}
             text={"Województwo"}
             options={voivodeships}

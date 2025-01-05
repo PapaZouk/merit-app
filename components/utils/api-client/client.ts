@@ -73,3 +73,21 @@ export async function updateEmployeeById(
 
     return response.json();
 }
+
+export async function addEmployee(employeeData: Employee, url: string, token: string) {
+    console.log('Requesting to add employee');
+    const response = await fetch(`${url}/api/auth/employee/add/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(employeeData)
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to add employee");
+    }
+
+    return response.json();
+}

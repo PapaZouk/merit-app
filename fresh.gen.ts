@@ -5,13 +5,19 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $employee_id_ from "./routes/employee/[id].tsx";
-import * as $employee_edit_id_ from "./routes/employee/edit/[id].tsx";
+import * as $employee_create from "./routes/employee/create.tsx";
 import * as $employee_edit_address1_id_ from "./routes/employee/edit/address1/[id].tsx";
 import * as $employee_edit_address2_id_ from "./routes/employee/edit/address2/[id].tsx";
 import * as $employee_edit_jobdetails_id_ from "./routes/employee/edit/jobdetails/[id].tsx";
 import * as $employee_edit_personal_id_ from "./routes/employee/edit/personal/[id].tsx";
 import * as $employee_edit_salary_id_ from "./routes/employee/edit/salary/[id].tsx";
+import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
+import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
+import * as $auth_login from "./islands/auth/login.tsx";
+import * as $context_LoginProvider from "./islands/context/LoginProvider.tsx";
+import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
 import * as $employees_edit_EmployeeUpdateAddress1 from "./islands/employees/edit/EmployeeUpdateAddress1.tsx";
 import * as $employees_edit_EmployeeUpdateAddress2 from "./islands/employees/edit/EmployeeUpdateAddress2.tsx";
@@ -23,6 +29,9 @@ import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
 import * as $sidebar from "./islands/sidebar.tsx";
 import * as $tables_employeesTable from "./islands/tables/employeesTable.tsx";
+import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
+import * as $widgets_FinWidgets from "./islands/widgets/FinWidgets.tsx";
+import * as $widgets_HrWidgets from "./islands/widgets/HrWidgets.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -30,15 +39,21 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/employee/[id].tsx": $employee_id_,
-    "./routes/employee/edit/[id].tsx": $employee_edit_id_,
+    "./routes/employee/create.tsx": $employee_create,
     "./routes/employee/edit/address1/[id].tsx": $employee_edit_address1_id_,
     "./routes/employee/edit/address2/[id].tsx": $employee_edit_address2_id_,
     "./routes/employee/edit/jobdetails/[id].tsx": $employee_edit_jobdetails_id_,
     "./routes/employee/edit/personal/[id].tsx": $employee_edit_personal_id_,
     "./routes/employee/edit/salary/[id].tsx": $employee_edit_salary_id_,
+    "./routes/hr/employees/add.tsx": $hr_employees_add,
+    "./routes/hr/employees/overview.tsx": $hr_employees_overview,
     "./routes/index.tsx": $index,
   },
   islands: {
+    "./islands/auth/getAuthConfig.ts": $auth_getAuthConfig,
+    "./islands/auth/login.tsx": $auth_login,
+    "./islands/context/LoginProvider.tsx": $context_LoginProvider,
+    "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,
     "./islands/employees/edit/EmployeeUpdateAddress1.tsx":
       $employees_edit_EmployeeUpdateAddress1,
@@ -55,6 +70,9 @@ const manifest = {
     "./islands/mainNavigation.tsx": $mainNavigation,
     "./islands/sidebar.tsx": $sidebar,
     "./islands/tables/employeesTable.tsx": $tables_employeesTable,
+    "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,
+    "./islands/widgets/FinWidgets.tsx": $widgets_FinWidgets,
+    "./islands/widgets/HrWidgets.tsx": $widgets_HrWidgets,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

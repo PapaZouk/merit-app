@@ -25,12 +25,12 @@ export interface Address1 {
 }
 
 export interface Address2 {
-    street2: string|null;
-    house2: string|null;
-    city2: string|null;
-    zip2: string|null;
-    state2: string|null;
-    voivodeship2: string|null;
+    street2: string|null|undefined;
+    house2: string|null|undefined;
+    city2: string|null|undefined;
+    zip2: string|null|undefined;
+    state2: string|null|undefined;
+    voivodeship2: string|null|undefined;
 }
 
 export interface JobDetails {

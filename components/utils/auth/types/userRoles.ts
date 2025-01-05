@@ -1,0 +1,1 @@
+export type UserRole = "admin" | "hrmanager" | "finmanager" | "user" | "guest";

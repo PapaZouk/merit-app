@@ -3,11 +3,11 @@ type UpdateLabelProps = {
     text: string;
 }
 
-export default function UpdateLabel({ htmlFor, text }: UpdateLabelProps) {
+export default function FormLabel({ htmlFor, text }: UpdateLabelProps) {
     return (
         <label
             htmlFor={htmlFor}
-            class="block text-sm font-medium text-gray-700"
+            class="block text-sm font-medium text-gray-700 mb-2"
         >
             {text}
         </label>

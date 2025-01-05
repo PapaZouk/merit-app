@@ -20,7 +20,7 @@ export default function OverviewTable({employees}: { employees: Employee[] }) {
             </tr>
             </thead>
             <tbody>
-            {employees.map((employee: Employee) => (
+            {employees && employees.map((employee: Employee) => (
                 <tr
                     key={employee._id}
                     class="border-b border-gray-600 text-gray-300 hover:bg-gray-600"

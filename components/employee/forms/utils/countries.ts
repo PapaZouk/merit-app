@@ -1,4 +1,5 @@
 export const countries = [
+    { value: "POL", label: "Polska" },
     { value: "AFG", label: "Afganistan" },
     { value: "ALB", label: "Albania" },
     { value: "DZA", label: "Algieria" },
@@ -132,7 +133,6 @@ export const countries = [
     { value: "PNG", label: "Papua-Nowa Gwinea" },
     { value: "PRY", label: "Paragwaj" },
     { value: "PER", label: "Peru" },
-    { value: "POL", label: "Polska" },
     { value: "PRT", label: "Portugalia" },
     { value: "ZAF", label: "Republika Południowej Afryki" },
     { value: "CAF", label: "Republika Środkowoafrykańska" },
@@ -180,6 +180,9 @@ export const countries = [
     { value: "HUN", label: "Węgry" },
     { value: "GBR", label: "Wielka Brytania" },
     { value: "VNM", label: "Wietnam" },
+    { value: "ITA", label: "Włochy" },
+    { value: "CIV", label: "Wybrzeże Kości Słoniowej" },
     { value: "ZMB", label: "Zambia" },
     { value: "ZWE", label: "Zimbabwe" },
+    { value: "ARE", label: "Zjednoczone Emiraty Arabskie" },
 ];

@@ -1,9 +1,12 @@
 import { type PageProps } from "$fresh/server.ts";
 import RootLayout from "../islands/layouts/RootLayout.tsx";
+import {LoginProvider} from "../islands/context/LoginProvider.tsx";
+import {getAuthConfig} from "../islands/auth/getAuthConfig.ts";
 
 export default function App({ Component }: PageProps) {
   const pageTitle = Deno.env.get("APP_NAME") || "";
   const pageSubtitle = Deno.env.get("APP_SUBTITLE") || "";
+  const authConfig = getAuthConfig();
   return (
     <html>
       <head>
@@ -13,9 +16,11 @@ export default function App({ Component }: PageProps) {
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>
-        <RootLayout>
-          <Component />
-        </RootLayout>
+      <LoginProvider authConfig={authConfig}>
+          <RootLayout authConfig={authConfig}>
+              <Component />
+          </RootLayout>
+      </LoginProvider>
       </body>
     </html>
   );

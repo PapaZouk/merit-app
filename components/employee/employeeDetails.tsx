@@ -9,6 +9,8 @@ import EmployeeDetailsProperty from "./employeeDetailsProperty.tsx";
 import BackButton from "../buttons/BackButton.tsx";
 import FormUpdateHeader from "./formUpdateHeader.tsx";
 import EmployeeDetailsFrame from "./EmployeeDetailsFrame.tsx";
+import { getVoivodeshipMapper } from "./mappers/getVoivodeshipMapper.ts";
+import { getCountryMapper } from "./mappers/getCountryMapper.tsx";
 
 type EmployeeDetailsProps = {
   employeeData: Employee;
@@ -25,10 +27,11 @@ export default function EmployeeDetails(
 
       <FormUpdateHeader employeeData={employeeData} />
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-4 md:mb-8 h-full w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4 md:mb-8 h-full w-full">
         <EmployeeDetailsFrame
           title={"Dane Osobowe"}
           editLink={`/employee/edit/personal/${employeeData._id}`}
+          size={"1"}
         >
           <>
             <EmployeeDetailsProperty
@@ -61,6 +64,7 @@ export default function EmployeeDetails(
         <EmployeeDetailsFrame
           title={"Dane Zawodowe"}
           editLink={`/employee/edit/jobdetails/${employeeData._id}`}
+          size={"1"}
         >
           <>
             <EmployeeDetailsProperty
@@ -126,11 +130,11 @@ export default function EmployeeDetails(
             />
             <EmployeeDetailsProperty
               name={"Państwo"}
-              employeeData={employeeData.personalData.address1.state1}
+              employeeData={getCountryMapper(employeeData.personalData.address1.state1)}
             />
             <EmployeeDetailsProperty
               name={"Województwo"}
-              employeeData={employeeData.personalData.address1.voivodeship1}
+              employeeData={getVoivodeshipMapper(employeeData.personalData.address1.voivodeship1)}
             />
           </>
         </EmployeeDetailsFrame>
@@ -143,27 +147,27 @@ export default function EmployeeDetails(
           <>
             <EmployeeDetailsProperty
               name={"Ulica"}
-              employeeData={employeeData.personalData.address2.street2}
+              employeeData={employeeData.personalData.address2?.street2 ?? "Brak danych"}
             />
             <EmployeeDetailsProperty
               name={"Dom"}
-              employeeData={employeeData.personalData.address2.house2}
+              employeeData={employeeData.personalData.address2?.house2 ?? "Brak danych"}
             />
             <EmployeeDetailsProperty
               name={"Miasto"}
-              employeeData={employeeData.personalData.address2.city2}
+              employeeData={employeeData.personalData.address2?.city2 ?? "Brak danych"}
             />
             <EmployeeDetailsProperty
               name={"Kod Pocztowy"}
-              employeeData={employeeData.personalData.address2.zip2}
+              employeeData={employeeData.personalData.address2?.zip2 ?? "Brak danych"}
             />
             <EmployeeDetailsProperty
               name={"Państwo"}
-              employeeData={employeeData.personalData.address2.state2}
+              employeeData={getCountryMapper(employeeData.personalData.address2?.state2 ?? "Brak danych")}
             />
             <EmployeeDetailsProperty
               name={"Województwo"}
-              employeeData={employeeData.personalData.address2.voivodeship2}
+              employeeData={getVoivodeshipMapper(employeeData.personalData.address2?.voivodeship2 ?? "Brak danych")}
             />
           </>
         </EmployeeDetailsFrame>

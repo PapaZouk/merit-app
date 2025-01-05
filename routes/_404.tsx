@@ -4,22 +4,20 @@ export default function Error404() {
   return (
     <>
       <Head>
-        <title>404 - Page not found</title>
+        <title>404 - Strona nie znaleziona</title>
       </Head>
-      <div class="px-4 py-8 mx-auto bg-[#86efac]">
-        <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
+      <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
           <img
-            class="my-6"
-            src="/logo.svg"
+            class="my-6 mx-auto"
+            src="/images/logo_256x256.png"
             width="128"
             height="128"
-            alt="the Fresh logo: a sliced lemon dripping with juice"
+            alt="logo Fresh: pokrojona cytryna ociekająca sokiem"
           />
-          <h1 class="text-4xl font-bold">404 - Page not found</h1>
-          <p class="my-4">
-            The page you were looking for doesn't exist.
-          </p>
-          <a href="/" class="underline">Go back home</a>
+          <h1 class="text-4xl font-bold mb-4">404 - Strona nie znaleziona</h1>
+          <p class="mb-4">Strona, której szukasz, nie istnieje.</p>
+          <a href="/" class="underline text-indigo-500">Wróć do strony głównej</a>
         </div>
       </div>
     </>

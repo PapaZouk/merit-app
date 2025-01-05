@@ -3,8 +3,8 @@ import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { countries } from "./utils/countries.ts";
 import { voivodeships } from "./utils/voivodeships.ts";
 import UpdateForm from "./UpdateForm.tsx";
-import UpdateInput from "./UpdateInput.tsx";
-import UpdateSelect from "./UpdateSelect.tsx";
+import FormInput from "./FormInput.tsx";
+import FormSelect from "./FormSelect.tsx";
 
 type EmployeeAddress2FormProps = {
   employeeData: Employee;
@@ -41,7 +41,7 @@ export default function EmployeeAddress2Form({
     >
       <>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"street2"}
             value={formData.street2 || "Brak danych"}
@@ -50,7 +50,7 @@ export default function EmployeeAddress2Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"number"}
             name={"house2"}
             value={formData.house2 || "Brak danych"}
@@ -59,7 +59,7 @@ export default function EmployeeAddress2Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"city3"}
             value={formData.city2 || "Brak danych"}
@@ -68,7 +68,7 @@ export default function EmployeeAddress2Form({
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"text"}
             name={"zip2"}
             value={formData.zip2 || "Brak danych"}
@@ -77,7 +77,7 @@ export default function EmployeeAddress2Form({
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"state2"}
             text={"Państwo"}
             options={countries}
@@ -88,7 +88,7 @@ export default function EmployeeAddress2Form({
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"voivodeship2"}
             text={"Województwo"}
             options={voivodeships}

@@ -10,14 +10,16 @@ type EmployeeDetailsFrameProps = {
 
 export default function EmployeeDetailsFrame({ children, title, size = "2", editLink }: EmployeeDetailsFrameProps): h.JSX.Element {
     return (
-        <div class={`col-span-${size} bg-gray-100 p-4 rounded-lg shadow-inner`}>
+        <div class={`col-span-${size} bg-white p-6 rounded-lg shadow-md`}>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-600 mb-2 md:mb-0">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-2 md:mb-0">
                     {title}
                 </h2>
                 <EditButton href={editLink} />
             </div>
-            {children}
+            <div class="space-y-2">
+                {children}
+            </div>
         </div>
     )
 }

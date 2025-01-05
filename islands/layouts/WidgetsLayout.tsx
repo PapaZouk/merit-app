@@ -1,26 +1,32 @@
-import { createElement } from "preact";
-
-type WidgetConfig = {
-  id: string;
-  Component: () => createElement.JSX.Element;
-  size: string; // e.g., 'col-span-1', 'col-span-2', 'col-span-3'
-};
+import { h } from "preact";
+import { Employee } from "../../components/utils/api-client/types/Employee.ts";
+import { useLogin } from "../context/LoginProvider.tsx";
+import { HrWidgets } from "../widgets/HrWidgets.tsx";
+import { FinWidgets } from "../widgets/FinWidgets.tsx";
+import { AdminWidgets } from "../widgets/AdminWidgets.tsx";
 
 type WidgetsLayoutProps = {
-  config: WidgetConfig[];
+  employeesData: Employee[];
+  config: {
+    url: string;
+    token: string;
+  };
 };
 
-export function WidgetsLayout({ config }: WidgetsLayoutProps) {
-  return (
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 h-full w-full">
-      {config.map((Widget) => (
-        <div
-          key={Widget.id}
-          class={`${Widget.size} bg-white p-4 shadow rounded-lg`}
-        >
-          <Widget.Component />
-        </div>
-      ))}
-    </div>
-  );
+export function WidgetsLayout({ employeesData, config }: WidgetsLayoutProps): h.JSX.Element {
+  const { userRole } = useLogin();
+
+  if (userRole === "finmanager") {
+    return <FinWidgets />;
+  }
+
+  if (userRole === "hrmanager") {
+    return <HrWidgets employeesData={employeesData} config={config} />;
+  }
+
+  if (userRole === "admin") {
+    return <AdminWidgets />;
+  }
+
+  return <div>Brak dostępu</div>;
 }

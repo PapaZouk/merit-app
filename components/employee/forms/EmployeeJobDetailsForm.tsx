@@ -1,11 +1,11 @@
 import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import {Employee} from "../../utils/api-client/types/Employee.ts";
 import UpdateForm from "./UpdateForm.tsx";
-import UpdateSelect from "./UpdateSelect.tsx";
+import FormSelect from "./FormSelect.tsx";
 import {status} from "./utils/status.ts";
 import {jobTitles} from "./utils/jobTitles.ts";
 import {departments} from "./utils/departments.ts";
-import UpdateInput from "./UpdateInput.tsx";
+import FormInput from "./FormInput.tsx";
 import {contractTypes} from "./utils/contractTypes.ts";
 import {workSchedules} from "./utils/workSchedules.ts";
 import {insuranceTypes} from "./utils/insuranceTypes.ts";
@@ -50,7 +50,7 @@ export default function EmployeeJobDetailsForm(
     >
       <>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"status"}
             text={"Status"}
             options={status}
@@ -60,7 +60,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"jobTitle"}
             text={"Stanowisko"}
             options={jobTitles}
@@ -70,7 +70,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"department"}
             text={"Dział"}
             options={departments}
@@ -80,7 +80,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"date"}
             name={"startDate"}
             value={formData.startDate}
@@ -89,7 +89,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"date"}
             name={"endDate"}
             value={formData.endDate ?? "Brak danych"}
@@ -98,7 +98,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"contractType"}
             text={"Rodzaj umowy"}
             options={contractTypes}
@@ -108,7 +108,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"workSchedule"}
             text={"Grafik Pracy"}
             options={workSchedules}
@@ -118,7 +118,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateSelect
+          <FormSelect
             htmlFor={"insuranceType"}
             text={"Typ ubezpieczenia"}
             options={insuranceTypes}
@@ -128,7 +128,7 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
         <div>
-          <UpdateInput
+          <FormInput
             type={"number"}
             name={"annualLeaveDays"}
             value={formData.annualLeaveDays}

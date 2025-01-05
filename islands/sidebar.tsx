@@ -13,6 +13,7 @@ import {
 import SubMenuLink from "../components/sidebar/subMenuLink.tsx";
 import SectionElement from "../components/sidebar/sectionElement.tsx";
 import Section from "../components/sidebar/section.tsx";
+import { useLogin } from "./context/LoginProvider.tsx";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
@@ -23,6 +24,7 @@ export default function Sidebar(
   { isSidebarOpen, toggleSidebar }: SidebarProps,
 ) {
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
+  const { userRole } = useLogin();
 
   const toggleSubmenu = (menu: string) => {
     setExpandedMenu(expandedMenu === menu ? null : menu);
@@ -45,89 +47,93 @@ export default function Sidebar(
         </button>
       </div>
       <div class="pl-4">
-        <Section title={<><ChartNoAxesCombined size={20} class="mr-2"/>HR</>} >
-          <>
-            <SectionElement
-                href={"#"}
-                title={"manager"}
-                nameAndIcon={<><BriefcaseBusiness size={14} class="mr-2"/> Manager</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
+        {(userRole === "admin" || userRole === "hrmanager") && (
+            <Section title={<><ChartNoAxesCombined size={20} class="mr-2"/>HR</>} >
               <>
-                <SubMenuLink href={"/manager/courses"}>Szkolenia</SubMenuLink>
-              </>
-            </SectionElement>
+                <SectionElement
+                    href={"#"}
+                    title={"manager"}
+                    nameAndIcon={<><BriefcaseBusiness size={14} class="mr-2"/> Manager</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href={"/manager/courses"}>Szkolenia</SubMenuLink>
+                  </>
+                </SectionElement>
 
-            <SectionElement
-                href={"#"}
-                title={"employees"}
-                nameAndIcon={<><Users size={14} class="mr-2"/> Pracownicy</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
-              <>
-                <SubMenuLink href="/hr/employees/overview">Przegląd</SubMenuLink>
-                <SubMenuLink href="/hr/employees/add">Dodaj</SubMenuLink>
-                <SubMenuLink href="/hr/employees/update">Aktualizuj</SubMenuLink>
-              </>
-            </SectionElement>
+                <SectionElement
+                    href={"#"}
+                    title={"employees"}
+                    nameAndIcon={<><Users size={14} class="mr-2"/> Pracownicy</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href="/hr/employees/overview">Przegląd</SubMenuLink>
+                    <SubMenuLink href="/hr/employees/add">Dodaj</SubMenuLink>
+                    <SubMenuLink href="/hr/employees/update">Aktualizuj</SubMenuLink>
+                  </>
+                </SectionElement>
 
-            <SectionElement
-                href={"#"}
-                title={"timesheet"}
-                nameAndIcon={<><Clock size={14} class="mr-2"/> Godziny</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
-              <>
-                <SubMenuLink href="/hr/timesheet/overview">Przegląd</SubMenuLink>
-                <SubMenuLink href="/hr/timesheet/add">Dodaj</SubMenuLink>
-                <SubMenuLink href="/hr/timesheet/update">Aktualizuj</SubMenuLink>
+                <SectionElement
+                    href={"#"}
+                    title={"timesheet"}
+                    nameAndIcon={<><Clock size={14} class="mr-2"/> Godziny</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href="/hr/timesheet/overview">Przegląd</SubMenuLink>
+                    <SubMenuLink href="/hr/timesheet/add">Dodaj</SubMenuLink>
+                    <SubMenuLink href="/hr/timesheet/update">Aktualizuj</SubMenuLink>
+                  </>
+                </SectionElement>
               </>
-            </SectionElement>
-          </>
-        </Section>
+            </Section>
+        )}
 
-        <Section title={<><ChartNoAxesCombined size={20} class="mr-2" />FINANSE</>} >
-          <>
-            <SectionElement
-                href={"#"}
-                title={"invoices"}
-                nameAndIcon={<><BookText size={14} class="mr-2" /> Faktury</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
+        {(userRole === "admin" || userRole === "finmanager") && (
+            <Section title={<><ChartNoAxesCombined size={20} class="mr-2" />FINANSE</>} >
               <>
-                <SubMenuLink href="/finance/invoices">Przegląd</SubMenuLink>
-              </>
-            </SectionElement>
+                <SectionElement
+                    href={"#"}
+                    title={"invoices"}
+                    nameAndIcon={<><BookText size={14} class="mr-2" /> Faktury</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href="/finance/invoices">Przegląd</SubMenuLink>
+                  </>
+                </SectionElement>
 
-            <SectionElement
-                href={"#"}
-                title={"payments"}
-                nameAndIcon={<><Coins size={14} class="mr-2" /> Rozliczenia</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
-              <>
-                <SubMenuLink href="/finance/payments">Przegląd</SubMenuLink>
-              </>
-            </SectionElement>
+                <SectionElement
+                    href={"#"}
+                    title={"payments"}
+                    nameAndIcon={<><Coins size={14} class="mr-2" /> Rozliczenia</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href="/finance/payments">Przegląd</SubMenuLink>
+                  </>
+                </SectionElement>
 
-            <SectionElement
-                href={"#"}
-                title={"reports"}
-                nameAndIcon={<><ClipboardPlus size={14} class="mr-2" /> Raporty</>}
-                toggleSubmenu={toggleSubmenu}
-                expandedMenu={expandedMenu}
-            >
-              <>
-                <SubMenuLink href="/finance/reports">Przegląd</SubMenuLink>
+                <SectionElement
+                    href={"#"}
+                    title={"reports"}
+                    nameAndIcon={<><ClipboardPlus size={14} class="mr-2" /> Raporty</>}
+                    toggleSubmenu={toggleSubmenu}
+                    expandedMenu={expandedMenu}
+                >
+                  <>
+                    <SubMenuLink href="/finance/reports">Przegląd</SubMenuLink>
+                  </>
+                </SectionElement>
               </>
-            </SectionElement>
-          </>
-        </Section>
+            </Section>
+        )}
       </div>
     </nav>
   );
