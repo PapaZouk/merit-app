@@ -91,3 +91,20 @@ export async function addEmployee(employeeData: Employee, url: string, token: st
 
     return response.json();
 }
+
+export async function deleteEmployeeById(id: string, url: string, token: string) {
+    console.log('Requesting to delete employee with ID: ', id);
+    const response = await fetch(`${url}/api/auth/employee/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete employee");
+    }
+
+    return response.json();
+}

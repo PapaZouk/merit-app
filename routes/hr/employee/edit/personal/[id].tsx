@@ -1,9 +1,9 @@
 import {PageProps} from "$fresh/server.ts";
 import {h} from "preact";
-import {getEmployeeById,} from "../../../../components/utils/api-client/client.ts";
-import {Employee} from "../../../../components/utils/api-client/types/Employee.ts";
-import EmployeeUpdatePersonalData from "../../../../islands/employees/edit/EmployeeUpdatePersonalData.tsx";
-import {getConfig} from "../../../../components/utils/api-client/config/getConfig.ts";
+import {getEmployeeById,} from "../../../../../components/utils/api-client/client.ts";
+import {Employee} from "../../../../../components/utils/api-client/types/Employee.ts";
+import EmployeeUpdatePersonalData from "../../../../../islands/employees/edit/EmployeeUpdatePersonalData.tsx";
+import {getConfig} from "../../../../../components/utils/api-client/config/getConfig.ts";
 
 
 export default async function EditEmployeeById(

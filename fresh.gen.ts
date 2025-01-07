@@ -4,13 +4,12 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $employee_id_ from "./routes/employee/[id].tsx";
-import * as $employee_create from "./routes/employee/create.tsx";
-import * as $employee_edit_address1_id_ from "./routes/employee/edit/address1/[id].tsx";
-import * as $employee_edit_address2_id_ from "./routes/employee/edit/address2/[id].tsx";
-import * as $employee_edit_jobdetails_id_ from "./routes/employee/edit/jobdetails/[id].tsx";
-import * as $employee_edit_personal_id_ from "./routes/employee/edit/personal/[id].tsx";
-import * as $employee_edit_salary_id_ from "./routes/employee/edit/salary/[id].tsx";
+import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
+import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
+import * as $hr_employee_edit_address2_id_ from "./routes/hr/employee/edit/address2/[id].tsx";
+import * as $hr_employee_edit_jobdetails_id_ from "./routes/hr/employee/edit/jobdetails/[id].tsx";
+import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/personal/[id].tsx";
+import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
 import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
 import * as $index from "./routes/index.tsx";
@@ -38,13 +37,16 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/employee/[id].tsx": $employee_id_,
-    "./routes/employee/create.tsx": $employee_create,
-    "./routes/employee/edit/address1/[id].tsx": $employee_edit_address1_id_,
-    "./routes/employee/edit/address2/[id].tsx": $employee_edit_address2_id_,
-    "./routes/employee/edit/jobdetails/[id].tsx": $employee_edit_jobdetails_id_,
-    "./routes/employee/edit/personal/[id].tsx": $employee_edit_personal_id_,
-    "./routes/employee/edit/salary/[id].tsx": $employee_edit_salary_id_,
+    "./routes/hr/employee/[id].tsx": $hr_employee_id_,
+    "./routes/hr/employee/edit/address1/[id].tsx":
+      $hr_employee_edit_address1_id_,
+    "./routes/hr/employee/edit/address2/[id].tsx":
+      $hr_employee_edit_address2_id_,
+    "./routes/hr/employee/edit/jobdetails/[id].tsx":
+      $hr_employee_edit_jobdetails_id_,
+    "./routes/hr/employee/edit/personal/[id].tsx":
+      $hr_employee_edit_personal_id_,
+    "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
     "./routes/hr/employees/add.tsx": $hr_employees_add,
     "./routes/hr/employees/overview.tsx": $hr_employees_overview,
     "./routes/index.tsx": $index,

@@ -20,7 +20,7 @@ export default function UpdateForm(
   return (
     <div class="bg-white p-8 rounded-lg shadow-lg text-gray-800">
       <div class="col-span-4 flex items-end justify-start mb-6">
-        <BackButton href={`/employee/${employeeData._id}`} />
+        <BackButton href={`/hr/employee/${employeeData._id}`} />
       </div>
       <FormUpdateHeader employeeData={employeeData} subTitle={subTitle} />
       <form class="grid grid-cols-1 gap-6" onSubmit={handleSubmit}>

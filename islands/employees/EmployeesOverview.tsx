@@ -1,13 +1,18 @@
-import {Employee} from "../../components/utils/api-client/types/Employee.ts";
+import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import EmployeesTable from "../tables/employeesTable.tsx";
-import {useState} from "preact/hooks";
+import { useState } from "preact/hooks";
+import { getConfig } from "../../components/utils/api-client/config/getConfig.ts";
 
 type EmployeesOverviewProps = {
   employees: Employee[];
+  config: {
+    url: string;
+    token: string;
+  };
 };
 
 export default function EmployeesOverview(
-  { employees }: EmployeesOverviewProps,
+  { employees, config }: EmployeesOverviewProps,
 ) {
   const [sortedEmployees, setSortedEmployees] = useState<Employee[]>(employees);
 
@@ -16,6 +21,7 @@ export default function EmployeesOverview(
       <EmployeesTable
         sortedEmployees={sortedEmployees}
         setSortedEmployees={setSortedEmployees}
+        config={config}
       />
     </div>
   );

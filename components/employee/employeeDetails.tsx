@@ -22,7 +22,7 @@ export default function EmployeeDetails(
   return (
     <div class="bg-white p-4 md:p-8 rounded-lg shadow-lg text-gray-800">
       <div class="col-span-4 flex items-end justify-start mb-4 md:mb-6">
-        <BackButton href={"/"} />
+        <BackButton href={"/hr/employees/overview"} />
       </div>
 
       <FormUpdateHeader employeeData={employeeData} />
@@ -30,7 +30,7 @@ export default function EmployeeDetails(
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4 md:mb-8 h-full w-full">
         <EmployeeDetailsFrame
           title={"Dane Osobowe"}
-          editLink={`/employee/edit/personal/${employeeData._id}`}
+          editLink={`/hr/employee/edit/personal/${employeeData._id}`}
           size={"1"}
         >
           <>
@@ -63,7 +63,7 @@ export default function EmployeeDetails(
 
         <EmployeeDetailsFrame
           title={"Dane Zawodowe"}
-          editLink={`/employee/edit/jobdetails/${employeeData._id}`}
+          editLink={`/hr/employee/edit/jobdetails/${employeeData._id}`}
           size={"1"}
         >
           <>
@@ -109,7 +109,7 @@ export default function EmployeeDetails(
         <EmployeeDetailsFrame
           title={"Adres zamieszkania"}
           size={"2"}
-          editLink={`/employee/edit/address1/${employeeData._id}`}
+          editLink={`/hr/employee/edit/address1/${employeeData._id}`}
         >
           <>
             <EmployeeDetailsProperty
@@ -142,7 +142,7 @@ export default function EmployeeDetails(
         <EmployeeDetailsFrame
           title={"Adres korespondencyjny"}
           size={"2"}
-          editLink={`/employee/edit/address2/${employeeData._id}`}
+          editLink={`/hr/employee/edit/address2/${employeeData._id}`}
         >
           <>
             <EmployeeDetailsProperty
@@ -174,7 +174,7 @@ export default function EmployeeDetails(
 
         <EmployeeDetailsFrame
           title={"Wynagrodzenie"}
-          editLink={`/employee/edit/salary/${employeeData._id}`}
+          editLink={`/hr/employee/edit/salary/${employeeData._id}`}
           size={"2"}
         >
           <>
@@ -199,7 +199,7 @@ export default function EmployeeDetails(
       </div>
 
       <div class="col-span-4 flex items-end justify-start">
-        <BackButton href={"/"} />
+        <BackButton href={"/hr/employees/overview"} />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export function HrWidgets({ employeesData, config }: HrWidgetsProps) {
   const widgets = [
     {
       id: "1",
-      Component: () => <EmployeesOverview employees={employeesData} />,
+      Component: () => <EmployeesOverview employees={employeesData} config={config} />,
       size: "col-span-1 md:col-span-4",
     },
     { id: "2", Component: () => <Widget2 />, size: "col-span-1 md:col-span-2" },

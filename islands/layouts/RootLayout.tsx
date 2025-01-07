@@ -9,10 +9,11 @@ import {AuthConfig} from "../auth/getAuthConfig.ts";
 
 type RootLayoutProps = {
   children: h.JSX.Element;
-  authConfig: AuthConfig
+  authConfig: AuthConfig;
+  appName: string;
 };
 
-export default function RootLayout({ children, authConfig }: RootLayoutProps) {
+export default function RootLayout({ children, authConfig, appName }: RootLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loginData, setLoginData] = useState({ login: "", password: "" });
   const { isLoggedIn, handleLogout, isLoading } = useLogin();
@@ -40,6 +41,7 @@ export default function RootLayout({ children, authConfig }: RootLayoutProps) {
       <MainNavigation
         toggleSidebar={toggleSidebar}
         authConfig={authConfig}
+        appName={appName}
       />
       <div class="flex flex-1">
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />

@@ -1,8 +1,8 @@
 import { PageProps } from "$fresh/server.ts";
-import { getConfig } from "../../../../components/utils/api-client/config/getConfig.ts";
-import { getEmployeeById } from "../../../../components/utils/api-client/client.ts";
-import { Employee } from "../../../../components/utils/api-client/types/Employee.ts";
-import EmployeeUpdateAddress1 from "../../../../islands/employees/edit/EmployeeUpdateAddress1.tsx";
+import { getConfig } from "../../../../../components/utils/api-client/config/getConfig.ts";
+import { getEmployeeById } from "../../../../../components/utils/api-client/client.ts";
+import { Employee } from "../../../../../components/utils/api-client/types/Employee.ts";
+import EmployeeUpdateAddress1 from "../../../../../islands/employees/edit/EmployeeUpdateAddress1.tsx";
 
 export default async function EditEmployeeAddress1(pageProps: PageProps) {
   const pathElements = new URL(pageProps.url).pathname.split("/").filter(

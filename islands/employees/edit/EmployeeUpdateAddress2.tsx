@@ -17,12 +17,12 @@ export default function EmployeeUpdateAddress2({
   updateConfig,
 }: EmployeeUpdateAddress2Props) {
   const [formData, setFormData] = useState({
-    street2: employeeData.personalData.address2.street2,
-    house2: employeeData.personalData.address2.house2,
-    city2: employeeData.personalData.address2.city2,
-    zip2: employeeData.personalData.address2.zip2,
-    state2: employeeData.personalData.address2.state2,
-    voivodeship2: employeeData.personalData.address2.voivodeship2,
+    street2: employeeData.personalData.address2.street2 ?? "",
+    house2: employeeData.personalData.address2.house2 ?? "",
+    city2: employeeData.personalData.address2.city2 ?? "",
+    zip2: employeeData.personalData.address2.zip2 ?? "",
+    state2: employeeData.personalData.address2.state2 ?? "",
+    voivodeship2: employeeData.personalData.address2.voivodeship2 ?? "",
   });
 
   const handleChange = (
@@ -67,7 +67,7 @@ export default function EmployeeUpdateAddress2({
       updateConfig.token,
     );
 
-    globalThis.location.href = `/employee/${updatedData._id}`;
+    globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };
 
   return (

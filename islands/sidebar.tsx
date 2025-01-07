@@ -44,7 +44,9 @@ export default function Sidebar(
     >
       <div class="flex justify-between items-center mb-4">
         <h2 class="flex items-center font-bold text-white">
-          <AppWindowMac size={18} class="mr-2" /> PANEL GŁÓWNY
+          <a href={"/"} class="flex items-center">
+            <AppWindowMac size={18} class="mr-2" /> PANEL GŁÓWNY
+          </a>
         </h2>
         <button class="md:hidden text-white" onClick={toggleSidebar}>
           <X size={24} />
@@ -93,15 +95,13 @@ export default function Sidebar(
               >
                 <>
                   <SubMenuLink href="/hr/employees/overview">Przegląd</SubMenuLink>
-                  {[UserRoleEnum.HR_MANAGER].some((role) =>
+                  {[UserRoleEnum.ADMIN, UserRoleEnum.HR_MANAGER].some((role) =>
                     userRoles.includes(role as UserRole)
                   ) && (
                     <>
                       <SubMenuLink href="/hr/employees/add">Dodaj</SubMenuLink>
-                      <SubMenuLink href={"/hr/employees/delete"}>Usuń</SubMenuLink>
                     </>
                   )}
-                  <SubMenuLink href="/hr/employees/update">Aktualizuj</SubMenuLink>
                   <SubMenuLink href={"/hr/employees/leave"}>Urlopy</SubMenuLink>
                   <SubMenuLink href={"/hr/employees/contracts"}>Umowy</SubMenuLink>
                 </>

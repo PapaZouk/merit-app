@@ -65,7 +65,7 @@ export default function EmployeeUpdateSalary(
       updateConfig.token,
     );
 
-    globalThis.location.href = `/employee/${updatedData._id}`;
+    globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };
 
   return (

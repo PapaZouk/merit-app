@@ -56,7 +56,7 @@ export default function EmployeeUpdateJobDetails({employeeData, updateConfig}: E
 
         await updateEmployeeById(updatedData._id, updatedData, updateConfig.url, updateConfig.token);
 
-        globalThis.location.href = `/employee/${updatedData._id}`;
+        globalThis.location.href = `/hr/employee/${updatedData._id}`;
     }
 
     return (

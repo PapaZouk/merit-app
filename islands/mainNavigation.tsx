@@ -1,16 +1,17 @@
-import {Bell, CircleUserRound, Mail,} from "https://esm.sh/lucide-preact@latest";
-import {useEffect, useRef, useState} from "preact/hooks";
-import {useLogin} from "./context/LoginProvider.tsx";
-import {getAuthClient} from "../components/utils/auth/auth-client/authClient.ts";
-import {AuthConfig} from "./auth/getAuthConfig.ts";
-import {UserRoleEnum} from "../components/utils/auth/types/userRoles.ts";
+import { Bell, CircleUserRound, Mail } from "https://esm.sh/lucide-preact@latest";
+import { useEffect, useRef, useState } from "preact/hooks";
+import { useLogin } from "./context/LoginProvider.tsx";
+import { getAuthClient } from "../components/utils/auth/auth-client/authClient.ts";
+import { AuthConfig } from "./auth/getAuthConfig.ts";
+import { UserRoleEnum } from "../components/utils/auth/types/userRoles.ts";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;
   authConfig: AuthConfig;
+  appName: string;
 };
 
-export default function MainNavigation({ toggleSidebar, authConfig }: MainNavigationProps) {
+export default function MainNavigation({ toggleSidebar, authConfig, appName }: MainNavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, setUserRole } = useLogin();
@@ -66,7 +67,7 @@ export default function MainNavigation({ toggleSidebar, authConfig }: MainNaviga
           </path>
         </svg>
       </button>
-      <div class="flex items-center">
+      <div class="flex items-center ml-auto md:ml-4 lg:ml-4">
         <a href="/">
           <img
             src="/images/logo_256x256.png"
@@ -75,15 +76,15 @@ export default function MainNavigation({ toggleSidebar, authConfig }: MainNaviga
           />
         </a>
         <span
-          class="ml-2 text-xl font-semibold text-gray-800"
+          class="ml-2 text-xl font-semibold text-gray-800 hidden md:block lg:block"
           style={{ fontFamily: "Arial, sans-serif" }}
         >
-          MERIT
+          {appName}
         </span>
       </div>
-      <div class="relative flex items-center ml-auto">
-        <Bell size={24} class="mr-4 text-gray-600 hover:text-gray-900" />
-        <Mail size={24} class="mr-4 text-gray-600 hover:text-gray-900" />
+      <div class="relative flex items-center ml-auto space-x-4">
+        <Bell size={24} class="text-gray-600 hover:text-gray-900" />
+        <Mail size={24} class="text-gray-600 hover:text-gray-900" />
         <button onClick={toggleProfileMenu} class="flex items-center">
           <CircleUserRound
             size={32}
