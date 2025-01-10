@@ -12,6 +12,7 @@ import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/perso
 import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
 import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
+import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
 import * as $auth_login from "./islands/auth/login.tsx";
@@ -28,6 +29,7 @@ import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
 import * as $sidebar from "./islands/sidebar.tsx";
 import * as $tables_employeesTable from "./islands/tables/employeesTable.tsx";
+import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
 import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
 import * as $widgets_FinWidgets from "./islands/widgets/FinWidgets.tsx";
 import * as $widgets_HrWidgets from "./islands/widgets/HrWidgets.tsx";
@@ -49,6 +51,7 @@ const manifest = {
     "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
     "./routes/hr/employees/add.tsx": $hr_employees_add,
     "./routes/hr/employees/overview.tsx": $hr_employees_overview,
+    "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,
   },
   islands: {
@@ -72,6 +75,7 @@ const manifest = {
     "./islands/mainNavigation.tsx": $mainNavigation,
     "./islands/sidebar.tsx": $sidebar,
     "./islands/tables/employeesTable.tsx": $tables_employeesTable,
+    "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,
     "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,
     "./islands/widgets/FinWidgets.tsx": $widgets_FinWidgets,
     "./islands/widgets/HrWidgets.tsx": $widgets_HrWidgets,

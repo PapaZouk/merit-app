@@ -28,6 +28,35 @@ export async function getEmployees(cacheTimeout?: string|undefined) {
     return data;
 }
 
+export async function getAllEmployeesWithIds(ids: string[], cacheTimeout?: string|undefined) {
+    const cacheKey = `employeesWithIdsCache_${ids.join('_')}`;
+    const cachedData = await getCachedData(cacheKey, cacheTimeout ?? '60');
+
+    if (cachedData) {
+        return cachedData;
+    }
+    const { url, token } = getConfig();
+
+    const formatedUrl = `${url}/api/auth/employee/filter/all?ids=${ids.join(',')}`;
+
+    const response = await fetch(formatedUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch employees");
+    }
+
+    const data = await response.json();
+    setCachedData<Employee>(cacheKey, data);
+
+    return data;
+}
+
 export async function getEmployeeById(id: string) {
     const cacheKey = `employeeCache_${id}`;
     const cachedData = await getCachedData(cacheKey, '60');
@@ -104,6 +133,56 @@ export async function deleteEmployeeById(id: string, url: string, token: string)
 
     if (!response.ok) {
         throw new Error("Failed to delete employee");
+    }
+
+    return response.json();
+}
+
+export async function getAllTimesheet(cacheTimeout?: string|undefined) {
+    const cacheKey = "allTimesheetCache_01";
+    const cachedData = await getCachedData(cacheKey, cacheTimeout ?? '60');
+
+    if (cachedData) {
+        return cachedData;
+    }
+
+    const { url, token } = getConfig();
+    const response = await fetch(`${url}/api/auth/timesheet/all/`, {
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch timesheet");
+    }
+
+    const data = await response.json();
+    setCachedData(cacheKey, data);
+
+    return data;
+
+}
+
+export async function getTimesheetByEmployeeId(id: string, cacheTimeout?: string|undefined) {
+    const cacheKey = `employeeTimesheetCache_${id}`;
+    const cachedData = await getCachedData(cacheKey, cacheTimeout ?? '60');
+
+    if (cachedData) {
+        return cachedData;
+    }
+
+    const { url, token } = getConfig();
+    const response = await fetch(`${url}/api/auth/timesheet/employee/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch timesheet");
     }
 
     return response.json();

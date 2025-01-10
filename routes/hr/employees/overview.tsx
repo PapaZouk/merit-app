@@ -8,6 +8,7 @@ import {getAuthConfig} from "../../../islands/auth/getAuthConfig.ts";
 export default async function EmployeesOverviewPage() {
   const employees = await getEmployees();
   const employeesData = await employees.result as Employee[];
+
   const config = getConfig();
   const authConfig = getAuthConfig();
 

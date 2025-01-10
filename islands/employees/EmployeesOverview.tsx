@@ -1,7 +1,6 @@
-import { Employee } from "../../components/utils/api-client/types/Employee.ts";
+import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import EmployeesTable from "../tables/employeesTable.tsx";
-import { useState } from "preact/hooks";
-import { getConfig } from "../../components/utils/api-client/config/getConfig.ts";
+import {useState} from "preact/hooks";
 
 type EmployeesOverviewProps = {
   employees: Employee[];

@@ -1,12 +1,11 @@
-import { Employee } from "../../components/utils/api-client/types/Employee.ts";
-import { h } from "preact";
-import { useState } from "preact/hooks";
-import { Users } from "https://esm.sh/lucide-preact@latest";
+import {Employee} from "../../components/utils/api-client/types/Employee.ts";
+import {h} from "preact";
+import {useState} from "preact/hooks";
+import {Users} from "https://esm.sh/lucide-preact@latest";
 import OverviewTable from "../../components/tables/overviewTable.tsx";
 import OverviewTableNav from "../../components/tables/overviewTableNav.tsx";
-import { deleteEmployeeById } from "../../components/utils/api-client/client.ts";
+import {deleteEmployeeById} from "../../components/utils/api-client/client.ts";
 import Popup from "../../components/popup/popup.tsx";
-import { LoginProvider } from "../context/LoginProvider.tsx";
 
 type EmployeesTableProps = {
   sortedEmployees: Employee[];
