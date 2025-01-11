@@ -3,6 +3,7 @@ import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../calendar/GridWorkDays.tsx";
 import BackButton from "../../buttons/BackButton.tsx";
+import {mapTimesheetMonth} from "../mappers/mapTimesheetMonth.ts";
 
 type TimesheetCalendarProps = {
   timesheet: Timesheet[];
@@ -63,6 +64,9 @@ export default function TimesheetCalendar(
         <div class="col-span-4 flex items-end justify-start mb-4 md:mb-6">
           <BackButton href={"/hr/timesheet/overview"} />
         </div>
+        <h1 class="text-gray-800 text-2xl font-bold mb-4">
+          {mapTimesheetMonth(month)} {year}
+        </h1>
         <div class="col-span-4">
           <GridWeekDayNames />
           <GridWorkDays
