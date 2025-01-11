@@ -12,6 +12,7 @@ import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/perso
 import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
 import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
+import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id].tsx";
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
@@ -51,6 +52,7 @@ const manifest = {
     "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
     "./routes/hr/employees/add.tsx": $hr_employees_add,
     "./routes/hr/employees/overview.tsx": $hr_employees_overview,
+    "./routes/hr/timesheet/calendar/[id].tsx": $hr_timesheet_calendar_id_,
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,
   },

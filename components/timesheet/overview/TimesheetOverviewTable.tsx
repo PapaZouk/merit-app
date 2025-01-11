@@ -10,8 +10,7 @@ import {
 import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { mapTotalBalance } from "../mappers/mapTotalBalance.tsx";
-import CheckButton from "../../buttons/CheckButton.tsx";
-import TimesheetCalendar from "./TimesheetCallendar.tsx";
+import TimesheetCalendar from "./TimesheetCalendar.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];
@@ -25,13 +24,6 @@ export default function TimesheetOverviewTable(
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
 
-  const handleShowCalendar = (year: number, month: number) => {
-    console.log(year, month);
-    setSelectedYear(year);
-    setSelectedMonth(month);
-    setShowCalendar(true);
-  };
-
   return (
     <div class="overflow-x-auto">
       <table class="min-w-full w-full bg-gray-100 rounded-lg overflow-hidden">
@@ -43,7 +35,9 @@ export default function TimesheetOverviewTable(
             </th>
             <th class="py-2 px-4 text-left">
               <CalendarX class="inline align-middle mr-2 w-5 h-5" />
-              <span class="hidden lg:inline align-middle">Dni zarejestrowane</span>
+              <span class="hidden lg:inline align-middle">
+                Dni zarejestrowane
+              </span>
             </th>
             <th class="py-2 px-4 text-left">
               <TreePalm class="inline align-middle mr-2 w-5 h-5" />
@@ -88,12 +82,12 @@ export default function TimesheetOverviewTable(
                 <td class="py-2 px-4">{totalHours}</td>
                 <td class="py-2 px-4">{totalBalance}</td>
                 <td class="py-2 px-4">
-                  <button
-                    onClick={() => handleShowCalendar(timesheet.year, timesheet.month)}
+                  <a
+                    href={`/hr/timesheet/calendar/${timesheet.employeeId}?year=${timesheet.year}&month=${timesheet.month}`}
                     class="ml-2 p-2 bg-blue-500 text-white rounded"
                   >
                     Zobacz
-                  </button>
+                  </a>
                 </td>
               </tr>
             );
@@ -105,7 +99,6 @@ export default function TimesheetOverviewTable(
           timesheet={timesheet}
           year={selectedYear}
           month={selectedMonth}
-          onClose={() => setShowCalendar(false)}
         />
       )}
     </div>

@@ -14,8 +14,8 @@ type TimesheetOverviewProps = {
 export default function TimesheetOverview(
   { timesheet, employees }: TimesheetOverviewProps,
 ): h.JSX.Element {
-  const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number | null>(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(new Date().getMonth() + 1);
 
   const years = Array.from(new Set(timesheet.map((t) => t.year)));
   const months = Array.from(

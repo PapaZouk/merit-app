@@ -13,7 +13,6 @@ export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
   if (!Array.isArray(allTimesheet)) {
     allTimesheet = [];
   }
-  console.log(allTimesheet);
 
   const employeeIds = allTimesheet.map((timesheet: Timesheet) => timesheet.employeeId);
 
