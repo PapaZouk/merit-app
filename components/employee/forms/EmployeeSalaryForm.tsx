@@ -1,6 +1,6 @@
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {Employee} from "../../utils/api-client/types/Employee.ts";
-import {currencies} from "./utils/currencies.ts";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import { Employee } from "../../utils/api-client/types/Employee.ts";
+import { currencies } from "./utils/currencies.ts";
 import UpdateForm from "./UpdateForm.tsx";
 import FormInput from "./FormInput.tsx";
 import FormSelect from "./FormSelect.tsx";
@@ -10,6 +10,7 @@ type EmployeeSalaryFormProps = {
   formData: {
     baseSalary: number;
     currency: string;
+    hourlyRate: number;
     bankAccount: string;
     bankName: string;
   };
@@ -58,6 +59,15 @@ export default function EmployeeSalaryForm(
             value={formData.currency || "PLN"}
             handleChange={handleChange}
             defaultValue={"Wybierz walutę"}
+          />
+        </div>
+        <div>
+          <FormInput
+            type={"number"}
+            name={"hourlyRate"}
+            value={formData.hourlyRate}
+            handleChange={handleChange}
+            label={"Stawka godzinowa"}
           />
         </div>
         <div>

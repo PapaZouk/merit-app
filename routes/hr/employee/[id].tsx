@@ -1,6 +1,6 @@
 import {PageProps} from "$fresh/server.ts";
 import {getEmployeeById} from "../../../components/utils/api-client/client.ts";
-import EmployeeDetails from "../../../components/employee/employeeDetails.tsx";
+import EmployeeDetails from "../../../islands/employees/employeeDetails.tsx";
 
 export default async function EmployeeById(props: PageProps) {
   const pathElements = new URL(props.url).pathname.split('/').filter(Boolean);

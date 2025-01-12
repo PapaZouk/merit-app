@@ -32,8 +32,10 @@ export type EmployeeFormData = {
   annualLeaveDays: number;
   baseSalary: number;
   currency: string;
+  hourlyRate: number;
   bankAccount: string;
   bankName: string;
+
 };
 
 export const initEmployeeFormData: EmployeeFormData = {
@@ -66,6 +68,7 @@ export const initEmployeeFormData: EmployeeFormData = {
   annualLeaveDays: 0,
   baseSalary: 0,
   currency: "",
+  hourlyRate: 0,
   bankAccount: "",
   bankName: "",
 };

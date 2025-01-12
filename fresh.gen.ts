@@ -25,6 +25,7 @@ import * as $employees_edit_EmployeeUpdateAddress2 from "./islands/employees/edi
 import * as $employees_edit_EmployeeUpdateJobDetails from "./islands/employees/edit/EmployeeUpdateJobDetails.tsx";
 import * as $employees_edit_EmployeeUpdatePersonalData from "./islands/employees/edit/EmployeeUpdatePersonalData.tsx";
 import * as $employees_edit_EmployeeUpdateSalary from "./islands/employees/edit/EmployeeUpdateSalary.tsx";
+import * as $employees_employeeDetails from "./islands/employees/employeeDetails.tsx";
 import * as $layouts_RootLayout from "./islands/layouts/RootLayout.tsx";
 import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
@@ -72,6 +73,7 @@ const manifest = {
       $employees_edit_EmployeeUpdatePersonalData,
     "./islands/employees/edit/EmployeeUpdateSalary.tsx":
       $employees_edit_EmployeeUpdateSalary,
+    "./islands/employees/employeeDetails.tsx": $employees_employeeDetails,
     "./islands/layouts/RootLayout.tsx": $layouts_RootLayout,
     "./islands/layouts/WidgetsLayout.tsx": $layouts_WidgetsLayout,
     "./islands/mainNavigation.tsx": $mainNavigation,
