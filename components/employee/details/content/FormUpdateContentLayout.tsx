@@ -19,7 +19,7 @@ export default function FormUpdateContentLayout({
   toggleRow,
 }: FormUpdateContentLayoutProps) {
   return (
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full p-4 sm:p-6">
       {selectedSection === "personalData" && (
         <EmployeePersonalDataFrame
           employeeData={employeeData}
@@ -28,13 +28,25 @@ export default function FormUpdateContentLayout({
         />
       )}
       {selectedSection === "address1" && (
-        <EmployeeAddress1Frame employeeData={employeeData} />
+        <EmployeeAddress1Frame
+          employeeData={employeeData}
+          expandedRows={expandedRows}
+          toggleRow={toggleRow}
+        />
       )}
       {selectedSection === "address2" && (
-        <EmployeeAddress2Frame employeeData={employeeData} />
+        <EmployeeAddress2Frame
+          employeeData={employeeData}
+          expandedRows={expandedRows}
+          toggleRow={toggleRow}
+        />
       )}
       {selectedSection === "jobDetails" && (
-        <EmployeeJobDetailsFrame employeeData={employeeData} />
+        <EmployeeJobDetailsFrame
+          employeeData={employeeData}
+          expandedRows={expandedRows}
+          toggleRow={toggleRow}
+        />
       )}
       {selectedSection === "salary" && (
         <EmployeeSalaryFrame

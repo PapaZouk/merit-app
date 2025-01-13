@@ -1,7 +1,5 @@
-import {Employee} from "../../utils/api-client/types/Employee.ts";
-
-export function getContractType(employeeData: Employee) {
-    switch (employeeData.jobDetails.contractType.toLowerCase()) {
+export function getContractType(contract: string) {
+    switch (contract.toLowerCase()) {
         case "b2b":
             return "Umowa B2B";
         case "uop":

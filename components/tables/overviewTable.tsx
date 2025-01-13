@@ -37,10 +37,10 @@ export default function OverviewTable(
             <td class="py-2 px-4">{employee.personalData.firstName}</td>
             <td class="py-2 px-4">{employee.personalData.lastName}</td>
             <td class="py-2 px-4 hidden lg:table-cell">
-              {getJobTitle(employee)}
+              {getJobTitle(employee.jobDetails.jobTitle)}
             </td>
             <td class="py-2 px-4 hidden lg:table-cell">
-              {getDepartment(employee)}
+              {getDepartment(employee.jobDetails.department)}
             </td>
             <td class="py-2 px-4">
               <CheckButton href={`/hr/employee/${employee._id}`} />

@@ -72,19 +72,19 @@ export interface Address2 {
 }
 
 export interface Address2History {
-    street2Before: string;
-    street2After: string;
-    house2Before: string;
-    house2After: string;
-    city2Before: string;
-    city2After: string;
-    state2Before: string;
-    state2After: string;
-    zip2Before: string;
-    zip2After: string;
-    voivodeship2Before: string;
-    voivodeship2After: string;
-    changeDate: string;
+    street2Before: string|null|undefined;
+    street2After: string|null|undefined;
+    house2Before: string|null|undefined;
+    house2After: string|null|undefined;
+    city2Before: string|null|undefined;
+    city2After: string|null|undefined;
+    state2Before: string|null|undefined;
+    state2After: string|null|undefined;
+    zip2Before: string|null|undefined;
+    zip2After: string|null|undefined;
+    voivodeship2Before: string|null|undefined;
+    voivodeship2After: string|null|undefined;
+    changeDate: string|null|undefined;
 }
 
 export interface JobDetails {
@@ -110,8 +110,8 @@ export interface JobDetailsHistory {
     departmentAfter: string;
     startDateBefore: string;
     startDateAfter: string;
-    endDateBefore: string;
-    endDateAfter: string;
+    endDateBefore: string|null;
+    endDateAfter: string|null;
     contractTypeBefore: string;
     contractTypeAfter: string;
     workScheduleBefore: string;

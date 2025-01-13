@@ -62,7 +62,7 @@ export default function EmployeeUpdatePersonalData(
         phone: formData.phone,
         pesel: formData.pesel,
         clothSize: formData.clothSize,
-        nip: employeeData.personalData.nip,
+        nip: formData.nip,
         address1: employeeData.personalData.address1,
         address2: employeeData.personalData.address2,
         personalDataHistory: hasPersonalDataChanged

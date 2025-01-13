@@ -65,22 +65,22 @@ export default function EmployeeUpdateSalary(
           bankName: formData.bankName,
           salaryHistory: hasSalaryChanged
             ? [
-              ...employeeData.jobDetails.salary.salaryHistory,
-              {
-                salaryBefore: employeeData.jobDetails.salary.baseSalary,
-                salaryAfter: formData.baseSalary,
-                hourlyRateBefore: employeeData.jobDetails.salary.hourlyRate,
-                hourlyRateAfter: formData.hourlyRate,
-                currencyBefore: employeeData.jobDetails.salary.currency,
-                currencyAfter: formData.currency,
-                bankAccountBefore: employeeData.jobDetails.salary.bankAccount,
-                bankAccountAfter: formData.bankAccount,
-                bankNameBefore: employeeData.jobDetails.salary.bankName,
-                bankNameAfter: formData.bankName,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : employeeData.jobDetails.salary.salaryHistory,
+                  ...employeeData.jobDetails.salary.salaryHistory,
+                {
+                    salaryBefore: employeeData.jobDetails.salary.baseSalary,
+                    salaryAfter: formData.baseSalary,
+                    hourlyRateBefore: employeeData.jobDetails.salary.hourlyRate,
+                    hourlyRateAfter: formData.hourlyRate,
+                    currencyBefore: employeeData.jobDetails.salary.currency,
+                    currencyAfter: formData.currency,
+                    bankAccountBefore: employeeData.jobDetails.salary.bankAccount,
+                    bankAccountAfter: formData.bankAccount,
+                    bankNameBefore: employeeData.jobDetails.salary.bankName,
+                    bankNameAfter: formData.bankName,
+                    changeDate: new Date().toISOString(),
+                }
+              ]
+            : [...employeeData.jobDetails.salary.salaryHistory],
         },
       },
     };

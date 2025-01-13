@@ -1,7 +1,5 @@
-import { Employee } from "../../utils/api-client/types/Employee.ts";
-
-export function getJobTitle(employeeData: Employee) {
-  switch (employeeData.jobDetails.jobTitle.toLowerCase()) {
+export function getJobTitle(title: string) {
+  switch (title.toLowerCase()) {
     case "ceo":
       return "Prezes Zarządu";
     case "cto":

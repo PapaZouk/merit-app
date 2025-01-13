@@ -1,7 +1,5 @@
-import {Employee} from "../../utils/api-client/types/Employee.ts";
-
-export function getDepartment(employeeData: Employee) {
-    switch (employeeData.jobDetails.department.toLowerCase()) {
+export function getDepartment(department: string) {
+    switch (department.toLowerCase()) {
         case "management":
             return "Zarządzanie";
         case "hr":

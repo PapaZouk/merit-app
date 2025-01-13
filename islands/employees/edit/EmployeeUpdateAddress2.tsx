@@ -44,6 +44,14 @@ export default function EmployeeUpdateAddress2({
   ) => {
     e.preventDefault();
 
+    const hasAddress2Changed =
+        formData.street2 !== employeeData.personalData.address2.street2 ||
+        formData.house2 !== employeeData.personalData.address2.house2 ||
+        formData.city2 !== employeeData.personalData.address2.city2 ||
+        formData.zip2 !== employeeData.personalData.address2.zip2 ||
+        formData.state2 !== employeeData.personalData.address2.state2 ||
+        formData.voivodeship2 !== employeeData.personalData.address2.voivodeship2;
+
     const updatedData: Employee = {
       _id: employeeData._id,
       personalData: {
@@ -55,6 +63,25 @@ export default function EmployeeUpdateAddress2({
           zip2: formData.zip2,
           state2: formData.state2,
           voivodeship2: formData.voivodeship2,
+            address2History: hasAddress2Changed
+                ? [
+                ...employeeData.personalData.address2.address2History,
+                {
+                street2Before: employeeData.personalData?.address2?.street2,
+                street2After: formData.street2,
+                house2Before: employeeData.personalData?.address2?.house2,
+                house2After: formData.house2,
+                city2Before: employeeData.personalData?.address2?.city2,
+                city2After: formData.city2,
+                zip2Before: employeeData.personalData?.address2?.zip2,
+                zip2After: formData.zip2,
+                state2Before: employeeData.personalData?.address2?.state2,
+                state2After: formData.state2,
+                voivodeship2Before: employeeData.personalData?.address2?.voivodeship2,
+                voivodeship2After: formData.voivodeship2,
+                changeDate: new Date().toISOString(),
+                },
+            ] : employeeData.personalData.address2.address2History,
         },
       },
       jobDetails: { ...employeeData.jobDetails },

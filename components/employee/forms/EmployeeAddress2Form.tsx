@@ -61,7 +61,7 @@ export default function EmployeeAddress2Form({
         <div>
           <FormInput
             type={"text"}
-            name={"city3"}
+            name={"city2"}
             value={formData.city2 || "Brak danych"}
             handleChange={handleChange}
             label={"Miasto"}

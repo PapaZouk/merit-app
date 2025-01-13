@@ -1,7 +1,5 @@
-import { Employee } from "../../utils/api-client/types/Employee.ts";
-
-export function getStatusMapper(employeeData: Employee): string {
-  switch (employeeData.jobDetails.status.toLowerCase()) {
+export function getStatusMapper(status: string): string {
+  switch (status.toLowerCase()) {
     case "active":
       return "Aktywny";
     case "inactive":

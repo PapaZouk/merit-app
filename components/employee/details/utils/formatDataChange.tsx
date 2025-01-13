@@ -11,11 +11,16 @@ export default function FormatDataChange(
 ): h.JSX.Element {
   return (
     before === after
-      ? <span class="ml-2"> Brak zmian</span>
+      ? <span class="ml-2">Brak zmian</span>
       : (
-        <span class="flex items-center ml-2">
-          {" "} {before ?? "Brak danych"} <ArrowBigRight class="mx-2" />{" "}
-          {after ?? "Brak danych"}
+        <span class="flex flex-col sm:flex-row items-center ml-2 space-x-1">
+          <span class="truncate max-w-xs">{before === null || before === undefined || before === ""
+            ? "Brak danych"
+            : before}</span>
+          <ArrowBigRight class="mx-1" />
+          <span class="truncate max-w-xs">{after === null || after === undefined || after === ""
+            ? "Brak danych"
+            : after}</span>
         </span>
       )
   );

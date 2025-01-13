@@ -5,7 +5,12 @@ import UpdateForm from "./UpdateForm.tsx";
 import FormInput from "./FormInput.tsx";
 import FormSelect from "./FormSelect.tsx";
 import { clothSizes } from "./utils/clothSizes.ts";
-import {namePattern, peselPattern, phonePattern} from "./utils/patterns.ts";
+import {
+  namePattern,
+  nipPattern,
+  peselPattern,
+  phonePattern,
+} from "./utils/patterns.ts";
 
 type EmployeePersonalDataFormProps = {
   employeeData: Employee;
@@ -15,6 +20,7 @@ type EmployeePersonalDataFormProps = {
     email: string;
     phone: string;
     pesel: string;
+    nip: number;
     clothSize: string;
   };
   handleChange: (
@@ -86,6 +92,16 @@ export default function EmployeePersonalDataForm(
             handleChange={handleChange}
             label={"PESEL"}
             pattern={peselPattern.source}
+          />
+        </div>
+        <div>
+          <FormInput
+            type={"number"}
+            name={"nip"}
+            value={formData.nip}
+            handleChange={handleChange}
+            label={"NIP"}
+            pattern={nipPattern.source}
           />
         </div>
         <div>

@@ -56,6 +56,10 @@ export default function EmployeePersonalDataFrame(
             employeeData={employeeData.personalData.pesel}
           />
           <EmployeeDetailsProperty
+            name={"NIP"}
+            employeeData={employeeData.personalData.nip}
+          />
+          <EmployeeDetailsProperty
             name={"Rozmiar ubrań"}
             employeeData={employeeData.personalData.clothSize}
           />
