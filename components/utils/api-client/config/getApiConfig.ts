@@ -3,7 +3,7 @@ type Config = {
     token: string;
 }
 
-export function getConfig(): Config {
+export function getApiConfig(): Config {
     const API_URL = Deno.env.get('API_URL') || '';
     const API_TOKEN = Deno.env.get('API_TOKEN') || '';
 

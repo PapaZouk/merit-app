@@ -3,6 +3,9 @@ import { Employee } from "../../../components/utils/api-client/types/Employee.ts
 import { updateEmployeeById } from "../../../components/utils/api-client/client.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useState } from "preact/hooks";
+import Popup from "../../../components/popup/popup.tsx";
+import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 
 type EmployeeUpdateProps = {
   employeeData: Employee;
@@ -24,6 +27,7 @@ export default function EmployeeUpdatePersonalData(
     clothSize: employeeData.personalData.clothSize,
     nip: employeeData.personalData.nip ?? 0,
   });
+  const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -37,6 +41,28 @@ export default function EmployeeUpdatePersonalData(
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleUpdate = (
+    e: createElement.JSX.TargetedEvent<HTMLFormElement, Event>|MouseEventHandler<HTMLButtonElement>,
+  ): void => {
+    e.preventDefault();
+    handlePopup();
+  };
+
+  const handlePopup = (): void => {
+    setIsPopupOpened((prev) => !prev);
+  }
+
+
+  const confirmSubmit = async (): Promise<void> => {
+    setIsPopupOpened(false);
+    await handleSubmit(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      }) as createElement.JSX.TargetedEvent<HTMLFormElement, Event>,
+    );
   };
 
   const handleSubmit = async (
@@ -66,27 +92,27 @@ export default function EmployeeUpdatePersonalData(
         address1: employeeData.personalData.address1,
         address2: employeeData.personalData.address2,
         personalDataHistory: hasPersonalDataChanged
-        ? [
+          ? [
             ...employeeData.personalData.personalDataHistory,
-              {
-                firstNameBefore: employeeData.personalData.firstName,
-                firstNameAfter: formData.firstName,
-                lastNameBefore: employeeData.personalData.lastName,
-                lastNameAfter: formData.lastName,
-                emailBefore: employeeData.personalData.email,
-                emailAfter: formData.email,
-                phoneBefore: employeeData.personalData.phone,
-                phoneAfter: formData.phone,
-                peselBefore: employeeData.personalData.pesel,
-                peselAfter: formData.pesel,
-                clothSizeBefore: employeeData.personalData.clothSize,
-                clothSizeAfter: formData.clothSize,
-                nipBefore: employeeData.personalData.nip,
-                nipAfter: formData.nip,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : employeeData.personalData.personalDataHistory,
+            {
+              firstNameBefore: employeeData.personalData.firstName,
+              firstNameAfter: formData.firstName,
+              lastNameBefore: employeeData.personalData.lastName,
+              lastNameAfter: formData.lastName,
+              emailBefore: employeeData.personalData.email,
+              emailAfter: formData.email,
+              phoneBefore: employeeData.personalData.phone,
+              phoneAfter: formData.phone,
+              peselBefore: employeeData.personalData.pesel,
+              peselAfter: formData.pesel,
+              clothSizeBefore: employeeData.personalData.clothSize,
+              clothSizeAfter: formData.clothSize,
+              nipBefore: employeeData.personalData.nip,
+              nipAfter: formData.nip,
+              changeDate: new Date().toISOString(),
+            },
+          ]
+          : employeeData.personalData.personalDataHistory,
       },
       jobDetails: {
         ...employeeData.jobDetails,
@@ -105,11 +131,20 @@ export default function EmployeeUpdatePersonalData(
   };
 
   return (
-    <EmployeePersonalDataForm
-      employeeData={employeeData}
-      formData={formData}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-    />
+    <>
+      <EmployeePersonalDataForm
+        employeeData={employeeData}
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleUpdate}
+      />
+      {isPopupOpened && (
+          <ConfirmPopupEvent
+              title={"Czy na pewno chcesz zapisać zmiany?"}
+              onConfirm={confirmSubmit}
+              onCancel={handlePopup}
+          />
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import EmployeesOverview from "../../../islands/employees/EmployeesOverview.tsx";
 import { getEmployees } from "../../../components/utils/api-client/client.ts";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { getConfig } from "../../../components/utils/api-client/config/getConfig.ts";
+import { getApiConfig } from "../../../components/utils/api-client/config/getApiConfig.ts";
 import {LoginProvider} from "../../../islands/context/LoginProvider.tsx";
 import {getAuthConfig} from "../../../islands/auth/getAuthConfig.ts";
 
@@ -9,7 +9,7 @@ export default async function EmployeesOverviewPage() {
   const employees = await getEmployees();
   const employeesData = await employees.result as Employee[];
 
-  const config = getConfig();
+  const config = getApiConfig();
   const authConfig = getAuthConfig();
 
   return (

@@ -6,6 +6,7 @@ export function validateJobDetailsForm(data: EmployeeFormData) {
   if (!data.status) {
     errors.status = "Status jest wymagany";
   }
+
   if (!data.jobTitle) {
     errors.jobTitle = "Stanowisko jest wymagane";
   }

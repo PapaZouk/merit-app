@@ -1,8 +1,9 @@
 import { h} from 'preact';
+import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
 
 type PopupProps = {
     children: h.JSX.Element,
-    onClose: () => void,
+    onClose: (() => void)|MouseEventHandler<HTMLButtonElement>,
 }
 
 export default function Popup({ children, onClose }: PopupProps): h.JSX.Element {

@@ -3,6 +3,8 @@ import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
 import { updateEmployeeById } from "../../../components/utils/api-client/client.ts";
 import EmployeeAddress1Form from "../../../components/employee/forms/EmployeeAddress1Form.tsx";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
+import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 
 type EmployeeUpdateAddress1Props = {
   employeeData: Employee;
@@ -24,6 +26,7 @@ export default function EmployeeUpdateAddress1({
     state1: employeeData.personalData.address1.state1,
     voivodeship1: employeeData.personalData.address1.voivodeship1,
   });
+  const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -37,6 +40,29 @@ export default function EmployeeUpdateAddress1({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleUpdate = (
+    e:
+      | createElement.JSX.TargetedEvent<HTMLFormElement, Event>
+      | MouseEventHandler<HTMLButtonElement>,
+  ): void => {
+    e.preventDefault();
+    handlePopup();
+  };
+
+  const handlePopup = (): void => {
+    setIsPopupOpened((prev) => !prev);
+  };
+
+  const confirmSubmit = async (): Promise<void> => {
+    setIsPopupOpened(false);
+    await handleSubmit(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      }) as createElement.JSX.TargetedEvent<HTMLFormElement, Event>,
+    );
   };
 
   const handleSubmit = async (
@@ -77,7 +103,8 @@ export default function EmployeeUpdateAddress1({
                 zip1After: formData.zip1,
                 state1Before: employeeData.personalData.address1.state1,
                 state1After: formData.state1,
-                voivodeship1Before: employeeData.personalData.address1.voivodeship1,
+                voivodeship1Before:
+                  employeeData.personalData.address1.voivodeship1,
                 voivodeship1After: formData.voivodeship1,
                 changeDate: new Date().toISOString(),
               },
@@ -99,11 +126,20 @@ export default function EmployeeUpdateAddress1({
   };
 
   return (
-    <EmployeeAddress1Form
-      employeeData={employeeData}
-      formData={formData}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-    />
+    <>
+      <EmployeeAddress1Form
+        employeeData={employeeData}
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleUpdate}
+      />
+      {isPopupOpened && (
+        <ConfirmPopupEvent
+          title={"Czy na pewno chcesz zapisać zmiany?"}
+          onConfirm={confirmSubmit}
+          onCancel={handlePopup}
+        />
+      )}
+    </>
   );
 }

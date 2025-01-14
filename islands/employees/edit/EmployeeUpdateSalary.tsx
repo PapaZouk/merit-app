@@ -3,6 +3,8 @@ import { useState } from "preact/hooks";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { updateEmployeeById } from "../../../components/utils/api-client/client.ts";
 import EmployeeSalaryForm from "../../../components/employee/forms/EmployeeSalaryForm.tsx";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
+import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 
 type EmployeeUpdateSalaryProps = {
   employeeData: Employee;
@@ -25,6 +27,7 @@ export default function EmployeeUpdateSalary(
     bankAccount: employeeData.jobDetails.salary.bankAccount,
     bankName: employeeData.jobDetails.salary.bankName,
   });
+  const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -38,6 +41,29 @@ export default function EmployeeUpdateSalary(
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleUpdate = (
+    e:
+      | createElement.JSX.TargetedEvent<HTMLFormElement, Event>
+      | MouseEventHandler<HTMLButtonElement>,
+  ): void => {
+    e.preventDefault();
+    handlePopup();
+  };
+
+  const handlePopup = (): void => {
+    setIsPopupOpened((prev) => !prev);
+  };
+
+  const confirmSubmit = async (): Promise<void> => {
+    setIsPopupOpened(false);
+    await handleSubmit(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      }) as createElement.JSX.TargetedEvent<HTMLFormElement, Event>,
+    );
   };
 
   const handleSubmit = async (
@@ -65,21 +91,21 @@ export default function EmployeeUpdateSalary(
           bankName: formData.bankName,
           salaryHistory: hasSalaryChanged
             ? [
-                  ...employeeData.jobDetails.salary.salaryHistory,
-                {
-                    salaryBefore: employeeData.jobDetails.salary.baseSalary,
-                    salaryAfter: formData.baseSalary,
-                    hourlyRateBefore: employeeData.jobDetails.salary.hourlyRate,
-                    hourlyRateAfter: formData.hourlyRate,
-                    currencyBefore: employeeData.jobDetails.salary.currency,
-                    currencyAfter: formData.currency,
-                    bankAccountBefore: employeeData.jobDetails.salary.bankAccount,
-                    bankAccountAfter: formData.bankAccount,
-                    bankNameBefore: employeeData.jobDetails.salary.bankName,
-                    bankNameAfter: formData.bankName,
-                    changeDate: new Date().toISOString(),
-                }
-              ]
+              ...employeeData.jobDetails.salary.salaryHistory,
+              {
+                salaryBefore: employeeData.jobDetails.salary.baseSalary,
+                salaryAfter: formData.baseSalary,
+                hourlyRateBefore: employeeData.jobDetails.salary.hourlyRate,
+                hourlyRateAfter: formData.hourlyRate,
+                currencyBefore: employeeData.jobDetails.salary.currency,
+                currencyAfter: formData.currency,
+                bankAccountBefore: employeeData.jobDetails.salary.bankAccount,
+                bankAccountAfter: formData.bankAccount,
+                bankNameBefore: employeeData.jobDetails.salary.bankName,
+                bankNameAfter: formData.bankName,
+                changeDate: new Date().toISOString(),
+              },
+            ]
             : [...employeeData.jobDetails.salary.salaryHistory],
         },
       },
@@ -96,11 +122,20 @@ export default function EmployeeUpdateSalary(
   };
 
   return (
-    <EmployeeSalaryForm
-      employeeData={employeeData}
-      formData={formData}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-    />
+    <>
+      <EmployeeSalaryForm
+        employeeData={employeeData}
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleUpdate}
+      />
+      {isPopupOpened && (
+        <ConfirmPopupEvent
+          title={"Czy na pewno chcesz zapisać zmiany?"}
+          onConfirm={confirmSubmit}
+          onCancel={handlePopup}
+        />
+      )}
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import {getFormattedDate} from "../../utils/formatter/getFormattedDate.ts";
 import {voivodeships} from "../forms/utils/voivodeships.ts";
 import {countries} from "../forms/utils/countries.ts";
+import {status} from "../forms/utils/status.ts";
 
 export type EmployeeFormData = {
   firstName: string;
@@ -9,6 +10,7 @@ export type EmployeeFormData = {
   phone: string;
   pesel: string;
   clothSize: string;
+  nip: number;
   street1: string;
   house1: string;
   city1: string;
@@ -45,6 +47,7 @@ export const initEmployeeFormData: EmployeeFormData = {
   phone: "",
   pesel: "",
   clothSize: "",
+  nip: 0,
   street1: "",
   house1: "",
   city1: "",
@@ -57,7 +60,7 @@ export const initEmployeeFormData: EmployeeFormData = {
   state2: undefined,
   zip2: undefined,
   voivodeship2: undefined,
-  status: "",
+  status: status[0].value,
   jobTitle: "",
   department: "",
   startDate: getFormattedDate(new Date()),

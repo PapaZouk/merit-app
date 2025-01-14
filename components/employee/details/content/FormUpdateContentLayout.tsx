@@ -19,7 +19,7 @@ export default function FormUpdateContentLayout({
   toggleRow,
 }: FormUpdateContentLayoutProps) {
   return (
-    <div class="flex flex-col w-full p-4 sm:p-6">
+    <div class="flex flex-col w-full p-2 sm:p-6">
       {selectedSection === "personalData" && (
         <EmployeePersonalDataFrame
           employeeData={employeeData}

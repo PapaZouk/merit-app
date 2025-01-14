@@ -27,16 +27,6 @@ export default function JobDetailsForm(
     <div class="space-y-4">
       <h2 class="text-xl font-bold">Dane zawodowe</h2>
       <FormSelect
-        htmlFor={"status"}
-        text={"Status"}
-        options={status}
-        value={formData.status}
-        handleChange={handleChange}
-        defaultValue={"Wybierz status"}
-        className={"w-full p-2 border rounded"}
-        error={errors.status}
-      />
-      <FormSelect
         htmlFor={"jobTitle"}
         text={"Stanowisko"}
         options={jobTitles}

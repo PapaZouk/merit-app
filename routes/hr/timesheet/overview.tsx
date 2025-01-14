@@ -5,10 +5,12 @@ import TimesheetOverview from "../../../islands/timesheet/TimesheetOverview.tsx"
 import { getAllEmployeesWithIds, getAllTimesheet } from "../../../components/utils/api-client/client.ts";
 import { Timesheet } from "../../../components/utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
+import {getApiConfig} from "../../../components/utils/api-client/config/getApiConfig.ts";
 
 export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
   const cacheTimeout = Deno.env.get("CACHE_EXPIRATION");
   let allTimesheet: Timesheet[] = (await getAllTimesheet(cacheTimeout)).result as Timesheet[];
+  const apiConfig = getApiConfig();
 
   if (!Array.isArray(allTimesheet)) {
     allTimesheet = [];
@@ -24,7 +26,7 @@ export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
   const authConfig = getAuthConfig();
 
   return (
-    <LoginProvider authConfig={authConfig}>
+    <LoginProvider authConfig={authConfig} apiConfig={apiConfig}>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 h-full w-full">
         <div class="col-span-3 bg-white p-4 shadow rounded-lg">
           <TimesheetOverview timesheet={allTimesheet} employees={employees.result} />

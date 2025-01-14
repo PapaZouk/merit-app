@@ -5,19 +5,27 @@ import {
   EmployeeFormData,
   initEmployeeFormData,
 } from "../../components/employee/types/EmployeeFormData.ts";
-import { addEmployee } from "../../components/utils/api-client/client.ts";
+import {addEmployee, deleteEmployeeById} from "../../components/utils/api-client/client.ts";
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
+import createUserAccount from "../../components/utils/auth/accountManager.ts";
+import {
+  AuthClientConfig,
+  getAuthClient,
+} from "../../components/utils/auth/auth-client/authClient.ts";
+import { addUser } from "../../components/utils/api-client/clients/userClient.ts";
+import {jobTitles} from "../../components/employee/forms/utils/jobTitles.ts";
 
 type EmployeesManagerProps = {
   createConfig: {
     url: string;
     token: string;
   };
+  authConfig: AuthClientConfig;
 };
 
 export default function EmployeesManager(
-  { createConfig }: EmployeesManagerProps,
+  { createConfig, authConfig }: EmployeesManagerProps,
 ) {
   const [employeeFormData, setEmployeeFormData] = useState<EmployeeFormData>(
     initEmployeeFormData,
@@ -48,18 +56,48 @@ export default function EmployeesManager(
 
   const handleSubmit = async (
     e: createElement.JSX.TargetedEvent<HTMLFormElement, Event>,
-  ) => {
+  ): Promise<void> => {
     e.preventDefault();
 
     const createEmployeeRequest: Employee = getEmployeeRequest(
       employeeFormData,
     );
 
-    await addEmployee(
+    const employeeResponse = await addEmployee(
       createEmployeeRequest,
       createConfig.url,
       createConfig.token,
     );
+
+    let userId = null;
+    if (!employeeResponse.id) {
+      throw new Error("Error: no employee response found");
+    } else {
+      userId = await createUserAccount(
+        {
+          email: employeeFormData.email,
+          password: "password",
+          userId: employeeResponse.id,
+        },
+        getAuthClient(authConfig),
+      );
+    }
+
+    if (!userId) {
+      await deleteEmployeeById(employeeResponse.id, createConfig.url, createConfig.token);
+      throw new Error("Error: no user ID found. Failed to create user account");
+    } else {
+      const role = employeeFormData.jobTitle === jobTitles[4].value ? "hrmanager" : "hremployee";
+
+      await addUser(
+        {
+          authId: userId,
+          roles: ["guest", role],
+        },
+        createConfig.url,
+        createConfig.token,
+      );
+    }
 
     setEmployeeFormData(initEmployeeFormData);
 
@@ -72,7 +110,13 @@ export default function EmployeesManager(
 
   const confirmSubmit = async () => {
     handlePopup();
-    await handleSubmit(new Event("submit", { bubbles: true, cancelable: true }) as createElement.JSX.TargetedEvent<HTMLFormElement, Event>);
+
+    await handleSubmit(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      }) as createElement.JSX.TargetedEvent<HTMLFormElement, Event>,
+    );
   };
 
   return (
@@ -133,7 +177,9 @@ function getEmployeeRequest(employeeFormData: EmployeeFormData): Employee {
       email: employeeFormData.email,
       phone: employeeFormData.phone,
       pesel: employeeFormData.pesel,
+      nip: employeeFormData.nip,
       clothSize: employeeFormData.clothSize,
+      personalDataHistory: [],
       address1: {
         street1: employeeFormData.street1,
         house1: employeeFormData.house1,
@@ -141,6 +187,7 @@ function getEmployeeRequest(employeeFormData: EmployeeFormData): Employee {
         zip1: employeeFormData.zip1,
         state1: employeeFormData.state1,
         voivodeship1: employeeFormData.voivodeship1,
+        address1History: [],
       },
       address2: {
         street2: employeeFormData.street2,
@@ -149,6 +196,7 @@ function getEmployeeRequest(employeeFormData: EmployeeFormData): Employee {
         zip2: employeeFormData.zip2,
         state2: employeeFormData.state2,
         voivodeship2: employeeFormData.voivodeship2,
+        address2History: [],
       },
     },
     jobDetails: {
@@ -164,11 +212,14 @@ function getEmployeeRequest(employeeFormData: EmployeeFormData): Employee {
         String(employeeFormData.annualLeaveDays),
         10,
       ),
+      jobDetailsHistory: [],
       salary: {
         baseSalary: Number.parseInt(String(employeeFormData.baseSalary), 10),
         currency: employeeFormData.currency,
+        hourlyRate: Number.parseInt(String(employeeFormData.hourlyRate), 10),
         bankAccount: employeeFormData.bankAccount,
         bankName: employeeFormData.bankName,
+        salaryHistory: [],
       },
     },
   };

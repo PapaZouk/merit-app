@@ -24,19 +24,21 @@ export default function EmployeeDetails(
   };
 
   return (
-    <div class="bg-white p-4 md:p-8 rounded-lg shadow-lg text-gray-800">
+    <div class="bg-white p-4 md:p-4 rounded-lg shadow-lg text-gray-800 w-full">
       <div class="col-span-4 flex items-end justify-start mb-4 md:mb-6 mt-2">
         <BackButton href={"/hr/employees/overview"} />
       </div>
 
       <FormUpdateHeader employeeData={employeeData} />
-      <FormUpdateNavigation onSelect={setSelectedSection} />
-      <FormUpdateContentLayout
-        selectedSection={selectedSection}
-        employeeData={employeeData}
-        expandedRows={expandedRows}
-        toggleRow={toggleRow}
-      />
+      <div class="w-full">
+        <FormUpdateNavigation onSelect={setSelectedSection} />
+        <FormUpdateContentLayout
+          selectedSection={selectedSection}
+          employeeData={employeeData}
+          expandedRows={expandedRows}
+          toggleRow={toggleRow}
+        />
+      </div>
     </div>
   );
 }

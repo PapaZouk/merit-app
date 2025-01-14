@@ -16,7 +16,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children, authConfig, appName }: RootLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loginData, setLoginData] = useState({ login: "", password: "" });
-  const { isLoggedIn, handleLogout, isLoading } = useLogin();
+  const { isLoggedIn, isLoading } = useLogin();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

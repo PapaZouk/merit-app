@@ -14,7 +14,7 @@ type MainNavigationProps = {
 export default function MainNavigation({ toggleSidebar, authConfig, appName }: MainNavigationProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const { isLoggedIn, setUserRole } = useLogin();
+  const { setUserRole } = useLogin();
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);

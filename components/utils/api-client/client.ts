@@ -1,5 +1,5 @@
 import { getCachedData, setCachedData } from "../cache/cacheManager.ts";
-import { getConfig } from "./config/getConfig.ts";
+import { getApiConfig } from "./config/getApiConfig.ts";
 import { Employee } from "./types/Employee.ts";
 
 export async function getEmployees(cacheTimeout?: string | undefined) {
@@ -10,7 +10,7 @@ export async function getEmployees(cacheTimeout?: string | undefined) {
     return cachedData;
   }
 
-  const { url, token } = getConfig();
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/employee/all`, {
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export async function getAllEmployeesWithIds(
   if (cachedData) {
     return cachedData;
   }
-  const { url, token } = getConfig();
+  const { url, token } = getApiConfig();
 
   const formatedUrl = `${url}/api/auth/employee/filter/all?ids=${
     ids.join(",")
@@ -70,7 +70,7 @@ export async function getEmployeeById(id: string) {
     return cachedData;
   }
 
-  const { url, token } = getConfig();
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/employee/${id}`, {
     headers: {
       "Content-Type": "application/json",
@@ -159,7 +159,7 @@ export async function getAllTimesheet(cacheTimeout?: string | undefined) {
     return cachedData;
   }
 
-  const { url, token } = getConfig();
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/timesheet/all/`, {
     headers: {
       "Content-Type": "application/json",
@@ -190,7 +190,7 @@ export async function getTimesheetByEmployeeIdYearAndMonth(
     return cachedData;
   }
 
-  const { url, token } = getConfig();
+  const { url, token } = getApiConfig();
   const response = await fetch(
     `${url}/api/auth/timesheet/employee/${id}?year=${year}&month=${month}`,
     {
