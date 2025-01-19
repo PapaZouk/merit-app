@@ -5,7 +5,15 @@ export async function getEventNotificationsByUserId(
   url: string,
   token: string,
 ) {
-  const response = await fetch(`${url}/api/auth/notification/event/${userId}`, {
+  console.log(`Fetching event notifications for user ${userId}`);
+  const requestUrl = `${url}/api/auth/notification/event/${userId}`;
+  console.log(`Request URL: ${requestUrl}`);
+
+  if (!userId) {
+    return;
+  }
+
+  const response = await fetch(requestUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -36,6 +44,27 @@ export async function addEventNotification(
 
   if (response.status !== 200) {
     throw new Error("Failed to add event notification");
+  }
+
+  return response.json();
+}
+
+export async function updateEventNotificationByEventId(
+    notification: EventNotification,
+    url: string,
+    token: string,
+) {
+  const response = await fetch(`${url}/api/auth/notification/event/update/${notification.eventId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify(notification),
+    });
+
+  if (response.status !== 200) {
+    throw new Error("Failed to update event notification");
   }
 
   return response.json();

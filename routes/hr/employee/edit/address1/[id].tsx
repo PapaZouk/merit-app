@@ -3,8 +3,9 @@ import { getApiConfig } from "../../../../../components/utils/api-client/config/
 import { getEmployeeById } from "../../../../../components/utils/api-client/clients/employeeClient.ts";
 import { Employee } from "../../../../../components/utils/api-client/types/Employee.ts";
 import EmployeeUpdateAddress1 from "../../../../../islands/employees/edit/EmployeeUpdateAddress1.tsx";
-import {LoginProvider} from "../../../../../islands/context/LoginProvider.tsx";
-import {getAuthConfig} from "../../../../../islands/auth/getAuthConfig.ts";
+import { LoginProvider } from "../../../../../islands/context/LoginProvider.tsx";
+import { getAuthConfig } from "../../../../../islands/auth/getAuthConfig.ts";
+import { NotificationsProvider } from "../../../../../islands/context/NotificationsProvider.tsx";
 
 export default async function EditEmployeeAddress1(pageProps: PageProps) {
   const pathElements = new URL(pageProps.url).pathname.split("/").filter(
@@ -18,11 +19,13 @@ export default async function EditEmployeeAddress1(pageProps: PageProps) {
   const employeeData = await employee.result as Employee;
 
   return (
-      <LoginProvider authConfig={authConfig} apiConfig={apiConfig}>
+    <LoginProvider authConfig={authConfig} apiConfig={apiConfig}>
+      <NotificationsProvider userId={id} apiConfig={apiConfig}>
         <EmployeeUpdateAddress1
           employeeData={employeeData}
           updateConfig={apiConfig}
         />
-      </LoginProvider>
+      </NotificationsProvider>
+    </LoginProvider>
   );
 }

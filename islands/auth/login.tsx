@@ -52,7 +52,7 @@ export default function Login(
   };
 
   return (
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center">Zaloguj się</h1>
         <form onSubmit={onLogin} class="space-y-4">
@@ -63,6 +63,7 @@ export default function Login(
               name={"login"}
               value={loginData.login}
               handleChange={handleChange}
+              className="w-full"
               min={3}
               required={true}
               autoComplete={"username"}
@@ -75,6 +76,7 @@ export default function Login(
               name={"password"}
               value={loginData.password}
               handleChange={handleChange}
+              className="w-full"
               min={8}
               required={true}
               autoComplete={"current-password"}

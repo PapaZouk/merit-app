@@ -5,6 +5,10 @@ import { updateEmployeeById } from "../../../components/utils/api-client/clients
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import EmployeeJobStayAddressForm from "../../../components/employee/forms/EmployeeJobStayAddressForm.tsx";
+import { useLogin } from "../../context/LoginProvider.tsx";
+import { useNotifications } from "../../context/NotificationsProvider.tsx";
+import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 
 type EmployeeUpdateJobStayAddressProps = {
   employeeData: Employee;
@@ -19,15 +23,22 @@ export default function EmployeeUpdateJobStayAddress({
   updateConfig,
 }: EmployeeUpdateJobStayAddressProps) {
   const [formData, setFormData] = useState({
-    jobStayAddressStreet: employeeData.jobDetails.jobStayAddress?.street ?? "Brak danych",
-    jobStayAddressHouse: employeeData.jobDetails.jobStayAddress?.house ?? "Brak danych",
-    jobStayAddressCity: employeeData.jobDetails.jobStayAddress?.city ?? "Brak danych",
-    jobStayAddressZip: employeeData.jobDetails.jobStayAddress?.zip ?? "Brak danych",
-    jobStayAddressState: employeeData.jobDetails.jobStayAddress?.state ?? "Brak danych",
+    jobStayAddressStreet: employeeData.jobDetails.jobStayAddress?.street ??
+      "Brak danych",
+    jobStayAddressHouse: employeeData.jobDetails.jobStayAddress?.house ??
+      "Brak danych",
+    jobStayAddressCity: employeeData.jobDetails.jobStayAddress?.city ??
+      "Brak danych",
+    jobStayAddressZip: employeeData.jobDetails.jobStayAddress?.zip ??
+      "Brak danych",
+    jobStayAddressState: employeeData.jobDetails.jobStayAddress?.state ??
+      "Brak danych",
     jobStayAddressVoivodeship:
       employeeData.jobDetails.jobStayAddress?.voivodeship ?? "Brak danych",
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -72,12 +83,18 @@ export default function EmployeeUpdateJobStayAddress({
     e.preventDefault();
 
     const hasJobStayAddressChanged =
-      formData.jobStayAddressStreet !== employeeData.jobDetails.jobStayAddress?.street ||
-      formData.jobStayAddressHouse !== employeeData.jobDetails.jobStayAddress?.house ||
-      formData.jobStayAddressHouse !== employeeData.jobDetails.jobStayAddress?.city ||
-      formData.jobStayAddressZip !== employeeData.jobDetails.jobStayAddress?.zip ||
-      formData.jobStayAddressState !== employeeData.jobDetails.jobStayAddress?.state ||
-      formData.jobStayAddressVoivodeship !== employeeData.jobDetails.jobStayAddress?.voivodeship;
+      formData.jobStayAddressStreet !==
+        employeeData.jobDetails.jobStayAddress?.street ||
+      formData.jobStayAddressHouse !==
+        employeeData.jobDetails.jobStayAddress?.house ||
+      formData.jobStayAddressHouse !==
+        employeeData.jobDetails.jobStayAddress?.city ||
+      formData.jobStayAddressZip !==
+        employeeData.jobDetails.jobStayAddress?.zip ||
+      formData.jobStayAddressState !==
+        employeeData.jobDetails.jobStayAddress?.state ||
+      formData.jobStayAddressVoivodeship !==
+        employeeData.jobDetails.jobStayAddress?.voivodeship;
 
     const updatedData: Employee = {
       _id: employeeData._id,
@@ -93,7 +110,8 @@ export default function EmployeeUpdateJobStayAddress({
           voivodeship: formData.jobStayAddressVoivodeship,
           jobStayAddressHistory: hasJobStayAddressChanged
             ? [
-              ...employeeData.jobDetails.jobStayAddress?.jobStayAddressHistory ?? [],
+              ...employeeData.jobDetails.jobStayAddress
+                ?.jobStayAddressHistory ?? [],
               {
                 streetBefore: employeeData.jobDetails.jobStayAddress?.street,
                 streetAfter: formData.jobStayAddressStreet,
@@ -122,6 +140,17 @@ export default function EmployeeUpdateJobStayAddress({
       updateConfig.url,
       updateConfig.token,
     );
+
+    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
+      userId,
+      "Zmiana adresu noclegu",
+      `Dane adresu noclegu pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+      "HR",
+      user?.authId,
+      ["hr", "hrmanager"],
+    );
+
+    addNewEventNotification(eventNotificationRequest);
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };

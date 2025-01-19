@@ -4,8 +4,12 @@ import { updateEmployeeById } from "../../../components/utils/api-client/clients
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useState } from "preact/hooks";
 import Popup from "../../../components/popup/popup.tsx";
-import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import { useLogin } from "../../context/LoginProvider.tsx";
+import { useNotifications } from "../../context/NotificationsProvider.tsx";
+import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 
 type EmployeeUpdateProps = {
   employeeData: Employee;
@@ -28,6 +32,8 @@ export default function EmployeeUpdatePersonalData(
     nip: employeeData.personalData.nip ?? 0,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -44,7 +50,9 @@ export default function EmployeeUpdatePersonalData(
   };
 
   const handleUpdate = (
-    e: createElement.JSX.TargetedEvent<HTMLFormElement, Event>|MouseEventHandler<HTMLButtonElement>,
+    e:
+      | createElement.JSX.TargetedEvent<HTMLFormElement, Event>
+      | MouseEventHandler<HTMLButtonElement>,
   ): void => {
     e.preventDefault();
     handlePopup();
@@ -52,8 +60,7 @@ export default function EmployeeUpdatePersonalData(
 
   const handlePopup = (): void => {
     setIsPopupOpened((prev) => !prev);
-  }
-
+  };
 
   const confirmSubmit = async (): Promise<void> => {
     setIsPopupOpened(false);
@@ -127,6 +134,17 @@ export default function EmployeeUpdatePersonalData(
       updateConfig.token,
     );
 
+    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
+      userId,
+      "Zmiana danych osobowych",
+      `Dane osobowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+      "HR",
+      user?.authId,
+      ["hr", "hrmanager"],
+    );
+
+    addNewEventNotification(eventNotificationRequest);
+
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };
 
@@ -139,11 +157,11 @@ export default function EmployeeUpdatePersonalData(
         handleSubmit={handleUpdate}
       />
       {isPopupOpened && (
-          <ConfirmPopupEvent
-              title={"Czy na pewno chcesz zapisać zmiany?"}
-              onConfirm={confirmSubmit}
-              onCancel={handlePopup}
-          />
+        <ConfirmPopupEvent
+          title={"Czy na pewno chcesz zapisać zmiany?"}
+          onConfirm={confirmSubmit}
+          onCancel={handlePopup}
+        />
       )}
     </>
   );

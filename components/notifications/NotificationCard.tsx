@@ -86,13 +86,6 @@ export default function NotificationCard(
       <p class="text-gray-500 text-xs">
         {notification.date} {notification.time}
       </p>
-      <div class="mt-2 flex flex-wrap gap-1">
-        {notification.tags.map((tag) => (
-          <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-1 rounded">
-            #{tag}
-          </span>
-        ))}
-      </div>
     </div>
   );
 }

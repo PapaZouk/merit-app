@@ -1,15 +1,9 @@
-import { createContext, h } from "preact";
-import { useContext, useEffect, useState } from "preact/hooks";
-import {
-  UserRole,
-  UserRoleEnum,
-} from "../../components/utils/auth/types/userRoles.ts";
-import {
-  AuthClientConfig,
-  getAuthClient,
-} from "../../components/utils/auth/auth-client/authClient.ts";
-import { AuthConfig } from "../auth/getAuthConfig.ts";
-import { getUserByAuthId } from "../../components/utils/api-client/clients/userClient.ts";
+import {createContext, h} from "preact";
+import {useContext, useEffect, useState} from "preact/hooks";
+import {UserRole, UserRoleEnum,} from "../../components/utils/auth/types/userRoles.ts";
+import {AuthClientConfig, getAuthClient,} from "../../components/utils/auth/auth-client/authClient.ts";
+import {AuthConfig} from "../auth/getAuthConfig.ts";
+import {getUserByAuthId} from "../../components/utils/api-client/clients/userClient.ts";
 import {User} from "../../components/utils/api-client/types/User.ts";
 
 type LoginContextProps = {

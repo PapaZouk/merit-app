@@ -5,6 +5,9 @@ import {updateEmployeeById} from "../../../components/utils/api-client/clients/e
 import EmployeeAddress2Form from "../../../components/employee/forms/EmployeeAddress2Form.tsx";
 import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
+import {useLogin} from "../../context/LoginProvider.tsx";
+import {useNotifications} from "../../context/NotificationsProvider.tsx";
 
 type EmployeeUpdateAddress2Props = {
   employeeData: Employee;
@@ -27,6 +30,8 @@ export default function EmployeeUpdateAddress2({
     voivodeship2: employeeData.personalData.address2.voivodeship2 ?? "",
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -121,6 +126,17 @@ export default function EmployeeUpdateAddress2({
       updateConfig.url,
       updateConfig.token,
     );
+
+    const eventNotificationRequest = createEventNotification(
+        userId,
+        "Zmiana danych adresu korespondencyjnego",
+        `Dane adresu korespondencyjnego pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+        'HR',
+        user?.authId,
+        ['hr', 'hrmanager']
+    );
+
+    addNewEventNotification(eventNotificationRequest);
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };

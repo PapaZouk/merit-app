@@ -20,6 +20,7 @@ import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
 import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
 import * as $auth_login from "./islands/auth/login.tsx";
 import * as $context_LoginProvider from "./islands/context/LoginProvider.tsx";
+import * as $context_NotificationsProvider from "./islands/context/NotificationsProvider.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
 import * as $employees_edit_EmployeeUpdateAddress1 from "./islands/employees/edit/EmployeeUpdateAddress1.tsx";
@@ -68,6 +69,8 @@ const manifest = {
     "./islands/auth/getAuthConfig.ts": $auth_getAuthConfig,
     "./islands/auth/login.tsx": $auth_login,
     "./islands/context/LoginProvider.tsx": $context_LoginProvider,
+    "./islands/context/NotificationsProvider.tsx":
+      $context_NotificationsProvider,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,
     "./islands/employees/edit/EmployeeUpdateAddress1.tsx":

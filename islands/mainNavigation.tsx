@@ -8,6 +8,7 @@ import { useLogin } from "./context/LoginProvider.tsx";
 import { getAuthClient } from "../components/utils/auth/auth-client/authClient.ts";
 import { AuthConfig } from "./auth/getAuthConfig.ts";
 import { UserRoleEnum } from "../components/utils/auth/types/userRoles.ts";
+import { useNotifications } from "./context/NotificationsProvider.tsx";
 import { EventNotification } from "../components/utils/api-client/types/EventNotification.ts";
 
 type MainNavigationProps = {
@@ -18,18 +19,14 @@ type MainNavigationProps = {
     token: string;
   };
   appName: string;
-  userNotifications: EventNotification[];
 };
 
 export default function MainNavigation(
-  { toggleSidebar, authConfig, apiConfig, appName, userNotifications }:
-    MainNavigationProps,
+  { toggleSidebar, authConfig, apiConfig, appName }: MainNavigationProps,
 ) {
+  const { eventNotifications, updateEventNotification } = useNotifications();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notifications, setNotifications] = useState<EventNotification[]>(
-    userNotifications,
-  );
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationMenuRef = useRef<HTMLDivElement>(null);
   const { userId, setUserRole } = useLogin();
@@ -42,7 +39,7 @@ export default function MainNavigation(
     setIsNotificationOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: MouseEvent | TouchEvent) => {
     if (
       profileMenuRef.current &&
       !profileMenuRef.current.contains(event.target as Node)
@@ -69,51 +66,37 @@ export default function MainNavigation(
     globalThis.location.href = "/";
   };
 
-  const markNotificationAsRead = async (notification: EventNotification) => {
-    const notificationUpdateRequest = {
+  const markNotificationAsRead = (notification: EventNotification) => {
+    const notificationUpdateRequest: EventNotification = {
       ...notification,
       isRead: true,
     };
-
-    try {
-      const response = await fetch(
-        `${apiConfig.url}/api/auth/notification/event/update/${notification.eventId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${apiConfig.token}`,
-          },
-          body: JSON.stringify(notificationUpdateRequest),
-        },
-      );
-
-      if (response.status === 200) {
-        console.log("Notification marked as read", response);
-        setNotifications((prev: EventNotification[]) =>
-          prev.map((n: EventNotification) =>
-            n.eventId === notification.eventId ? { ...n, isRead: true } : n
-          )
-        );
-        globalThis.location.reload();
-      } else {
-        throw new Error("Failed to mark notification as read");
-      }
-    } catch (error) {
-      console.error("Failed to mark notification as read", error);
-    }
+    updateEventNotification(notificationUpdateRequest);
   };
 
   const handleNotificationClick = (notification: EventNotification) => {
-    markNotificationAsRead(notification);
+    if (!notification.isRead) {
+      markNotificationAsRead(notification);
+    }
   };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, []);
+
+  const sortedNotifications = eventNotifications
+    .sort(
+      (a: EventNotification, b: EventNotification) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )
+    .sort((a: EventNotification, b: EventNotification) => a.isRead ? 1 : -1);
+
+  const unreadNotificationsLength = sortedNotifications.filter((n: EventNotification) => !n.isRead).length;
 
   return (
     <nav class="w-full bg-white text-gray-800 p-4 flex justify-between items-center shadow-md">
@@ -155,49 +138,49 @@ export default function MainNavigation(
           class="relative flex items center"
         >
           <Bell size={24} class="text-gray-600 hover:text-gray-900" />
-          {userNotifications.length > 0 && (userNotifications.some((user) =>
-            !user.isRead
-          )) && (
-            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
-              {userNotifications.length}
+          {sortedNotifications.filter((n) => !n.isRead).length > 0 && (
+            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs
+             font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2
+             w-5 h-5 md:w-auto md:h-auto">
+              {unreadNotificationsLength > 99 ? "+99" : unreadNotificationsLength}
             </span>
           )}
         </button>
         {isNotificationOpen && (
           <div
             ref={notificationMenuRef}
-            className="absolute top-full right-0 mt-2 w-72 bg-white text-gray-800 rounded-md shadow-lg"
+            className="absolute top-full right-0 mt-2 w-72 md:w-96 bg-white text-gray-800 rounded-md shadow-lg"
           >
             <ul>
-              {userNotifications.slice(0, 5).map(
-                (notification: EventNotification) => {
-                  if (!notification.isRead) {
-                    return (
-                      <li
-                        key={notification.eventId}
-                        class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleNotificationClick(notification)}
-                      >
-                        <div>
-                          <h1 class="font-semibold">{notification.title}</h1>
-                          <p class="text-sm text-gray-600">
-                            {notification.description}
-                          </p>
-                        </div>
-                      </li>
-                    );
-                  } else {
-                    return null;
-                  }
-                },
+              {sortedNotifications.slice(0, 5).map((notification) => (
+                <li
+                  key={notification.eventId}
+                  class={`px-4 py-2 ${
+                    notification.isRead
+                      ? "bg-gray-200"
+                      : "hover:bg-blue-100 cursor-pointer"
+                  }`}
+                  onClick={() =>
+                    !notification.isRead &&
+                    handleNotificationClick(notification)}
+                >
+                  <div>
+                    <h1 class="font-semibold">{notification.title}</h1>
+                    <p class="text-sm text-gray-600">
+                      {notification.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+              {sortedNotifications.length > 0 && (
+                <li
+                  class="px-4 py-2 text-center text-sm text-blue-500 hover:bg-blue-100 cursor-pointer font-semibold"
+                  onClick={() =>
+                    globalThis.location.href = `/user/notifications/${userId}`}
+                >
+                  Zobacz wszystkie
+                </li>
               )}
-              <li
-                class="px-4 py-2 text-center text-sm text-blue-500 hover:bg-blue-100 cursor-pointer font-semibold"
-                onClick={() =>
-                  globalThis.location.href = `/user/notifications/${userId}`}
-              >
-                Zobacz wszystkie
-              </li>
             </ul>
           </div>
         )}

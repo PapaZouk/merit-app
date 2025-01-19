@@ -6,6 +6,10 @@ import EmployeeJobDetailsForm from "../../../components/employee/forms/EmployeeJ
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import Popup from "../../../components/popup/popup.tsx";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import { useLogin } from "../../context/LoginProvider.tsx";
+import { useNotifications } from "../../context/NotificationsProvider.tsx";
+import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 
 type EmployeeUpdateSalaryProps = {
   employeeData: Employee;
@@ -33,6 +37,8 @@ export default function EmployeeUpdateSalary(
     annualLeaveDays: employeeData.jobDetails.annualLeaveDays,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -136,6 +142,17 @@ export default function EmployeeUpdateSalary(
       updateConfig.url,
       updateConfig.token,
     );
+
+    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
+      userId,
+      "Zmiana danych zawodowych",
+      `Dane zawodowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+      "HR",
+      user?.authId,
+      ["hr", "hrmanager"],
+    );
+
+    addNewEventNotification(eventNotificationRequest);
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };
