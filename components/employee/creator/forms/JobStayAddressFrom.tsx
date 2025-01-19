@@ -1,12 +1,12 @@
-import { h } from 'preact';
+import { h } from "preact";
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import FormInput from "../../forms/FormInput.tsx";
 import FormSelect from "../../forms/FormSelect.tsx";
-import { countries } from "../../forms/utils/countries.ts";
 import { voivodeships } from "../../forms/utils/voivodeships.ts";
+import { countries } from "../../forms/utils/countries.ts";
 
-type Address1FormProps = {
+type JobStayAddressFromProps = {
   formData: EmployeeFormData;
   handleChange: (
     e: createElement.JSX.TargetedEvent<
@@ -17,69 +17,64 @@ type Address1FormProps = {
   errors: { [key: string]: string };
 };
 
-export default function Address1Form(
-  { formData, handleChange, errors }: Address1FormProps,
+export default function JobStayAddressForm(
+  { formData, handleChange, errors }: JobStayAddressFromProps,
 ): h.JSX.Element {
   return (
     <div class="space-y-4">
-      <h2 class="text-xl font-bold">Adres zamieszkania</h2>
+      <h2 class="text-xl font-bold">Nocleg</h2>
       <FormInput
         type={"text"}
-        name={"street1"}
-        value={formData.street1}
+        name={"jobStayAddressStreet"}
+        value={formData.jobStayAddressStreet}
         handleChange={handleChange}
-        className={"w-full p-2 border rounded"}
         label={"Ulica"}
-        error={errors.street1}
+        error={errors.jobStayAddressStreet}
       />
       <FormInput
         type={"text"}
-        name={"house1"}
-        value={formData.house1}
+        name={"jobStayAddressHouse"}
+        value={formData.jobStayAddressHouse}
         handleChange={handleChange}
-        className={"w-full p-2 border rounded"}
         label={"Numer domu"}
-        error={errors.house1}
+        error={errors.jobStayAddressHouse}
       />
       <FormInput
         type={"text"}
-        name={"city1"}
-        value={formData.city1}
+        name={"jobStayAddressCity"}
+        value={formData.jobStayAddressCity}
         handleChange={handleChange}
-        className={"w-full p-2 border rounded"}
         label={"Miasto"}
-        error={errors.city1}
+        error={errors.jobStayAddressCity}
       />
       <FormInput
         type={"text"}
-        name={"zip1"}
-        value={formData.zip1}
+        name={"jobStayAddressZip"}
+        value={formData.jobStayAddressZip}
         handleChange={handleChange}
-        className={"w-full p-2 border rounded"}
         label={"Kod pocztowy"}
-        error={errors.zip1}
+        error={errors.jobStayAddressZip}
       />
       <FormSelect
-        htmlFor={"state1"}
+        htmlFor={"jobStayAddressState"}
         text={"Państwo"}
         options={countries}
-        value={formData.state1}
+        value={formData.jobStayAddressState}
         handleChange={handleChange}
         className={"w-full p-2 border rounded"}
         extraValues={["Brak danych"]}
         defaultValue={"Polska"}
-        error={errors.state1}
       />
       <FormSelect
-        htmlFor={"voivodeship1"}
+        htmlFor={"jobStayAddressVoivodeship"}
         text={"Województwo"}
         options={voivodeships}
-        value={formData.voivodeship1}
+        value={formData.jobStayAddressVoivodeship}
         handleChange={handleChange}
         className={"w-full p-2 border rounded"}
         extraValues={["Brak danych"]}
-        defaultValue={"Pomorskie"}
-        error={errors.voivodeship1}
+        defaultValue={"Brak danych"}
+        error={errors.jobStayAddressVoivodeship}
       />
     </div>
   );

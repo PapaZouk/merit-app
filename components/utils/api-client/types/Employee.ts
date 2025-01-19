@@ -98,7 +98,34 @@ export interface JobDetails {
     insuranceType: string;
     annualLeaveDays: number;
     jobDetailsHistory: JobDetailsHistory[];
+    jobStayAddress?: JobStayAddress;
     salary: Salary;
+}
+
+export interface JobStayAddress {
+    street: string;
+    house: string;
+    city: string;
+    zip: string;
+    state: string;
+    voivodeship: string;
+    jobStayAddressHistory?: JobStayAddressHistory[];
+}
+
+export interface JobStayAddressHistory {
+    streetBefore?: string|null|undefined;
+    streetAfter?: string|null|undefined;
+    houseBefore?: string|null|undefined;
+    houseAfter?: string|null|undefined;
+    cityBefore?: string|null|undefined;
+    cityAfter?: string|null|undefined;
+    stateBefore?: string|null|undefined;
+    stateAfter?: string|null|undefined;
+    zipBefore?: string|null|undefined;
+    zipAfter?: string|null|undefined;
+    voivodeshipBefore?: string|null|undefined;
+    voivodeshipAfter?: string|null|undefined;
+    changeDate?: string|null|undefined;
 }
 
 export interface JobDetailsHistory {

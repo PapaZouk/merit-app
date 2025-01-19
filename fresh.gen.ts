@@ -8,6 +8,7 @@ import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
 import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
 import * as $hr_employee_edit_address2_id_ from "./routes/hr/employee/edit/address2/[id].tsx";
 import * as $hr_employee_edit_jobdetails_id_ from "./routes/hr/employee/edit/jobdetails/[id].tsx";
+import * as $hr_employee_edit_jobstayaddress_id_ from "./routes/hr/employee/edit/jobstayaddress/[id].tsx";
 import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/personal/[id].tsx";
 import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
@@ -15,6 +16,7 @@ import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
 import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id].tsx";
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
 import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
 import * as $auth_login from "./islands/auth/login.tsx";
 import * as $context_LoginProvider from "./islands/context/LoginProvider.tsx";
@@ -23,12 +25,14 @@ import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOver
 import * as $employees_edit_EmployeeUpdateAddress1 from "./islands/employees/edit/EmployeeUpdateAddress1.tsx";
 import * as $employees_edit_EmployeeUpdateAddress2 from "./islands/employees/edit/EmployeeUpdateAddress2.tsx";
 import * as $employees_edit_EmployeeUpdateJobDetails from "./islands/employees/edit/EmployeeUpdateJobDetails.tsx";
+import * as $employees_edit_EmployeeUpdateJobStayAddress from "./islands/employees/edit/EmployeeUpdateJobStayAddress.tsx";
 import * as $employees_edit_EmployeeUpdatePersonalData from "./islands/employees/edit/EmployeeUpdatePersonalData.tsx";
 import * as $employees_edit_EmployeeUpdateSalary from "./islands/employees/edit/EmployeeUpdateSalary.tsx";
 import * as $employees_employeeDetails from "./islands/employees/employeeDetails.tsx";
 import * as $layouts_RootLayout from "./islands/layouts/RootLayout.tsx";
 import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
+import * as $notifications_event_EventNotifications from "./islands/notifications/event/EventNotifications.tsx";
 import * as $sidebar from "./islands/sidebar.tsx";
 import * as $tables_employeesTable from "./islands/tables/employeesTable.tsx";
 import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
@@ -48,6 +52,8 @@ const manifest = {
       $hr_employee_edit_address2_id_,
     "./routes/hr/employee/edit/jobdetails/[id].tsx":
       $hr_employee_edit_jobdetails_id_,
+    "./routes/hr/employee/edit/jobstayaddress/[id].tsx":
+      $hr_employee_edit_jobstayaddress_id_,
     "./routes/hr/employee/edit/personal/[id].tsx":
       $hr_employee_edit_personal_id_,
     "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
@@ -56,6 +62,7 @@ const manifest = {
     "./routes/hr/timesheet/calendar/[id].tsx": $hr_timesheet_calendar_id_,
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,
+    "./routes/user/notifications/[id].tsx": $user_notifications_id_,
   },
   islands: {
     "./islands/auth/getAuthConfig.ts": $auth_getAuthConfig,
@@ -69,6 +76,8 @@ const manifest = {
       $employees_edit_EmployeeUpdateAddress2,
     "./islands/employees/edit/EmployeeUpdateJobDetails.tsx":
       $employees_edit_EmployeeUpdateJobDetails,
+    "./islands/employees/edit/EmployeeUpdateJobStayAddress.tsx":
+      $employees_edit_EmployeeUpdateJobStayAddress,
     "./islands/employees/edit/EmployeeUpdatePersonalData.tsx":
       $employees_edit_EmployeeUpdatePersonalData,
     "./islands/employees/edit/EmployeeUpdateSalary.tsx":
@@ -77,6 +86,8 @@ const manifest = {
     "./islands/layouts/RootLayout.tsx": $layouts_RootLayout,
     "./islands/layouts/WidgetsLayout.tsx": $layouts_WidgetsLayout,
     "./islands/mainNavigation.tsx": $mainNavigation,
+    "./islands/notifications/event/EventNotifications.tsx":
+      $notifications_event_EventNotifications,
     "./islands/sidebar.tsx": $sidebar,
     "./islands/tables/employeesTable.tsx": $tables_employeesTable,
     "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,

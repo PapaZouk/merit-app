@@ -1,6 +1,6 @@
 import EmployeePersonalDataForm from "../../../components/employee/forms/EmployeePersonalDataForm.tsx";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { updateEmployeeById } from "../../../components/utils/api-client/client.ts";
+import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useState } from "preact/hooks";
 import Popup from "../../../components/popup/popup.tsx";

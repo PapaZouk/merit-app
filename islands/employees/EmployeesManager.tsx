@@ -5,7 +5,7 @@ import {
   EmployeeFormData,
   initEmployeeFormData,
 } from "../../components/employee/types/EmployeeFormData.ts";
-import {addEmployee, deleteEmployeeById} from "../../components/utils/api-client/client.ts";
+import {addEmployee, deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";

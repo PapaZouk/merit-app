@@ -1,5 +1,5 @@
 import {PageProps} from "$fresh/server.ts";
-import {getEmployeeById} from "../../../components/utils/api-client/client.ts";
+import {getEmployeeById} from "../../../components/utils/api-client/clients/employeeClient.ts";
 import EmployeeDetails from "../../../islands/employees/employeeDetails.tsx";
 
 export default async function EmployeeById(props: PageProps) {

@@ -2,9 +2,9 @@ import { PageProps } from "$fresh/server.ts";
 import {getApiConfig} from "../../../../../components/utils/api-client/config/getApiConfig.ts";
 import {getEmployeeById} from "../../../../../components/utils/api-client/clients/employeeClient.ts";
 import {Employee} from "../../../../../components/utils/api-client/types/Employee.ts";
-import EmployeeUpdateAddress2 from "../../../../../islands/employees/edit/EmployeeUpdateAddress2.tsx";
+import EmployeeUpdateJobStayAddress from "../../../../../islands/employees/edit/EmployeeUpdateJobStayAddress.tsx";
 
-export default async function EditEmployeeAddress2(pageProps: PageProps) {
+export default async function EditEmployeeJobStayAddress(pageProps: PageProps) {
     const pathElements = new URL(pageProps.url).pathname.split("/").filter(
         Boolean,
     );
@@ -15,7 +15,7 @@ export default async function EditEmployeeAddress2(pageProps: PageProps) {
     const employeeData = await employee.result as Employee;
 
     return (
-    <EmployeeUpdateAddress2
+    <EmployeeUpdateJobStayAddress
         employeeData={employeeData}
         updateConfig={updateConfig}
     />

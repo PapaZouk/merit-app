@@ -1,7 +1,7 @@
-import {getFormattedDate} from "../../utils/formatter/getFormattedDate.ts";
-import {voivodeships} from "../forms/utils/voivodeships.ts";
-import {countries} from "../forms/utils/countries.ts";
-import {status} from "../forms/utils/status.ts";
+import { getFormattedDate } from "../../utils/formatter/getFormattedDate.ts";
+import { voivodeships } from "../forms/utils/voivodeships.ts";
+import { countries } from "../forms/utils/countries.ts";
+import { status } from "../forms/utils/status.ts";
 
 export type EmployeeFormData = {
   firstName: string;
@@ -14,30 +14,35 @@ export type EmployeeFormData = {
   street1: string;
   house1: string;
   city1: string;
-  state1:  { value: string; label: string } | string;
+  state1: { value: string; label: string } | string;
   zip1: string;
   voivodeship1: { value: string; label: string } | string;
-  street2: string|undefined;
-  house2: string|undefined;
-  city2: string|undefined;
-  state2:  { value: string; label: string } | string |undefined;
-  zip2: string|undefined;
+  street2: string | undefined;
+  house2: string | undefined;
+  city2: string | undefined;
+  state2: { value: string; label: string } | string | undefined;
+  zip2: string | undefined;
   voivodeship2: { value: string; label: string } | string | undefined;
   status: string;
   jobTitle: string;
   department: string;
   startDate: string;
-  endDate: string|null;
+  endDate: string | null;
   contractType: string;
   workSchedule: string;
   insuranceType: string;
   annualLeaveDays: number;
+  jobStayAddressStreet: string;
+  jobStayAddressHouse: string;
+  jobStayAddressCity: string;
+  jobStayAddressState: string;
+  jobStayAddressZip: string;
+  jobStayAddressVoivodeship: string;
   baseSalary: number;
   currency: string;
   hourlyRate: number;
   bankAccount: string;
   bankName: string;
-
 };
 
 export const initEmployeeFormData: EmployeeFormData = {
@@ -69,6 +74,12 @@ export const initEmployeeFormData: EmployeeFormData = {
   workSchedule: "",
   insuranceType: "",
   annualLeaveDays: 0,
+  jobStayAddressStreet: "",
+  jobStayAddressHouse: "",
+  jobStayAddressCity: "",
+  jobStayAddressState: "",
+  jobStayAddressZip: "",
+  jobStayAddressVoivodeship: "",
   baseSalary: 0,
   currency: "",
   hourlyRate: 0,

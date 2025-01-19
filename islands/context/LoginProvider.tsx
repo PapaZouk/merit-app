@@ -10,8 +10,11 @@ import {
 } from "../../components/utils/auth/auth-client/authClient.ts";
 import { AuthConfig } from "../auth/getAuthConfig.ts";
 import { getUserByAuthId } from "../../components/utils/api-client/clients/userClient.ts";
+import {User} from "../../components/utils/api-client/types/User.ts";
 
 type LoginContextProps = {
+  userId: string|null;
+  user: User|null;
   userRoles: UserRole[] | string[];
   setUserRole: (roles: UserRole[]) => void;
   isLoggedIn: () => boolean;
@@ -39,6 +42,8 @@ type LoginProviderProps = {
 export const LoginProvider = (
   { children, authConfig, apiConfig }: LoginProviderProps,
 ) => {
+  const [userId, setUserId] = useState<string|null>(null);
+  const [user, setUser] = useState<User|null>(null);
   const [userRoles, setUserRoles] = useState<UserRole[] | string[]>([
     UserRoleEnum.GUEST,
   ]);
@@ -55,6 +60,8 @@ export const LoginProvider = (
           apiConfig.url,
           apiConfig.token,
         );
+        setUser(userByAuthId.result);
+        setUserId(user.$id);
 
         const roles = userByAuthId.result.roles;
         setUserRoles(roles);
@@ -114,6 +121,8 @@ export const LoginProvider = (
   return (
     <LoginContext.Provider
       value={{
+        userId: userId,
+        user: user,
         userRoles: userRoles,
         setUserRole: setUserRoles,
         isLoggedIn,

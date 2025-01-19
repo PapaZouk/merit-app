@@ -4,7 +4,7 @@ import {useState} from "preact/hooks";
 import {Users} from "https://esm.sh/lucide-preact@latest";
 import OverviewTable from "../../components/tables/overviewTable.tsx";
 import OverviewTableNav from "../../components/tables/overviewTableNav.tsx";
-import {deleteEmployeeById} from "../../components/utils/api-client/client.ts";
+import {deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
 import Popup from "../../components/popup/popup.tsx";
 
 type EmployeesTableProps = {

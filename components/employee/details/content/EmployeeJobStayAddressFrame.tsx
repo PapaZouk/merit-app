@@ -6,100 +6,101 @@ import EmployeeDetailsFrame from "../../EmployeeDetailsFrame.tsx";
 import { Employee } from "../../../utils/api-client/types/Employee.ts";
 import HistoryDisplayFrame from "./HistoryDisplayFrame.tsx";
 
-type EmployeeAddress2FrameProps = {
+type EmployeeJobStayAddressFrameProps = {
   employeeData: Employee;
   expandedRows: number[];
   toggleRow: (index: number) => void;
 };
 
-export default function EmployeeAddress2Frame(
-  { employeeData, expandedRows, toggleRow }: EmployeeAddress2FrameProps,
+export default function EmployeeJobStayAddressFrame(
+  { employeeData, expandedRows, toggleRow }: EmployeeJobStayAddressFrameProps,
 ): h.JSX.Element {
-  const address2HistoryFields = [
+  const jobStayAddressHistoryFields = [
     {
       label: "Ulica",
-      before: "street2Before",
-      after: "street2After",
+      before: "streetBefore",
+      after: "streetAfter",
     },
     {
       label: "Dom",
-      before: "house2Before",
-      after: "house2After",
+      before: "houseBefore",
+      after: "houseAfter",
     },
     {
       label: "Miasto",
-      before: "city2Before",
-      after: "city2After",
+      before: "cityBefore",
+      after: "cityAfter",
     },
     {
       label: "Kod pocztowy",
-      before: "zip2Before",
-      after: "zip2After",
+      before: "zipBefore",
+      after: "zipAfter",
     },
     {
       label: "Państwo",
-      before: "state2Before",
-      after: "state2After",
+      before: "stateBefore",
+      after: "stateAfter",
     },
     {
       label: "Województwo",
-      before: "voivodeship2Before",
-      after: "voivodeship2After",
+      before: "voivodeshipBefore",
+      after: "voivodeshipAfter",
     },
   ];
 
   return (
     <>
       <EmployeeDetailsFrame
-        title={"Adres korespondencyjny"}
+        title={"Adres noclegu"}
         size={"2"}
-        editLink={`/hr/employee/edit/address2/${employeeData._id}`}
+        editLink={`/hr/employee/edit/jobstayaddress/${employeeData._id}`}
       >
         <>
           <EmployeeDetailsProperty
             name={"Ulica"}
-            employeeData={employeeData.personalData.address2?.street2 ??
+            employeeData={employeeData.jobDetails.jobStayAddress?.street ??
               "Brak danych"}
           />
           <EmployeeDetailsProperty
             name={"Dom"}
-            employeeData={employeeData.personalData.address2?.house2 ??
+            employeeData={employeeData.jobDetails.jobStayAddress?.house ??
               "Brak danych"}
           />
           <EmployeeDetailsProperty
             name={"Miasto"}
-            employeeData={employeeData.personalData.address2?.city2 ??
+            employeeData={employeeData.jobDetails.jobStayAddress?.city ??
               "Brak danych"}
           />
           <EmployeeDetailsProperty
-            name={"Kod Pocztowy"}
-            employeeData={employeeData.personalData.address2?.zip2 ??
+            name={"Kod pocztowy"}
+            employeeData={employeeData.jobDetails.jobStayAddress?.zip ??
               "Brak danych"}
           />
           <EmployeeDetailsProperty
             name={"Państwo"}
             employeeData={getCountryMapper(
-              employeeData.personalData.address2?.state2 ?? "Brak danych",
+              employeeData.jobDetails.jobStayAddress?.state ?? "Brak danych",
             )}
           />
           <EmployeeDetailsProperty
             name={"Województwo"}
             employeeData={getVoivodeshipMapper(
-              employeeData.personalData.address2?.voivodeship2 ??
+              employeeData.jobDetails.jobStayAddress?.voivodeship ??
                 "Brak danych",
             )}
           />
         </>
       </EmployeeDetailsFrame>
       <EmployeeDetailsFrame
-        title={"Historia zmian adresu korespondencyjnego"}
+        title={"Historia zmian adresu noclegu"}
         size={"2"}
       >
         <HistoryDisplayFrame
-          history={employeeData.personalData.address2?.address2History}
+          history={employeeData.jobDetails.jobStayAddress
+            ?.jobStayAddressHistory ?? []}
           expandedRows={expandedRows}
           toggleRow={toggleRow}
-          fields={address2HistoryFields}
+          fields={jobStayAddressHistoryFields}
         />
       </EmployeeDetailsFrame>
     </>

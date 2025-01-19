@@ -20,7 +20,11 @@ export default function App({ Component }: PageProps) {
       </head>
       <body>
         <LoginProvider authConfig={authConfig} apiConfig={apiConfig}>
-          <RootLayout authConfig={authConfig} appName={appName}>
+          <RootLayout
+            authConfig={authConfig}
+            apiConfig={apiConfig}
+            appName={appName}
+          >
             <Component />
           </RootLayout>
         </LoginProvider>

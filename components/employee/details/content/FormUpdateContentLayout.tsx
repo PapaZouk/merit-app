@@ -4,6 +4,7 @@ import EmployeeAddress2Frame from "./EmployeeAddress2Frame.tsx";
 import EmployeeSalaryFrame from "./EmployeeSalaryFrame.tsx";
 import EmployeeAddress1Frame from "./EmployeeAddress1Frame.tsx";
 import EmployeePersonalDataFrame from "./EmployeePersonalDataFrame.tsx";
+import EmployeeJobStayAddressFrame from "./EmployeeJobStayAddressFrame.tsx";
 
 type FormUpdateContentLayoutProps = {
   selectedSection: string;
@@ -50,6 +51,13 @@ export default function FormUpdateContentLayout({
       )}
       {selectedSection === "salary" && (
         <EmployeeSalaryFrame
+          employeeData={employeeData}
+          expandedRows={expandedRows}
+          toggleRow={toggleRow}
+        />
+      )}
+      {selectedSection === "jobStayAddress" && (
+        <EmployeeJobStayAddressFrame
           employeeData={employeeData}
           expandedRows={expandedRows}
           toggleRow={toggleRow}

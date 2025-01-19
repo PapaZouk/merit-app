@@ -12,6 +12,8 @@ import { validateAddress1Form } from "../validators/validateAddress1Form.ts";
 import { validateJobDetailsForm } from "../validators/validateJobDetailsForm.ts";
 import { validateSalaryForm } from "../validators/validateSalaryForm.ts";
 import { validateAddress2Form } from "../validators/validateAddress2Form.ts";
+import JobStayAddressForm from "./JobStayAddressFrom.tsx";
+import { validateJobStayAddressForm } from "../validators/validateJobStayAddressForm.ts";
 
 type PaginatedFormProps = {
   formData: EmployeeFormData;
@@ -34,6 +36,7 @@ const sections = [
   "address1",
   "address2",
   "jobDetails",
+  "jobStayAddress",
   "salary",
 ];
 
@@ -64,6 +67,9 @@ export default function PaginatedForm({
         newErrors = validateJobDetailsForm(formData);
         break;
       case 4:
+        newErrors = validateJobStayAddressForm(formData);
+        break;
+      case 5:
         newErrors = validateSalaryForm(formData);
         break;
     }
@@ -79,7 +85,9 @@ export default function PaginatedForm({
   };
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
 
-  const handleSaveButtonClick = (e: createElement.JSX.TargetedEvent<HTMLButtonElement, Event>) => {
+  const handleSaveButtonClick = (
+    e: createElement.JSX.TargetedEvent<HTMLButtonElement, Event>,
+  ) => {
     e.preventDefault();
     const salaryErrors = validateSalaryForm(formData);
     if (Object.keys(salaryErrors).length === 0) {
@@ -120,6 +128,13 @@ export default function PaginatedForm({
         />
       )}
       {currentPage === 4 && (
+        <JobStayAddressForm
+          formData={formData}
+          handleChange={handleChange}
+          errors={errors}
+        />
+      )}
+      {currentPage === 5 && (
         <SalaryForm
           formData={formData}
           handleChange={handleChange}
@@ -136,7 +151,7 @@ export default function PaginatedForm({
         >
           Wróć
         </button>
-        {currentPage !== 4
+        {currentPage !== 5
           ? (
             <button
               type="button"

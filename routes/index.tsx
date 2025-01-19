@@ -1,4 +1,4 @@
-import {getEmployees} from "../components/utils/api-client/client.ts";
+import {getEmployees} from "../components/utils/api-client/clients/employeeClient.ts";
 import {Employee} from "../components/utils/api-client/types/Employee.ts";
 import {getApiConfig} from "../components/utils/api-client/config/getApiConfig.ts";
 import {WidgetsLayout} from "../islands/layouts/WidgetsLayout.tsx";

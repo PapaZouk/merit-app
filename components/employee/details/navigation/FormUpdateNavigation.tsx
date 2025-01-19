@@ -1,5 +1,6 @@
 import { h } from "preact";
 import {
+  BedSingle,
   Briefcase,
   DollarSign,
   Home,
@@ -26,8 +27,11 @@ export default function FormUpdateNavigation(
       <MenuButton onClick={() => onSelect("address2")}>
         <Mail class="mr-2" /> Adres korespondencyjny
       </MenuButton>
-      <MenuButton onClick={() => onSelect("job")}>
+      <MenuButton onClick={() => onSelect("jobDetails")}>
         <Briefcase class="mr-2" /> Stanowisko
+      </MenuButton>
+      <MenuButton onClick={() => onSelect("jobStayAddress")}>
+        <BedSingle class="mr-2" /> Nocleg
       </MenuButton>
       <MenuButton onClick={() => onSelect("salary")}>
         <DollarSign class="mr-2" /> Wynagrodzenie

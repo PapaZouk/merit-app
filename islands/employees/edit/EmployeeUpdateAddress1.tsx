@@ -1,10 +1,13 @@
 import { useState } from "preact/hooks";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { updateEmployeeById } from "../../../components/utils/api-client/client.ts";
+import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import EmployeeAddress1Form from "../../../components/employee/forms/EmployeeAddress1Form.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
+import { addEventNotification } from "../../../components/utils/api-client/notifications/eventNotificationsClient.ts";
+import { useLogin } from "../../context/LoginProvider.tsx";
 
 type EmployeeUpdateAddress1Props = {
   employeeData: Employee;
@@ -27,6 +30,7 @@ export default function EmployeeUpdateAddress1({
     voivodeship1: employeeData.personalData.address1.voivodeship1,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -118,6 +122,21 @@ export default function EmployeeUpdateAddress1({
     await updateEmployeeById(
       updatedData._id,
       updatedData,
+      updateConfig.url,
+      updateConfig.token,
+    );
+
+    const eventNotificationRequest = createEventNotification(
+      userId,
+      "Zmiana danych adresowych",
+      `Dane adresowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
+      "HR",
+      user?.authId,
+      ["hr", "hrmanager"],
+    );
+
+    await addEventNotification(
+      eventNotificationRequest,
       updateConfig.url,
       updateConfig.token,
     );

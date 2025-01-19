@@ -1,6 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import TimesheetCalendar from "../../../../components/timesheet/overview/TimesheetCalendar.tsx";
-import { getTimesheetByEmployeeIdYearAndMonth } from "../../../../components/utils/api-client/client.ts";
+import {getTimesheetByEmployeeIdYearAndMonth} from "../../../../components/utils/api-client/clients/timesheetClient.ts";
 
 export default async function TimesheetByYearAndMonth(props: PageProps) {
   const url = new URL(props.url);

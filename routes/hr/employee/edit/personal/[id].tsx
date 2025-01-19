@@ -1,6 +1,6 @@
 import {PageProps} from "$fresh/server.ts";
 import {h} from "preact";
-import {getEmployeeById,} from "../../../../../components/utils/api-client/client.ts";
+import {getEmployeeById,} from "../../../../../components/utils/api-client/clients/employeeClient.ts";
 import {Employee} from "../../../../../components/utils/api-client/types/Employee.ts";
 import EmployeeUpdatePersonalData from "../../../../../islands/employees/edit/EmployeeUpdatePersonalData.tsx";
 import {getApiConfig} from "../../../../../components/utils/api-client/config/getApiConfig.ts";

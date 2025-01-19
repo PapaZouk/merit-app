@@ -1,23 +1,45 @@
-import { Bell, CircleUserRound, Mail } from "https://esm.sh/lucide-preact@latest";
+import {
+  Bell,
+  CircleUserRound,
+  Mail,
+} from "https://esm.sh/lucide-preact@latest";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useLogin } from "./context/LoginProvider.tsx";
 import { getAuthClient } from "../components/utils/auth/auth-client/authClient.ts";
 import { AuthConfig } from "./auth/getAuthConfig.ts";
 import { UserRoleEnum } from "../components/utils/auth/types/userRoles.ts";
+import { EventNotification } from "../components/utils/api-client/types/EventNotification.ts";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;
   authConfig: AuthConfig;
+  apiConfig: {
+    url: string;
+    token: string;
+  };
   appName: string;
+  userNotifications: EventNotification[];
 };
 
-export default function MainNavigation({ toggleSidebar, authConfig, appName }: MainNavigationProps) {
+export default function MainNavigation(
+  { toggleSidebar, authConfig, apiConfig, appName, userNotifications }:
+    MainNavigationProps,
+) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState<EventNotification[]>(
+    userNotifications,
+  );
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const { setUserRole } = useLogin();
+  const notificationMenuRef = useRef<HTMLDivElement>(null);
+  const { userId, setUserRole } = useLogin();
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
+  };
+
+  const toggleNotificationMenu = () => {
+    setIsNotificationOpen((prev) => !prev);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -27,18 +49,63 @@ export default function MainNavigation({ toggleSidebar, authConfig, appName }: M
     ) {
       setIsProfileOpen(false);
     }
+    if (
+      notificationMenuRef.current &&
+      !notificationMenuRef.current.contains(event.target as Node)
+    ) {
+      setIsNotificationOpen(false);
+    }
   };
 
   const onLogout = async (): Promise<void> => {
     try {
       await getAuthClient({ config: authConfig }).deleteSessions();
-      console.log('User logged out successfully');
+      console.log("User logged out successfully");
     } catch (error) {
-        console.error('Logout failed', error);
+      console.error("Logout failed", error);
     }
 
     setUserRole([UserRoleEnum.GUEST]);
-    globalThis.location.href = '/';
+    globalThis.location.href = "/";
+  };
+
+  const markNotificationAsRead = async (notification: EventNotification) => {
+    const notificationUpdateRequest = {
+      ...notification,
+      isRead: true,
+    };
+
+    try {
+      const response = await fetch(
+        `${apiConfig.url}/api/auth/notification/event/update/${notification.eventId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${apiConfig.token}`,
+          },
+          body: JSON.stringify(notificationUpdateRequest),
+        },
+      );
+
+      if (response.status === 200) {
+        console.log("Notification marked as read", response);
+        setNotifications((prev: EventNotification[]) =>
+          prev.map((n: EventNotification) =>
+            n.eventId === notification.eventId ? { ...n, isRead: true } : n
+          )
+        );
+        globalThis.location.reload();
+      } else {
+        throw new Error("Failed to mark notification as read");
+      }
+    } catch (error) {
+      console.error("Failed to mark notification as read", error);
+    }
+  };
+
+  const handleNotificationClick = (notification: EventNotification) => {
+    markNotificationAsRead(notification);
   };
 
   useEffect(() => {
@@ -83,7 +150,57 @@ export default function MainNavigation({ toggleSidebar, authConfig, appName }: M
         </span>
       </div>
       <div class="relative flex items-center ml-auto space-x-4">
-        <Bell size={24} class="text-gray-600 hover:text-gray-900" />
+        <button
+          onClick={toggleNotificationMenu}
+          class="relative flex items center"
+        >
+          <Bell size={24} class="text-gray-600 hover:text-gray-900" />
+          {userNotifications.length > 0 && (userNotifications.some((user) =>
+            !user.isRead
+          )) && (
+            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
+              {userNotifications.length}
+            </span>
+          )}
+        </button>
+        {isNotificationOpen && (
+          <div
+            ref={notificationMenuRef}
+            className="absolute top-full right-0 mt-2 w-72 bg-white text-gray-800 rounded-md shadow-lg"
+          >
+            <ul>
+              {userNotifications.slice(0, 5).map(
+                (notification: EventNotification) => {
+                  if (!notification.isRead) {
+                    return (
+                      <li
+                        key={notification.eventId}
+                        class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleNotificationClick(notification)}
+                      >
+                        <div>
+                          <h1 class="font-semibold">{notification.title}</h1>
+                          <p class="text-sm text-gray-600">
+                            {notification.description}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  } else {
+                    return null;
+                  }
+                },
+              )}
+              <li
+                class="px-4 py-2 text-center text-sm text-blue-500 hover:bg-blue-100 cursor-pointer font-semibold"
+                onClick={() =>
+                  globalThis.location.href = `/user/notifications/${userId}`}
+              >
+                Zobacz wszystkie
+              </li>
+            </ul>
+          </div>
+        )}
         <Mail size={24} class="text-gray-600 hover:text-gray-900" />
         <button onClick={toggleProfileMenu} class="flex items-center">
           <CircleUserRound
