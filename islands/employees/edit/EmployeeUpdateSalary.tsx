@@ -5,6 +5,10 @@ import { updateEmployeeById } from "../../../components/utils/api-client/clients
 import EmployeeSalaryForm from "../../../components/employee/forms/EmployeeSalaryForm.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
+import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import {useLogin} from "../../context/LoginProvider.tsx";
+import {useNotifications} from "../../context/NotificationsProvider.tsx";
 
 type EmployeeUpdateSalaryProps = {
   employeeData: Employee;
@@ -28,6 +32,8 @@ export default function EmployeeUpdateSalary(
     bankName: employeeData.jobDetails.salary.bankName,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
+  const { userId, user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -117,6 +123,17 @@ export default function EmployeeUpdateSalary(
       updateConfig.url,
       updateConfig.token,
     );
+
+    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
+        userId,
+        "Zmiana danych o wynagrodzeniu",
+        `Zaktualizowano dane o wynagrodzeniu pracownika: ${updatedData.personalData.firstName} ${updatedData.personalData.lastName}`,
+        "HR",
+        user?.authId,
+        ["hr", "manager"]
+        );
+
+    addNewEventNotification(eventNotificationRequest);
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };

@@ -78,17 +78,17 @@ export default function EventNotificationsOverview(
             disabled={currentPage === 1}
             class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
           >
-            Previous
+            Poprzednie
           </button>
           <span class="px-4 py-2">
-            Page {currentPage} of {totalPages}
+            Strona {currentPage} z {totalPages}
           </span>
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
             class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
           >
-            Next
+            Następne
           </button>
         </div>
       </div>

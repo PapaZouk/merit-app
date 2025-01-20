@@ -1,4 +1,5 @@
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
+import { useState } from 'preact/hooks';
 
 type NotificationCardProps = {
   notification: EventNotification;
@@ -18,6 +19,8 @@ const tagColors: { [key: string]: string } = {
 export default function NotificationCard(
   { notification, apiConfig }: NotificationCardProps,
 ) {
+  const [isChecked, setIsChecked] = useState<boolean>(notification.isRead);
+
   const headerBgColor = notification.tags.length > 0
     ? notification.isRead
       ? tagColors.default
@@ -53,7 +56,7 @@ export default function NotificationCard(
       );
 
       if (response.status === 200) {
-        console.log("Notification marked as read");
+        setIsChecked(true);
         globalThis.location.reload();
       } else {
         throw new Error("Failed to mark notification as read");
@@ -71,12 +74,13 @@ export default function NotificationCard(
         class={`flex items-center justify-between mb-2 p-2 rounded ${headerBgColor}`}
       >
         <h1 class="text-lg font-bold text-white">
-          {notification.title} {notification.isRead ? "(Przeczytane)" : ""}
+          {notification.title} {isChecked ? "(Przeczytane)" : ""}
         </h1>
         <input
           type="checkbox"
           class="form-checkbox h-5 w-5 text-blue-600"
-          disabled={notification.isRead}
+          checked={isChecked}
+          disabled={isChecked}
           onChange={handleCheckboxChange}
         />
       </div>

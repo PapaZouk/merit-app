@@ -15,6 +15,10 @@ import {
 } from "../../components/utils/auth/auth-client/authClient.ts";
 import { addUser } from "../../components/utils/api-client/clients/userClient.ts";
 import {jobTitles} from "../../components/employee/forms/utils/jobTitles.ts";
+import {EventNotificationCreateRequest} from "../../components/utils/api-client/types/EventNotification.ts";
+import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
+import {useLogin} from "../context/LoginProvider.tsx";
+import {useNotifications} from "../context/NotificationsProvider.tsx";
 
 type EmployeesManagerProps = {
   createConfig: {
@@ -32,6 +36,8 @@ export default function EmployeesManager(
   );
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { user } = useLogin();
+  const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -98,6 +104,17 @@ export default function EmployeesManager(
         createConfig.token,
       );
     }
+
+    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
+        userId,
+        "Dodano nowego pracownika",
+        `Dodano nowego pracownika: ${employeeFormData.firstName} ${employeeFormData.lastName}`,
+        "HR",
+        user?.authId,
+        ["hr", "manager"]
+    );
+
+    addNewEventNotification(eventNotificationRequest);
 
     setEmployeeFormData(initEmployeeFormData);
 

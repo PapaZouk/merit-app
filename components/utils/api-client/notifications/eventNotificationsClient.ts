@@ -5,9 +5,7 @@ export async function getEventNotificationsByUserId(
   url: string,
   token: string,
 ) {
-  console.log(`Fetching event notifications for user ${userId}`);
   const requestUrl = `${url}/api/auth/notification/event/${userId}`;
-  console.log(`Request URL: ${requestUrl}`);
 
   if (!userId) {
     return;

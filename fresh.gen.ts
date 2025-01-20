@@ -23,6 +23,7 @@ import * as $context_LoginProvider from "./islands/context/LoginProvider.tsx";
 import * as $context_NotificationsProvider from "./islands/context/NotificationsProvider.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
+import * as $employees_add_CreateNewEmployee from "./islands/employees/add/CreateNewEmployee.tsx";
 import * as $employees_edit_EmployeeUpdateAddress1 from "./islands/employees/edit/EmployeeUpdateAddress1.tsx";
 import * as $employees_edit_EmployeeUpdateAddress2 from "./islands/employees/edit/EmployeeUpdateAddress2.tsx";
 import * as $employees_edit_EmployeeUpdateJobDetails from "./islands/employees/edit/EmployeeUpdateJobDetails.tsx";
@@ -73,6 +74,8 @@ const manifest = {
       $context_NotificationsProvider,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,
+    "./islands/employees/add/CreateNewEmployee.tsx":
+      $employees_add_CreateNewEmployee,
     "./islands/employees/edit/EmployeeUpdateAddress1.tsx":
       $employees_edit_EmployeeUpdateAddress1,
     "./islands/employees/edit/EmployeeUpdateAddress2.tsx":
