@@ -7,7 +7,7 @@ import {
   TreePalm,
   User,
 } from "https://esm.sh/lucide-preact@latest";
-import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
+import { Days, Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { mapTotalBalance } from "../mappers/mapTotalBalance.tsx";
 import TimesheetCalendar from "../../../islands/timesheet/TimesheetCalendar.tsx";
@@ -63,7 +63,9 @@ export default function TimesheetOverviewTable(
             const employee = employees.find((emp: Employee) =>
               emp._id === timesheet.employeeId
             );
-            const totalHours = Number.parseFloat(timesheet.totalHours.$numberDecimal).toFixed(2);
+            const totalHours = Number.parseFloat(
+              timesheet.totalHours.$numberDecimal,
+            ).toFixed(2);
             const totalBalance = mapTotalBalance(
               timesheet.totalBalance.$numberDecimal,
             );
@@ -81,7 +83,10 @@ export default function TimesheetOverviewTable(
                   {timesheet.days.length}
                 </td>
                 <td class="py-2 px-4">
-                  {timesheet.days.filter((day) => day.dayOff.isDayOff).length}
+                  {timesheet.days.filter((day: Days) =>
+                    day.dayOff.isDayOff || day.dayOff.isHoliday ||
+                    day.sickLeave.isSickLeave
+                  ).length}
                 </td>
                 <td class="py-2 px-4">{totalHours}</td>
                 <td class="py-2 px-4">{totalBalance}</td>

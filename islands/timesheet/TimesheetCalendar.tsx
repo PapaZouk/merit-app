@@ -1,17 +1,16 @@
-import { h } from "preact";
-import { useState } from "preact/hooks";
-import { Timesheet } from "../../components/utils/api-client/types/Timesheet.ts";
+import {h} from "preact";
+import {useState} from "preact/hooks";
+import {Timesheet,} from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
 import BackButton from "../../components/buttons/BackButton.tsx";
-import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
+import {mapTimesheetMonth} from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 import Popup from "../../components/popup/popup.tsx";
-import { updateTimesheetByEmployeeId } from "../../components/utils/api-client/clients/timesheetClient.ts";
-import CloseButton from "../../components/buttons/CloseButton.tsx";
-import createTimesheetDayUpdateRequest from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
-import FormInput from "../../components/employee/forms/FormInput.tsx";
-import FormSelect from "../../components/employee/forms/FormSelect.tsx";
+import {updateTimesheetByEmployeeId} from "../../components/utils/api-client/clients/timesheetClient.ts";
+import createTimesheetDayUpdateRequest
+  from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
 import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
+import {isHolidayInPoland} from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
 
 type TimesheetCalendarProps = {
   employeeId: string;
@@ -111,8 +110,9 @@ export default function TimesheetCalendar(
       return;
     }
 
+    let dayUpdateRequest;
     if (formData.dayOffType) {
-      const dayUpdateRequest = createTimesheetDayUpdateRequest(
+      dayUpdateRequest = createTimesheetDayUpdateRequest(
         selectedTimesheet._id,
         employeeId,
         year,
@@ -124,39 +124,37 @@ export default function TimesheetCalendar(
         selectedDayOffType === "sickLeave",
         {
           isDayOff: selectedDayOffType === "paid" ||
-            selectedDayOffType === "unpaid",
+            selectedDayOffType === "unpaid" ||
+            selectedDayOffType === "maternityLeave" ||
+            selectedDayOffType === "occasionalLeave" ||
+            selectedDayOffType === "parentalLeave" ||
+            selectedDayOffType === "childcareLeave" ||
+            selectedDayOffType === "onDemand",
           isHoliday: selectedDayOffType === "bankHoliday",
           isPaid: selectedDayOffType === "paid",
           type: selectedDayOffType || "",
         },
       );
-
-      try {
-        await updateTimesheetByEmployeeId(
-          employeeId,
-          dayUpdateRequest,
-          apiConfig,
-        );
-        globalThis.location.reload();
-      } catch (error) {
-        console.error("Error while updating timesheet:", error);
-      } finally {
-        handlePopup();
-      }
-      return;
+    } else {
+      const holidayInPoland = isHolidayInPoland(year, month, selectedDay);
+      dayUpdateRequest = createTimesheetDayUpdateRequest(
+        selectedTimesheet?._id || "",
+        employeeId,
+        year,
+        month,
+        selectedDay,
+        holidayInPoland ? "08:00" : formData.checkin?.value,
+        holidayInPoland ? "16:00" : formData.checkout?.value,
+        selectedTimesheet,
+        false,
+        {
+          isDayOff: false,
+          isHoliday: holidayInPoland,
+          isPaid: false,
+          type: "",
+        },
+      );
     }
-
-    const dayUpdateRequest = createTimesheetDayUpdateRequest(
-      selectedTimesheet?._id || "",
-      employeeId,
-      year,
-      month,
-      selectedDay,
-      formData.checkin?.value,
-      formData.checkout?.value,
-      selectedTimesheet,
-      false,
-    );
 
     try {
       await updateTimesheetByEmployeeId(

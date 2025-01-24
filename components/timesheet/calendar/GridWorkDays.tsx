@@ -1,14 +1,9 @@
 import { h } from "preact";
-import {
-  CircleDollarSign,
-  CircleX,
-  Flag,
-  ShieldPlus,
-  SquarePlus,
-  Sun,
-  TreePalm,
-} from "https://esm.sh/lucide-preact@latest";
+import { Flag, SquarePlus, Sun } from "https://esm.sh/lucide-preact@latest";
 import getGridDayBackgroundColor from "./utils/getGridDayBackgroundColor.ts";
+import { mapDayOffTypeIcon } from "./utils/mapDayOffTypeIcon.tsx";
+import { mapDayOffPayType } from "./utils/mapDayOffPayType.tsx";
+import { isHolidayInPoland } from "./utils/isHolidayInPoland.ts";
 
 type GridWorkDaysProps = {
   firstDayOfMonth: number;
@@ -48,24 +43,18 @@ export default function GridWorkDays(
         </div>
       ))}
       {daysArray.map((day) => {
-        const {
-          hours,
-          balance,
-          isHoliday,
-          isDayOff,
-          isSickLeave,
-          dayOffType,
-        } = getDayData(day);
+        const dayData = getDayData(day);
 
-        const isWorkDay = hours > 0;
+        const isWorkDay = dayData.hours > 0;
         const isToday = currentDate.getFullYear() === year &&
           currentDate.getMonth() + 1 === month &&
           currentDate.getDate() === day;
         const dayOfWeek = (firstDayOfMonth + day - 1) % 7;
         const isWeekend = dayOfWeek === 5 || dayOfWeek === 6; // Saturday or Sunday
+        dayData.isHoliday = isHolidayInPoland(year, month, day);
 
         const bgColor = getGridDayBackgroundColor(
-          getDayData(day),
+          dayData,
           isToday,
           isWorkDay,
           isWeekend,
@@ -84,35 +73,23 @@ export default function GridWorkDays(
             </div>
             <div class="font-bold flex items-center justify-center mb-2">
               {day}
-              {dayOffType === "bankHoliday" && <Flag class="ml-1 w-4 h-4" />}
-              {isSickLeave && <ShieldPlus class="ml-1 w-4 h-4" />}
-              {(isHoliday && (
-                dayOffType !== "bankHoliday" && !isSickLeave && !isDayOff
-              )) && <TreePalm class="ml-1 w-4 h-4" />}
-              {(isDayOff && !isSickLeave && dayOffType !== "bankHoliday") &&
-                <Sun class="ml-1 w-4 h-4" />}
+              {!isWeekend && mapDayOffTypeIcon(dayData.dayOffType)}
+              {(dayData.isHoliday || dayData.dayOffType === "bankHoliday") &&
+                <Flag class="ml-1 w-4 h-4" />}
+              {isWeekend && <Sun class="ml-1 w-4 h-4" />}
             </div>
             <div class="flex-1">
-              <div class="text-xs sm:text-sm">Godzin: {hours}</div>
+              <div class="text-xs sm:text-sm">Godzin: {dayData.hours}</div>
               <div class="text-xs sm:text-sm">
                 Bilans:{" "}
                 <span
-                  class={`${balance < 0 ? "text-red-500" : "text-green-500"}`}
+                  class={`${dayData.balance < 0 ? "text-red-500" : "text-green-500"}`}
                 >
-                  {balance <= 0 ? "" : "+"}
-                  {balance}
+                  {dayData.balance <= 0 ? "" : "+"}
+                  {dayData.balance}
                 </span>
               </div>
-              {dayOffType === "paid" && (
-                <div class="flex items-center justify-center mt-1">
-                  <CircleDollarSign class="ml-1 w-4 h-4" />
-                </div>
-              )}
-              {dayOffType === "unpaid" && (
-                <div class="flex items center justify-center mt-1">
-                  <CircleX class="ml-1 w-4 h-4 text-gray-300" />
-                </div>
-              )}
+              {!isWeekend && mapDayOffPayType(dayData.dayOffType)}
             </div>
           </div>
         );

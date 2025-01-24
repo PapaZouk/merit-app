@@ -6,17 +6,17 @@ export interface Timesheet {
     employeeId: string;
     year: number;
     month: number;
-    totalHours: mongoose.Schema.Types.Decimal128;
-    totalBalance: mongoose.Schema.Types.Decimal128;
+    totalHours: mongoose.Schema.Types.Decimal128|string;
+    totalBalance: mongoose.Schema.Types.Decimal128|string;
     days: Days[];
 }
 
 export interface Days {
     day: number;
-    hours: mongoose.Schema.Types.Decimal128;
+    hours: mongoose.Schema.Types.Decimal128|string;
     checkIn: string;
     checkOut: string;
-    balance: mongoose.Schema.Types.Decimal128;
+    balance: mongoose.Schema.Types.Decimal128|string;
     dayOff: DayOff;
     sickLeave: SickLeave;
 }
