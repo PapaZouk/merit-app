@@ -31,3 +31,13 @@ export interface DayOff {
 export interface SickLeave {
     isSickLeave: boolean;
 }
+
+export interface TimesheetDayUpdateRequest {
+    _id: string;
+    employeeId: string;
+    year: number;
+    month: number;
+    totalHours: number;
+    totalBalance: number;
+    days: Days[];
+}

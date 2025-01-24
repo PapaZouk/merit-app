@@ -10,15 +10,19 @@ import {
 import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { mapTotalBalance } from "../mappers/mapTotalBalance.tsx";
-import TimesheetCalendar from "./TimesheetCalendar.tsx";
+import TimesheetCalendar from "../../../islands/timesheet/TimesheetCalendar.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];
   employees: Employee[];
+  apiConfig: {
+    url: string;
+    token: string;
+  };
 };
 
 export default function TimesheetOverviewTable(
-  { timesheet, employees }: TimesheetOverviewTableProps,
+  { timesheet, employees, apiConfig }: TimesheetOverviewTableProps,
 ): h.JSX.Element {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -59,7 +63,7 @@ export default function TimesheetOverviewTable(
             const employee = employees.find((emp: Employee) =>
               emp._id === timesheet.employeeId
             );
-            const totalHours = timesheet.totalHours.$numberDecimal;
+            const totalHours = Number.parseFloat(timesheet.totalHours.$numberDecimal).toFixed(2);
             const totalBalance = mapTotalBalance(
               timesheet.totalBalance.$numberDecimal,
             );
@@ -99,6 +103,8 @@ export default function TimesheetOverviewTable(
           timesheet={timesheet}
           year={selectedYear}
           month={selectedMonth}
+          employeeId={""}
+          apiConfig={apiConfig}
         />
       )}
     </div>

@@ -63,7 +63,7 @@ export default function Login(
               name={"login"}
               value={loginData.login}
               handleChange={handleChange}
-              className="w-full"
+              extraClass="w-full p-2"
               min={3}
               required={true}
               autoComplete={"username"}
@@ -76,7 +76,7 @@ export default function Login(
               name={"password"}
               value={loginData.password}
               handleChange={handleChange}
-              className="w-full"
+              extraClass="w-full p-2"
               min={8}
               required={true}
               autoComplete={"current-password"}

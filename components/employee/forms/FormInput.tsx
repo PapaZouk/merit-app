@@ -4,8 +4,8 @@ import FormLabel from "./FormLabel.tsx";
 type UpdateInputProps = {
   type: string;
   name: string;
-  value: string | number | undefined;
-  handleChange: (
+  value?: string | number | undefined;
+  handleChange?: (
     e: createElement.JSX.TargetedEvent<
       HTMLInputElement | HTMLSelectElement,
       Event
@@ -15,11 +15,13 @@ type UpdateInputProps = {
   pattern?: string;
   placeholder?: string;
   className?: string;
+  extraClass?: string;
   min?: string | number;
   max?: string | number;
   required?: boolean;
   error?: string;
   autoComplete?: string;
+  checked?: boolean;
 };
 
 export default function FormInput(
@@ -32,13 +34,17 @@ export default function FormInput(
     pattern,
     placeholder,
     className,
+    extraClass,
     min,
     max,
     required,
     error,
     autoComplete,
+    checked,
   }: UpdateInputProps,
 ) {
+  const labelStyle = "mt-1 block w-full rounded-md border-gray-300 shadow-sm " +
+    "focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2";
   return (
     <div>
       {(label && name) && <FormLabel htmlFor={name} text={label} />}
@@ -50,13 +56,16 @@ export default function FormInput(
         onChange={handleChange}
         class={className
           ? className
-          : "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"}
+          : extraClass
+          ? `${labelStyle} ${extraClass}`
+          : labelStyle}
         pattern={pattern}
         placeholder={placeholder}
         min={min}
         max={max}
         required={required ?? false}
         autoComplete={autoComplete}
+        checked={checked}
       />
       {error && (
         <p class="text-red-500 text-sm">

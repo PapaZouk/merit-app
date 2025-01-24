@@ -1,7 +1,10 @@
 import { h } from "preact";
 import {
+  CircleDollarSign,
+  CircleX,
   Flag,
   ShieldPlus,
+  SquarePlus,
   Sun,
   TreePalm,
 } from "https://esm.sh/lucide-preact@latest";
@@ -14,6 +17,7 @@ type GridWorkDaysProps = {
   year: number;
   month: number;
   getDayData: (day: number) => DayData;
+  onDaySelect: (day: number) => void;
 };
 
 type DayData = {
@@ -26,8 +30,15 @@ type DayData = {
 };
 
 export default function GridWorkDays(
-  { firstDayOfMonth, daysArray, currentDate, year, month, getDayData }:
-    GridWorkDaysProps,
+  {
+    firstDayOfMonth,
+    daysArray,
+    currentDate,
+    year,
+    month,
+    getDayData,
+    onDaySelect,
+  }: GridWorkDaysProps,
 ): h.JSX.Element {
   return (
     <div class="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-4">
@@ -63,8 +74,14 @@ export default function GridWorkDays(
         return (
           <div
             key={day}
-            class={`border p-2 text-center flex-1 ${bgColor} flex flex-col hover:bg-opacity-75 hover:shadow-md transition duration-200`}
+            class={`relative border p-2 text-center flex-1 ${bgColor} flex flex-col hover:bg-opacity-75 hover:shadow-md transition duration-200`}
           >
+            <div class="absolute top-1 right-1">
+              <SquarePlus
+                class="w-4 h-4 text-gray-600 hover:text-gray-900 cursor-pointer"
+                onClick={() => onDaySelect(day)}
+              />
+            </div>
             <div class="font-bold flex items-center justify-center mb-2">
               {day}
               {dayOffType === "bankHoliday" && <Flag class="ml-1 w-4 h-4" />}
@@ -79,13 +96,23 @@ export default function GridWorkDays(
               <div class="text-xs sm:text-sm">Godzin: {hours}</div>
               <div class="text-xs sm:text-sm">
                 Bilans:{" "}
-                <p
+                <span
                   class={`${balance < 0 ? "text-red-500" : "text-green-500"}`}
                 >
                   {balance <= 0 ? "" : "+"}
                   {balance}
-                </p>
+                </span>
               </div>
+              {dayOffType === "paid" && (
+                <div class="flex items-center justify-center mt-1">
+                  <CircleDollarSign class="ml-1 w-4 h-4" />
+                </div>
+              )}
+              {dayOffType === "unpaid" && (
+                <div class="flex items center justify-center mt-1">
+                  <CircleX class="ml-1 w-4 h-4 text-gray-300" />
+                </div>
+              )}
             </div>
           </div>
         );

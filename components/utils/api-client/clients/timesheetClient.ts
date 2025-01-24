@@ -57,3 +57,25 @@ export async function getTimesheetByEmployeeIdYearAndMonth(
 
     return response.json();
 }
+
+export async function updateTimesheetByEmployeeId(id: string, data: any, apiConfig?: { url: string; token: string }) {
+    if (!apiConfig) {
+        apiConfig = getApiConfig();
+    }
+
+    const { url, token } = apiConfig;
+    const response = await fetch(`${url}/api/auth/timesheet/employee/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update timesheet");
+    }
+
+    return response.json();
+}

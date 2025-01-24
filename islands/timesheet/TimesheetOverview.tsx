@@ -9,10 +9,14 @@ import TimesheetOverviewTable from "../../components/timesheet/overview/Timeshee
 type TimesheetOverviewProps = {
   timesheet: Timesheet[];
   employees: Employee[];
+  apiConfig: {
+    url: string;
+    token: string;
+  };
 };
 
 export default function TimesheetOverview(
-  { timesheet, employees }: TimesheetOverviewProps,
+  { timesheet, employees, apiConfig }: TimesheetOverviewProps,
 ): h.JSX.Element {
   const [selectedYear, setSelectedYear] = useState<number | null>(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState<number | null>(new Date().getMonth() + 1);
@@ -57,6 +61,7 @@ export default function TimesheetOverview(
         <TimesheetOverviewTable
           timesheet={filteredTimesheet}
           employees={employees}
+          apiConfig={apiConfig}
         />
       )}
     </div>

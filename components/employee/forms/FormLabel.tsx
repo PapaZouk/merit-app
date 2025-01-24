@@ -7,7 +7,7 @@ export default function FormLabel({ htmlFor, text }: UpdateLabelProps) {
     return (
         <label
             htmlFor={htmlFor}
-            class="block text-sm font-medium text-gray-700 mb-2"
+            class="block text-sm font-medium text-gray-700 mb-4"
         >
             {text}
         </label>

@@ -37,6 +37,7 @@ import * as $mainNavigation from "./islands/mainNavigation.tsx";
 import * as $notifications_event_EventNotifications from "./islands/notifications/event/EventNotifications.tsx";
 import * as $sidebar from "./islands/sidebar.tsx";
 import * as $tables_employeesTable from "./islands/tables/employeesTable.tsx";
+import * as $timesheet_TimesheetCalendar from "./islands/timesheet/TimesheetCalendar.tsx";
 import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
 import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
 import * as $widgets_FinWidgets from "./islands/widgets/FinWidgets.tsx";
@@ -96,6 +97,7 @@ const manifest = {
       $notifications_event_EventNotifications,
     "./islands/sidebar.tsx": $sidebar,
     "./islands/tables/employeesTable.tsx": $tables_employeesTable,
+    "./islands/timesheet/TimesheetCalendar.tsx": $timesheet_TimesheetCalendar,
     "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,
     "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,
     "./islands/widgets/FinWidgets.tsx": $widgets_FinWidgets,
