@@ -1,10 +1,11 @@
-import {Account} from "npm:appwrite";
+import {Account, Permission, Role} from "npm:appwrite";
 
 export default async function createUserAccount(
   request: {
     email: string;
     password: string;
-    userId: string,
+    userId: string;
+    role: string;
   },
   authClient: Account,
 ) {
@@ -14,6 +15,9 @@ export default async function createUserAccount(
       request.email,
       request.password,
     );
+    result.labels = [request.role];
+
+    Permission.update(Role.user(result.$id, request.role));
 
     return result.$id;
   } catch (error) {

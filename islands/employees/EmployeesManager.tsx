@@ -7,23 +7,15 @@ import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";
 import {getAuthClient,} from "../../components/utils/auth/auth-client/authClient.ts";
-import {addUser} from "../../components/utils/api-client/clients/userClient.ts";
-import {jobTitles} from "../../components/employee/forms/utils/jobTitles.ts";
 import {EventNotificationCreateRequest} from "../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
 import {useLogin} from "../../components/context/LoginProvider.tsx";
 import {useNotifications} from "../../components/context/NotificationsProvider.tsx";
+import {
+  mapEmployeeFormDataToUserRole
+} from "../../components/utils/api-client/mappers/mapEmployeeFormDataToUserRole.ts";
 
-type EmployeesManagerProps = {
-  createConfig: {
-    url: string;
-    token: string;
-  };
-};
-
-export default function EmployeesManager(
-  { createConfig }: EmployeesManagerProps,
-) {
+export default function EmployeesManager() {
   const [employeeFormData, setEmployeeFormData] = useState<EmployeeFormData>(
     initEmployeeFormData,
   );
@@ -77,14 +69,18 @@ export default function EmployeesManager(
     const employeeResponseBody = await employeeResponse.json();
 
     let userId = null;
+    let role = null;
     if (!employeeResponseBody.id) {
       throw new Error("Error: no employee response found");
     } else {
+      role = mapEmployeeFormDataToUserRole(employeeFormData);
+
       userId = await createUserAccount(
         {
           email: employeeFormData.email,
           password: "password",
           userId: employeeResponseBody.id,
+          role: role,
         },
         getAuthClient(),
       );
@@ -94,16 +90,16 @@ export default function EmployeesManager(
       await deleteEmployeeById(employeeResponseBody.id);
       throw new Error("Error: no user ID found. Failed to create user account");
     } else {
-      const role = employeeFormData.jobTitle === jobTitles[4].value ? "hrmanager" : "hremployee";
-
-      await addUser(
-        {
-          authId: userId,
-          roles: ["guest", role],
+      await fetch('/api/users/add/user', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        createConfig.url,
-        createConfig.token,
-      );
+        body: JSON.stringify({
+          authId: userId,
+          roles: [role],
+        }),
+      })
     }
 
     const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(

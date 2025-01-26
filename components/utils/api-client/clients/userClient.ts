@@ -1,7 +1,12 @@
+import { getApiConfig } from "../config/getApiConfig.ts";
+
+type AddUserRequest = {
+  authId: string | undefined;
+  roles: string[];
+};
+
 export async function addUser(
-  user: { authId: string | undefined; roles: string[] },
-  url: string,
-  token: string,
+  user: AddUserRequest,
 ) {
   if (!user.authId || user.authId === "") {
     throw new Error("User authId is required");
@@ -11,6 +16,7 @@ export async function addUser(
     throw new Error("User roles are required");
   }
 
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/user/add/`, {
     method: "POST",
     headers: {

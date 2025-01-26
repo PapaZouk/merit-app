@@ -9,8 +9,11 @@ export type UserRole =
 
 export enum UserRoleEnum {
   ADMIN = "admin",
+  MANAGER = "manager",
   HR_MANAGER = "hrmanager",
   HR_EMPLOYEE = "hremployee",
+  MARKETING_SPECIALIST = "marketingspecialist",
+  SALES_MANAGER = "salesmanager",
   FINANCE_MANAGER = "finmanager",
   OFFICE_MANAGER = "officemanager",
   USER = "user",

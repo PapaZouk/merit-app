@@ -1,30 +1,32 @@
+import {EmployeeJobTitle} from "../types/EmployeeJobTitle.ts";
+
 export function getJobTitle(title: string) {
   switch (title.toLowerCase()) {
-    case "ceo":
+    case EmployeeJobTitle.CEO:
       return "Prezes Zarządu";
-    case "cto":
+    case EmployeeJobTitle.CTO:
       return "Dyrektor Techniczny";
-    case "coo":
+    case EmployeeJobTitle.COO:
       return "Dyrektor Operacyjny";
-    case "cfo":
+    case EmployeeJobTitle.CFO:
       return "Dyrektor Finansowy";
-    case "hr-manager":
+    case EmployeeJobTitle.HR_MANAGER:
       return "Kierownik HR";
-    case "sales-manager":
+    case EmployeeJobTitle.SALES_MANAGER:
       return "Kierownik Sprzedaży";
-    case "marketing-specialist":
+    case EmployeeJobTitle.MARKETING_SPECIALIST:
       return "Specjalista Marketingu";
-    case "accountant":
+    case EmployeeJobTitle.ACCOUNTANT:
       return "Księgowy";
-    case "assistant":
+    case EmployeeJobTitle.ASSISTANT:
       return "Asystent";
-    case "manager":
+    case EmployeeJobTitle.MANAGER:
       return "Manager";
-    case "coordinator":
+    case EmployeeJobTitle.COORDINATOR:
       return "Koordynator";
-    case "tinsmith":
+    case EmployeeJobTitle.TINSMITH:
       return "Blacharz";
-    case "fitter":
+    case EmployeeJobTitle.FITTER:
       return "Monter";
     default:
       return "Inne";

@@ -1,0 +1,15 @@
+export const enum EmployeeJobTitle {
+    CEO = "ceo",
+    CTO = "cto",
+    COO = "coo",
+    CFO = "cfo",
+    HR_MANAGER = "hr-manager",
+    SALES_MANAGER = "sales-manager",
+    MARKETING_SPECIALIST = "marketing-specialist",
+    ACCOUNTANT = "accountant",
+    ASSISTANT = "assistant",
+    MANAGER = "manager",
+    COORDINATOR = "coordinator",
+    TINSMITH = "tinsmith",
+    FITTER = "fitter",
+}

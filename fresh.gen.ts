@@ -13,6 +13,7 @@ import * as $api_employees_update_id_ from "./routes/api/employees/update/[id].t
 import * as $api_notifications_userId_ from "./routes/api/notifications/[userId].tsx";
 import * as $api_notifications_add_notification from "./routes/api/notifications/add/notification.tsx";
 import * as $api_notifications_update_notification from "./routes/api/notifications/update/notification.tsx";
+import * as $api_users_add_user from "./routes/api/users/add/user.tsx";
 import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
 import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
 import * as $hr_employee_edit_address2_id_ from "./routes/hr/employee/edit/address2/[id].tsx";
@@ -66,6 +67,7 @@ const manifest = {
       $api_notifications_add_notification,
     "./routes/api/notifications/update/notification.tsx":
       $api_notifications_update_notification,
+    "./routes/api/users/add/user.tsx": $api_users_add_user,
     "./routes/hr/employee/[id].tsx": $hr_employee_id_,
     "./routes/hr/employee/edit/address1/[id].tsx":
       $hr_employee_edit_address1_id_,
