@@ -1,7 +1,7 @@
-import { useLogin } from "../context/LoginProvider.tsx";
 import { useEffect, useState } from "preact/hooks";
 import FormInput from "../../components/employee/forms/FormInput.tsx";
-import { AuthConfig } from "./getAuthConfig.ts";
+import { AuthConfig } from "../../components/utils/auth/auth-client/getAuthConfig.ts";
+import {useLogin} from "../../components/context/LoginProvider.tsx";
 
 type LoginProps = {
   loginData: {

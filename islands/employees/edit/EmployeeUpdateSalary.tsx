@@ -7,8 +7,8 @@ import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
-import {useLogin} from "../../context/LoginProvider.tsx";
-import {useNotifications} from "../../context/NotificationsProvider.tsx";
+import {useLogin} from "../../../components/context/LoginProvider.tsx";
+import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
 
 type EmployeeUpdateSalaryProps = {
   employeeData: Employee;

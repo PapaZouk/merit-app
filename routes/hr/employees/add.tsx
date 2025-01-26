@@ -1,7 +1,7 @@
 import {getApiConfig} from "../../../components/utils/api-client/config/getApiConfig.ts";
-import {getAuthConfig} from "../../../islands/auth/getAuthConfig.ts";
-import {LoginProvider} from "../../../islands/context/LoginProvider.tsx";
+import {getAuthConfig} from "../../../components/utils/auth/auth-client/getAuthConfig.ts";
 import CreateNewEmployee from "../../../islands/employees/add/CreateNewEmployee.tsx";
+import {LoginProvider} from "../../../components/context/LoginProvider.tsx";
 
 export default function AddEmployeePage() {
   const apiConfig = getApiConfig();

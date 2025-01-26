@@ -4,12 +4,11 @@ import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import EmployeeJobDetailsForm from "../../../components/employee/forms/EmployeeJobDetailsForm.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
-import Popup from "../../../components/popup/popup.tsx";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
-import { useLogin } from "../../context/LoginProvider.tsx";
-import { useNotifications } from "../../context/NotificationsProvider.tsx";
 import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
+import {useLogin} from "../../../components/context/LoginProvider.tsx";
+import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
 
 type EmployeeUpdateSalaryProps = {
   employeeData: Employee;

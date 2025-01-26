@@ -17,8 +17,8 @@ import { addUser } from "../../components/utils/api-client/clients/userClient.ts
 import {jobTitles} from "../../components/employee/forms/utils/jobTitles.ts";
 import {EventNotificationCreateRequest} from "../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../context/LoginProvider.tsx";
-import {useNotifications} from "../context/NotificationsProvider.tsx";
+import {useLogin} from "../../components/context/LoginProvider.tsx";
+import {useNotifications} from "../../components/context/NotificationsProvider.tsx";
 
 type EmployeesManagerProps = {
   createConfig: {

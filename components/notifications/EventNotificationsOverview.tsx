@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useState } from "preact/hooks";
 import NotificationCard from "./NotificationCard.tsx";
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
-import { useNotifications } from "../../islands/context/NotificationsProvider.tsx";
+import {useNotifications} from "../context/NotificationsProvider.tsx";
 
 type EventNotificationsOverviewProps = {
   apiConfig: {

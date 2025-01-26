@@ -3,9 +3,9 @@ import { getEmployeeById } from "../../../../../components/utils/api-client/clie
 import { Employee } from "../../../../../components/utils/api-client/types/Employee.ts";
 import { getApiConfig } from "../../../../../components/utils/api-client/config/getApiConfig.ts";
 import EmployeeUpdateJobDetails from "../../../../../islands/employees/edit/EmployeeUpdateJobDetails.tsx";
-import { getAuthConfig } from "../../../../../islands/auth/getAuthConfig.ts";
-import { LoginProvider } from "../../../../../islands/context/LoginProvider.tsx";
-import { NotificationsProvider } from "../../../../../islands/context/NotificationsProvider.tsx";
+import { getAuthConfig } from "../../../../../components/utils/auth/auth-client/getAuthConfig.ts";
+import {LoginProvider} from "../../../../../components/context/LoginProvider.tsx";
+import {NotificationsProvider} from "../../../../../components/context/NotificationsProvider.tsx";
 
 export default async function EditEmployeeJobDetails(pageProps: PageProps) {
   const pathElements = new URL(pageProps.url).pathname.split("/").filter(

@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
-import { useLogin } from "../context/LoginProvider.tsx";
+import { useLogin } from "../../components/context/LoginProvider.tsx";
 import { HrWidgets } from "../widgets/HrWidgets.tsx";
 import { FinWidgets } from "../widgets/FinWidgets.tsx";
 import { AdminWidgets } from "../widgets/AdminWidgets.tsx";

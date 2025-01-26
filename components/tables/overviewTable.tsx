@@ -2,9 +2,9 @@ import { Employee } from "../utils/api-client/types/Employee.ts";
 import CheckButton from "../buttons/CheckButton.tsx";
 import { getJobTitle } from "../employee/mappers/getJobTitleMapper.ts";
 import { getDepartment } from "../employee/mappers/getDepartmentMapper.ts";
-import { useLogin } from "../../islands/context/LoginProvider.tsx";
 import { UserRoleEnum } from "../utils/auth/types/userRoles.ts";
 import DeleteButton from "../buttons/DeleteButton.tsx";
+import {useLogin} from "../context/LoginProvider.tsx";
 
 type OverviewTableProps = {
   employees: Employee[];

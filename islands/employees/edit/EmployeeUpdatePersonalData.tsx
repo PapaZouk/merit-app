@@ -3,13 +3,12 @@ import { Employee } from "../../../components/utils/api-client/types/Employee.ts
 import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useState } from "preact/hooks";
-import Popup from "../../../components/popup/popup.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
-import { useLogin } from "../../context/LoginProvider.tsx";
-import { useNotifications } from "../../context/NotificationsProvider.tsx";
 import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
+import {useLogin} from "../../../components/context/LoginProvider.tsx";
+import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
 
 type EmployeeUpdateProps = {
   employeeData: Employee;

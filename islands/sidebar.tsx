@@ -13,11 +13,11 @@ import {
 import SubMenuLink from "../components/sidebar/subMenuLink.tsx";
 import SectionElement from "../components/sidebar/sectionElement.tsx";
 import Section from "../components/sidebar/section.tsx";
-import { useLogin } from "./context/LoginProvider.tsx";
 import {
   UserRole,
   UserRoleEnum,
 } from "../components/utils/auth/types/userRoles.ts";
+import {useLogin} from "../components/context/LoginProvider.tsx";
 
 type SidebarProps = {
   isSidebarOpen: boolean;

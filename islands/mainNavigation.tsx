@@ -4,12 +4,12 @@ import {
   Mail,
 } from "https://esm.sh/lucide-preact@latest";
 import { useEffect, useRef, useState } from "preact/hooks";
-import { useLogin } from "./context/LoginProvider.tsx";
 import { getAuthClient } from "../components/utils/auth/auth-client/authClient.ts";
-import { AuthConfig } from "./auth/getAuthConfig.ts";
+import { AuthConfig } from "../components/utils/auth/auth-client/getAuthConfig.ts";
 import { UserRoleEnum } from "../components/utils/auth/types/userRoles.ts";
-import { useNotifications } from "./context/NotificationsProvider.tsx";
 import { EventNotification } from "../components/utils/api-client/types/EventNotification.ts";
+import {useNotifications} from "../components/context/NotificationsProvider.tsx";
+import {useLogin} from "../components/context/LoginProvider.tsx";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;

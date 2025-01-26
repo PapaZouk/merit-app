@@ -1,8 +1,8 @@
 import { type PageProps } from "$fresh/server.ts";
 import RootLayout from "../islands/layouts/RootLayout.tsx";
-import { LoginProvider } from "../islands/context/LoginProvider.tsx";
-import { getAuthConfig } from "../islands/auth/getAuthConfig.ts";
+import { getAuthConfig } from "../components/utils/auth/auth-client/getAuthConfig.ts";
 import { getApiConfig } from "../components/utils/api-client/config/getApiConfig.ts";
+import {LoginProvider} from "../components/context/LoginProvider.tsx";
 
 export default function App({ Component }: PageProps) {
   const appName = Deno.env.get("APP_NAME") || "";

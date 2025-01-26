@@ -1,8 +1,8 @@
 import {h} from "preact";
-import {LoginProvider, useLogin} from "../../context/LoginProvider.tsx";
-import {AuthConfig} from "../../auth/getAuthConfig.ts";
-import {NotificationsProvider} from "../../context/NotificationsProvider.tsx";
+import {AuthConfig} from "../../../components/utils/auth/auth-client/getAuthConfig.ts";
 import EventNotificationsOverview from "../../../components/notifications/EventNotificationsOverview.tsx";
+import {LoginProvider, useLogin} from "../../../components/context/LoginProvider.tsx";
+import {NotificationsProvider} from "../../../components/context/NotificationsProvider.tsx";
 
 type EventNotificationsProps = {
   authConfig: AuthConfig;

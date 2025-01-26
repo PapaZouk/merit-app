@@ -17,10 +17,7 @@ import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id]
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
-import * as $auth_getAuthConfig from "./islands/auth/getAuthConfig.ts";
 import * as $auth_login from "./islands/auth/login.tsx";
-import * as $context_LoginProvider from "./islands/context/LoginProvider.tsx";
-import * as $context_NotificationsProvider from "./islands/context/NotificationsProvider.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
 import * as $employees_add_CreateNewEmployee from "./islands/employees/add/CreateNewEmployee.tsx";
@@ -31,6 +28,7 @@ import * as $employees_edit_EmployeeUpdateJobStayAddress from "./islands/employe
 import * as $employees_edit_EmployeeUpdatePersonalData from "./islands/employees/edit/EmployeeUpdatePersonalData.tsx";
 import * as $employees_edit_EmployeeUpdateSalary from "./islands/employees/edit/EmployeeUpdateSalary.tsx";
 import * as $employees_employeeDetails from "./islands/employees/employeeDetails.tsx";
+import * as $layouts_PageContent from "./islands/layouts/PageContent.tsx";
 import * as $layouts_RootLayout from "./islands/layouts/RootLayout.tsx";
 import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
@@ -68,11 +66,7 @@ const manifest = {
     "./routes/user/notifications/[id].tsx": $user_notifications_id_,
   },
   islands: {
-    "./islands/auth/getAuthConfig.ts": $auth_getAuthConfig,
     "./islands/auth/login.tsx": $auth_login,
-    "./islands/context/LoginProvider.tsx": $context_LoginProvider,
-    "./islands/context/NotificationsProvider.tsx":
-      $context_NotificationsProvider,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,
     "./islands/employees/add/CreateNewEmployee.tsx":
@@ -90,6 +84,7 @@ const manifest = {
     "./islands/employees/edit/EmployeeUpdateSalary.tsx":
       $employees_edit_EmployeeUpdateSalary,
     "./islands/employees/employeeDetails.tsx": $employees_employeeDetails,
+    "./islands/layouts/PageContent.tsx": $layouts_PageContent,
     "./islands/layouts/RootLayout.tsx": $layouts_RootLayout,
     "./islands/layouts/WidgetsLayout.tsx": $layouts_WidgetsLayout,
     "./islands/mainNavigation.tsx": $mainNavigation,

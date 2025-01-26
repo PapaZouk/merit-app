@@ -1,7 +1,7 @@
-import {NotificationsProvider} from "../../context/NotificationsProvider.tsx";
 import EmployeesManager from "../EmployeesManager.tsx";
-import {AuthConfig} from "../../auth/getAuthConfig.ts";
-import {useLogin} from "../../context/LoginProvider.tsx";
+import {AuthConfig} from "../../../components/utils/auth/auth-client/getAuthConfig.ts";
+import {NotificationsProvider} from "../../../components/context/NotificationsProvider.tsx";
+import {useLogin} from "../../../components/context/LoginProvider.tsx";
 
 type CreateNewEmployeeProps = {
     apiConfig: {

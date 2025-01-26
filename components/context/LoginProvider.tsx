@@ -1,14 +1,15 @@
 import {createContext, h} from "preact";
+import {Signal, useSignal} from "@preact/signals";
 import {useContext, useEffect, useState} from "preact/hooks";
-import {UserRole, UserRoleEnum,} from "../../components/utils/auth/types/userRoles.ts";
-import {AuthClientConfig, getAuthClient,} from "../../components/utils/auth/auth-client/authClient.ts";
-import {AuthConfig} from "../auth/getAuthConfig.ts";
-import {getUserByAuthId} from "../../components/utils/api-client/clients/userClient.ts";
-import {User} from "../../components/utils/api-client/types/User.ts";
+import {UserRole, UserRoleEnum} from "../utils/auth/types/userRoles.ts";
+import {AuthClientConfig, getAuthClient,} from "../utils/auth/auth-client/authClient.ts";
+import {getUserByAuthId} from "../utils/api-client/clients/userClient.ts";
+import {User} from "../utils/api-client/types/User.ts";
+import {AuthConfig} from "../utils/auth/auth-client/getAuthConfig.ts";
 
 type LoginContextProps = {
-  userId: string|null;
-  user: User|null;
+  userId: string | null;
+  user: User | null;
   userRoles: UserRole[] | string[];
   setUserRole: (roles: UserRole[]) => void;
   isLoggedIn: () => boolean;
@@ -36,33 +37,32 @@ type LoginProviderProps = {
 export const LoginProvider = (
   { children, authConfig, apiConfig }: LoginProviderProps,
 ) => {
-  const [userId, setUserId] = useState<string|null>(null);
-  const [user, setUser] = useState<User|null>(null);
-  const [userRoles, setUserRoles] = useState<UserRole[] | string[]>([
+  const userId: Signal<string | null> = useSignal<string | null>(null);
+  const user: Signal<User | null> = useSignal<User | null>(null);
+  const userRoles: Signal<UserRole[]|string[]> = useSignal<UserRole[] | string[]>([
     UserRoleEnum.GUEST,
   ]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [loginError, setLoginError] = useState<boolean>(false);
+  const isLoading: Signal<boolean> = useSignal<boolean>(true);
+  const loginError: Signal<boolean> = useSignal<boolean>(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const user = await getAuthClient({ config: authConfig }).get();
+        const userResponse = await getAuthClient({ config: authConfig }).get();
 
         const userByAuthId = await getUserByAuthId(
-          user.$id,
+          userResponse.$id,
           apiConfig.url,
           apiConfig.token,
         );
-        setUser(userByAuthId.result);
-        setUserId(user.$id);
+        user.value = userByAuthId.result;
+        userId.value = userResponse.$id;
 
-        const roles = userByAuthId.result.roles;
-        setUserRoles(roles);
+        userRoles.value = userByAuthId.result.roles;
       } catch (_error) {
-        setUserRoles([UserRoleEnum.GUEST]);
+        userRoles.value = [UserRoleEnum.GUEST];
       } finally {
-        setIsLoading(false);
+        isLoading.value = false;
       }
     };
 
@@ -70,8 +70,8 @@ export const LoginProvider = (
   }, []);
 
   const isLoggedIn = (): boolean => {
-    return !(userRoles.length === 0 ||
-      (userRoles.length === 1 && userRoles[0] === UserRoleEnum.GUEST));
+    return !(userRoles.value.length === 0 ||
+      (userRoles.value.length === 1 && userRoles.value[0] === UserRoleEnum.GUEST));
   };
 
   const handleLogin = async (
@@ -83,47 +83,49 @@ export const LoginProvider = (
       await getAuthClient(config).createEmailPasswordSession(login, password);
       const user = await getAuthClient(config).get();
 
-
       const userByAuthId = await getUserByAuthId(
-          user.$id,
-          apiConfig.url,
-          apiConfig.token,
+        user.$id,
+        apiConfig.url,
+        apiConfig.token,
       );
 
-      const roles = userByAuthId.result.roles;
-      setUserRoles(roles);
-      setLoginError(false);
+      userRoles.value = userByAuthId.result.roles;
+      loginError.value = false;
     } catch (e) {
       console.error("Error during login:", e);
-      setLoginError(true);
+      loginError.value = true;
       setTimeout(() => {
-        setLoginError(false);
+        loginError.value = false;
       }, 3000);
-      setUserRoles([UserRoleEnum.GUEST]);
+      userRoles.value = [UserRoleEnum.GUEST];
     }
   };
 
   const handleLogout = async () => {
     try {
       await getAuthClient({ config: authConfig }).deleteSessions();
-      setUserRoles([UserRoleEnum.GUEST]);
+      userRoles.value = [UserRoleEnum.GUEST];
     } catch (error) {
       console.error("Failed to logout:", error);
     }
   };
 
+  const setUserRoles = (roles: UserRole[]) => {
+    userRoles.value = roles;
+  }
+
   return (
     <LoginContext.Provider
       value={{
-        userId: userId,
-        user: user,
-        userRoles: userRoles,
+        userId: userId.value,
+        user: user.value,
+        userRoles: userRoles.value,
         setUserRole: setUserRoles,
         isLoggedIn,
         handleLogin,
         handleLogout,
-        isLoading,
-        loginError,
+        isLoading: isLoading.value,
+        loginError: loginError.value,
       }}
     >
       {children}
