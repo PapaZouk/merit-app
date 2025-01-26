@@ -1,4 +1,4 @@
-import {Account, ID} from "npm:appwrite";
+import {Account} from "npm:appwrite";
 
 export default async function createUserAccount(
   request: {

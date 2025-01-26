@@ -1,29 +1,23 @@
-import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { useState } from "preact/hooks";
-import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
+import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
+import {useEffect, useState} from "preact/hooks";
+import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import EmployeeJobDetailsForm from "../../../components/employee/forms/EmployeeJobDetailsForm.tsx";
-import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
+import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 import {useLogin} from "../../../components/context/LoginProvider.tsx";
 import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
+import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
 
 type EmployeeUpdateSalaryProps = {
-  employeeData: Employee;
-  updateConfig: {
-    url: string;
-    token: string;
-  };
+  employeeId: string;
 };
 
 export default function EmployeeUpdateSalary(
-  {
-    employeeData,
-    updateConfig,
-  }: EmployeeUpdateSalaryProps,
+  { employeeId }: EmployeeUpdateSalaryProps,
 ) {
+  const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployeeData);
   const [formData, setFormData] = useState({
     status: employeeData.jobDetails.status,
     jobTitle: employeeData.jobDetails.jobTitle,
@@ -38,6 +32,42 @@ export default function EmployeeUpdateSalary(
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const { userId, user } = useLogin();
   const { addNewEventNotification } = useNotifications();
+
+  useEffect(() => {
+    if (!employeeId) {
+      throw new Error("Missing employeeId");
+    }
+
+    async function fetchEmployee() {
+      const response = await fetch(`/api/employees/${employeeId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch employee");
+        return;
+      }
+
+      const responseBody = await response.json();
+      setEmployeeData(responseBody.result);
+      setFormData({
+        status: responseBody.result.jobDetails.status,
+        jobTitle: responseBody.result.jobDetails.jobTitle,
+        department: responseBody.result.jobDetails.department,
+        startDate: responseBody.result.jobDetails.startDate,
+        endDate: responseBody.result.jobDetails.endDate,
+        contractType: responseBody.result.jobDetails.contractType,
+        workSchedule: responseBody.result.jobDetails.workSchedule,
+        insuranceType: responseBody.result.jobDetails.insuranceType,
+        annualLeaveDays: responseBody.result.jobDetails.annualLeaveDays,
+      });
+    }
+
+    fetchEmployee();
+  }, []);
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -135,21 +165,23 @@ export default function EmployeeUpdateSalary(
       },
     };
 
-    await updateEmployeeById(
-      updatedData._id,
-      updatedData,
-      updateConfig.url,
-      updateConfig.token,
-    );
+    await fetch(`/api/employees/update/${updatedData._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
 
-    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
-      userId,
-      "Zmiana danych zawodowych",
-      `Dane zawodowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
-      "HR",
-      user?.authId,
-      ["hr", "hrmanager"],
-    );
+    const eventNotificationRequest: EventNotificationCreateRequest =
+      createEventNotification(
+        userId,
+        "Zmiana danych zawodowych",
+        `Dane zawodowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+        "HR",
+        user?.authId,
+        ["hr", "hrmanager"],
+      );
 
     addNewEventNotification(eventNotificationRequest);
 

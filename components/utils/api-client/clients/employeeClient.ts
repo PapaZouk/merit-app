@@ -87,11 +87,9 @@ export async function getEmployeeById(id: string) {
 
 export async function updateEmployeeById(
   id: string,
-  employeeData: Employee,
-  url: string,
-  token: string,
+  employeeData: Employee
 ) {
-  console.log("Requesting update employee with ID: ", id);
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/employee/update/${id}`, {
     method: "PUT",
     headers: {
@@ -108,12 +106,8 @@ export async function updateEmployeeById(
   return response.json();
 }
 
-export async function addEmployee(
-  employeeData: Employee,
-  url: string,
-  token: string,
-) {
-  console.log("Requesting to add employee");
+export async function addEmployee(employeeData: Employee) {
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/employee/add/`, {
     method: "POST",
     headers: {
@@ -130,12 +124,8 @@ export async function addEmployee(
   return response.json();
 }
 
-export async function deleteEmployeeById(
-  id: string,
-  url: string,
-  token: string,
-) {
-  console.log("Requesting to delete employee with ID: ", id);
+export async function deleteEmployeeById(id: string) {
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/employee/delete/${id}`, {
     method: "DELETE",
     headers: {

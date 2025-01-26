@@ -2,7 +2,7 @@ import EmployeeCreator from "../../components/employee/creator/EmployeeCreator.t
 import {useState} from "preact/hooks";
 import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import {EmployeeFormData, initEmployeeFormData,} from "../../components/employee/types/EmployeeFormData.ts";
-import {addEmployee, deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
+import {deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
 import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";
@@ -62,28 +62,36 @@ export default function EmployeesManager(
       employeeFormData,
     );
 
-    const employeeResponse = await addEmployee(
-      createEmployeeRequest,
-      createConfig.url,
-      createConfig.token,
-    );
+    const employeeResponse = await fetch('/api/employees/add/employee', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(createEmployeeRequest),
+    });
+
+    if (employeeResponse.status !== 200) {
+      throw new Error("Failed to add employee");
+    }
+
+    const employeeResponseBody = await employeeResponse.json();
 
     let userId = null;
-    if (!employeeResponse.id) {
+    if (!employeeResponseBody.id) {
       throw new Error("Error: no employee response found");
     } else {
       userId = await createUserAccount(
         {
           email: employeeFormData.email,
           password: "password",
-          userId: employeeResponse.id,
+          userId: employeeResponseBody.id,
         },
         getAuthClient(),
       );
     }
 
     if (!userId) {
-      await deleteEmployeeById(employeeResponse.id, createConfig.url, createConfig.token);
+      await deleteEmployeeById(employeeResponseBody.id);
       throw new Error("Error: no user ID found. Failed to create user account");
     } else {
       const role = employeeFormData.jobTitle === jobTitles[4].value ? "hrmanager" : "hremployee";
@@ -99,7 +107,7 @@ export default function EmployeesManager(
     }
 
     const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
-        userId,
+        user?.authId,
         "Dodano nowego pracownika",
         `Dodano nowego pracownika: ${employeeFormData.firstName} ${employeeFormData.lastName}`,
         "HR",

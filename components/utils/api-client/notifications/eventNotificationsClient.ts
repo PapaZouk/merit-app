@@ -1,13 +1,20 @@
-import {EventNotification, EventNotificationCreateRequest} from "../types/EventNotification.ts";
-import {getApiConfig} from "../config/getApiConfig.ts";
+import {
+  EventNotification,
+  EventNotificationCreateRequest,
+} from "../types/EventNotification.ts";
+import { getApiConfig } from "../config/getApiConfig.ts";
 
 export async function getEventNotificationsByUserId(userId: string) {
   const { url, token } = getApiConfig();
 
+  if (!url || !token) {
+    throw new Error("API configuration is missing");
+  }
+
   const requestUrl = `${url}/api/auth/notification/event/${userId}`;
+
   if (!userId) {
     return;
-
   }
   const response = await fetch(requestUrl, {
     method: "GET",
@@ -25,9 +32,14 @@ export async function getEventNotificationsByUserId(userId: string) {
 }
 
 export async function addEventNotification(
-    notification: EventNotificationCreateRequest
+  notification: EventNotificationCreateRequest,
 ) {
   const { url, token } = getApiConfig();
+
+  if (!url || !token) {
+    throw new Error("API configuration is missing");
+  }
+
   const response = await fetch(`${url}/api/auth/notification/event/add/`, {
     method: "POST",
     headers: {
@@ -35,7 +47,7 @@ export async function addEventNotification(
       "authorization": `Bearer ${token}`,
     },
     body: JSON.stringify(notification),
-    });
+  });
 
   if (response.status !== 200) {
     throw new Error("Failed to add event notification");
@@ -45,17 +57,20 @@ export async function addEventNotification(
 }
 
 export async function updateEventNotificationByEventId(
-    notification: EventNotification
+  notification: EventNotification,
 ) {
   const { url, token } = getApiConfig();
-  const response = await fetch(`${url}/api/auth/notification/event/update/${notification.eventId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "authorization": `Bearer ${token}`,
+  const response = await fetch(
+    `${url}/api/auth/notification/event/update/${notification.eventId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(notification),
     },
-    body: JSON.stringify(notification),
-    });
+  );
 
   if (response.status !== 200) {
     throw new Error("Failed to update event notification");

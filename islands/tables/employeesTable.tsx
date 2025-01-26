@@ -4,22 +4,18 @@ import {useState} from "preact/hooks";
 import {Users} from "https://esm.sh/lucide-preact@latest";
 import OverviewTable from "../../components/tables/overviewTable.tsx";
 import OverviewTableNav from "../../components/tables/overviewTableNav.tsx";
-import {deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
 import Popup from "../../components/popup/popup.tsx";
+import {sortEmployees} from "../../components/tables/utils/sortEmployees.tsx";
 
 type EmployeesTableProps = {
   sortedEmployees: Employee[];
   setSortedEmployees: (
     employees: (prevEmployees: Employee[]) => Employee[],
   ) => void;
-  config: {
-    url: string;
-    token: string;
-  };
 };
 
 export default function EmployeesTable(
-  { sortedEmployees, setSortedEmployees, config }: EmployeesTableProps,
+  { sortedEmployees, setSortedEmployees}: EmployeesTableProps,
 ): h.JSX.Element {
   const [isLastNameAscending, setIsLastNameAscending] = useState(true);
   const [isDepartmentAscending, setIsDepartmentAscending] = useState(true);
@@ -34,7 +30,7 @@ export default function EmployeesTable(
     key: keyof Employee["personalData"] | keyof Employee["jobDetails"],
   ): void => {
     setSortedEmployees((prevEmployees: Employee[]) =>
-      sortByKey(prevEmployees, key, getOrder(key))
+      sortEmployees(prevEmployees, key, getOrder(key))
     );
     toggleOrder(key);
   };
@@ -52,11 +48,6 @@ export default function EmployeesTable(
     if (key === "jobTitle") setIsJobTitleAscending((prev) => !prev);
   };
 
-  const handlePopup = (): void => {
-    setIsPopupOpened((prev) => !prev);
-    setEmployeeIdToDelete(null);
-  };
-
   const handleDelete = (id: string): void => {
     setIsPopupOpened((prev) => !prev);
     setEmployeeIdToDelete(id);
@@ -64,7 +55,12 @@ export default function EmployeesTable(
 
   const confirmDelete = async (): Promise<void> => {
     if (employeeIdToDelete) {
-      await deleteEmployeeById(employeeIdToDelete, config.url, config.token);
+      await fetch(`/api/employees/delete/${employeeIdToDelete}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setConfirmedDelete(true);
     }
   };
@@ -110,30 +106,4 @@ export default function EmployeesTable(
       {confirmedDelete && globalThis.location.reload()}
     </div>
   );
-}
-
-function sortByKey(
-  sortedEmployees: Employee[],
-  key: keyof Employee["personalData"] | keyof Employee["jobDetails"],
-  isAscending: boolean,
-) {
-  return [...sortedEmployees].sort((a, b) => {
-    const aValue = key in a.personalData
-      ? a.personalData[key as keyof Employee["personalData"]]
-      : a.jobDetails[key as keyof Employee["jobDetails"]];
-    const bValue = key in b.personalData
-      ? b.personalData[key as keyof Employee["personalData"]]
-      : b.jobDetails[key as keyof Employee["jobDetails"]];
-
-    if (aValue === null || aValue === undefined) return isAscending ? 1 : -1;
-    if (bValue === null || bValue === undefined) return isAscending ? -1 : 1;
-
-    if (aValue < bValue) {
-      return isAscending ? -1 : 1;
-    }
-    if (aValue > bValue) {
-      return isAscending ? 1 : -1;
-    }
-    return 0;
-  });
 }

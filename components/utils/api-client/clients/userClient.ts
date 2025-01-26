@@ -19,7 +19,6 @@ export async function addUser(
     },
     body: JSON.stringify(user),
   });
-  console.log("Requesting to add user", user);
 
   if (!response.ok) {
     throw new Error("Failed to add user");

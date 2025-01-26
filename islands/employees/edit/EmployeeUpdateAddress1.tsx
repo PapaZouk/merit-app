@@ -1,27 +1,23 @@
-import {useState} from "preact/hooks";
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
-import {updateEmployeeById} from "../../../components/utils/api-client/clients/employeeClient.ts";
+import { useEffect, useState } from "preact/hooks";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
 import EmployeeAddress1Form from "../../../components/employee/forms/EmployeeAddress1Form.tsx";
-import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
-import {useLogin} from "../../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
+import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
+import { useLogin } from "../../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
+import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
 
 type EmployeeUpdateAddress1Props = {
-  employeeData: Employee;
-  updateConfig: {
-    url: string;
-    token: string;
-  };
+  employeeId: string;
 };
 
-export default function EmployeeUpdateAddress1({
-  employeeData,
-  updateConfig,
-}: EmployeeUpdateAddress1Props) {
+export default function EmployeeUpdateAddress1(
+  { employeeId }: EmployeeUpdateAddress1Props,
+) {
+  const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployeeData);
   const [formData, setFormData] = useState({
     street1: employeeData.personalData.address1.street1,
     house1: employeeData.personalData.address1.house1,
@@ -33,6 +29,39 @@ export default function EmployeeUpdateAddress1({
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const { userId, user } = useLogin();
   const { addNewEventNotification } = useNotifications();
+
+  useEffect(() => {
+    if (!employeeId) {
+      throw new Error("Missing employeeId");
+    }
+
+    async function fetchEmployee() {
+      const response = await fetch(`/api/employees/${employeeId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch employee");
+        return;
+      }
+
+      const responseBody = await response.json();
+      setEmployeeData(responseBody.result);
+      setFormData({
+        street1: responseBody.result.personalData.address1.street1,
+        house1: responseBody.result.personalData.address1.house1,
+        city1: responseBody.result.personalData.address1.city1,
+        zip1: responseBody.result.personalData.address1.zip1,
+        state1: responseBody.result.personalData.address1.state1,
+        voivodeship1: responseBody.result.personalData.address1.voivodeship1,
+      });
+    }
+
+    fetchEmployee();
+  }, []);
 
   const handleChange = (
     e: createElement.JSX.TargetedEvent<
@@ -121,25 +150,27 @@ export default function EmployeeUpdateAddress1({
       jobDetails: { ...employeeData.jobDetails },
     };
 
-    await updateEmployeeById(
-      updatedData._id,
-      updatedData,
-      updateConfig.url,
-      updateConfig.token,
-    );
+    await fetch(`/api/employees/update/${updatedData._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
 
-    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
-      userId,
-      "Zmiana danych adresu zamieszkania",
-      `Dane adresu zamieszkania pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
-      "HR",
-      user?.authId,
-      ["hr", "hrmanager"],
-    );
+    const eventNotificationRequest: EventNotificationCreateRequest =
+      createEventNotification(
+        userId,
+        "Zmiana danych adresu zamieszkania",
+        `Dane adresu zamieszkania pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
+        "HR",
+        user?.authId,
+        ["hr", "hrmanager"],
+      );
 
     addNewEventNotification(eventNotificationRequest);
 
-    globalThis.location.href = `/hr/employee/${updatedData._id}`;
+    globalThis.location.href = `/hr/employee/${employeeId}`;
   };
 
   return (

@@ -1,14 +1,7 @@
-import { createContext, h } from "preact";
-import { useContext, useEffect, useState } from "preact/hooks";
-import {
-  EventNotification,
-  EventNotificationCreateRequest,
-} from "../utils/api-client/types/EventNotification.ts";
-import {
-  addEventNotification,
-  getEventNotificationsByUserId,
-  updateEventNotificationByEventId,
-} from "../utils/api-client/notifications/eventNotificationsClient.ts";
+import {createContext, h} from "preact";
+import {useContext, useEffect} from "preact/hooks";
+import {Signal, useSignal} from "@preact/signals";
+import {EventNotification, EventNotificationCreateRequest,} from "../utils/api-client/types/EventNotification.ts";
 
 type NotificationsContextProps = {
   userId: string;
@@ -32,7 +25,7 @@ export const NotificationsProvider = ({
   children,
   userId,
 }: NotificationsProviderProps) => {
-  const [eventNotifications, setEventNotifications] = useState<
+  const eventNotifications: Signal<EventNotification[]> = useSignal<
     EventNotification[]
   >([]);
 
@@ -41,8 +34,20 @@ export const NotificationsProvider = ({
 
     const fetchEventNotifications = async () => {
       try {
-        const eventNotifications = await getEventNotificationsByUserId(userId);
-        setEventNotifications(eventNotifications.result);
+        const response: Response = await fetch(`/api/notifications/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response || !response.ok) {
+          console.error("Failed to fetch event notifications");
+          return;
+        }
+
+        const responseBody = await response.json();
+        eventNotifications.value = responseBody.result;
       } catch (e) {
         console.error(e);
       }
@@ -55,15 +60,22 @@ export const NotificationsProvider = ({
     notification: EventNotificationCreateRequest,
   ) => {
     try {
-      const response = await addEventNotification(notification);
+      const response = await fetch(`/api/notifications/add/notification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notification),
+      });
 
       if (response.status !== 200) {
         throw new Error("Failed to add event notification");
       }
 
-      const { id } = response;
+      const responseBody = await response.json();
+      const { id } = responseBody;
       const newNotification: EventNotification = { ...notification, _id: id };
-      setEventNotifications([...eventNotifications, newNotification]);
+      eventNotifications.value = [...eventNotifications.value, newNotification];
     } catch (e) {
       console.error("Error adding event notification: ", e);
     }
@@ -71,9 +83,15 @@ export const NotificationsProvider = ({
 
   const updateEventNotification = async (notification: EventNotification) => {
     try {
-      await updateEventNotificationByEventId(notification);
-      setEventNotifications((prev) =>
-        prev.map((n) => (n.eventId === notification.eventId ? notification : n))
+      await fetch(`/api/notifications/update/notification`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notification),
+      });
+      eventNotifications.value = eventNotifications.value.map((n) =>
+        n.eventId === notification.eventId ? notification : n
       );
     } catch (e) {
       console.error("Error updating event notification: ", e);
@@ -84,7 +102,7 @@ export const NotificationsProvider = ({
     <NotificationsContext.Provider
       value={{
         userId: userId || "",
-        eventNotifications,
+        eventNotifications: eventNotifications.value,
         addNewEventNotification,
         updateEventNotification,
       }}

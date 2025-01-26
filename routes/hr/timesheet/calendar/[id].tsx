@@ -16,7 +16,6 @@ export default async function TimesheetByYearAndMonth(props: PageProps) {
     selectedYear,
     selectedMonth,
   );
-  console.log(timesheet);
 
   return (
     <div class="min-w-full w-full">

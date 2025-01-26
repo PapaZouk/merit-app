@@ -2,25 +2,23 @@ import EmployeePersonalDataForm from "../../../components/employee/forms/Employe
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
 import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 import {useLogin} from "../../../components/context/LoginProvider.tsx";
 import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
+import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
 
 type EmployeeUpdateProps = {
-  employeeData: Employee;
-  updateConfig: {
-    url: string;
-    token: string;
-  };
+  employeeId: string;
 };
 
 export default function EmployeeUpdatePersonalData(
-  { employeeData, updateConfig }: EmployeeUpdateProps,
+  { employeeId }: EmployeeUpdateProps,
 ) {
+  const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployeeData);
   const [formData, setFormData] = useState({
     firstName: employeeData.personalData.firstName,
     lastName: employeeData.personalData.lastName,
@@ -47,6 +45,39 @@ export default function EmployeeUpdatePersonalData(
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (!employeeId) {
+      throw new Error("Missing employeeId");
+    }
+    async function fetchEmployee() {
+      const response = await fetch(`/api/employees/${employeeId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch employee");
+        return;
+      }
+
+      const responseBody = await response.json();
+      setEmployeeData(responseBody.result);
+      setFormData({
+        firstName: responseBody.result.personalData.firstName,
+        lastName: responseBody.result.personalData.lastName,
+        email: responseBody.result.personalData.email,
+        phone: responseBody.result.personalData.phone,
+        pesel: responseBody.result.personalData.pesel,
+        clothSize: responseBody.result.personalData.clothSize,
+        nip: responseBody.result.personalData.nip,
+      });
+    }
+
+    fetchEmployee();
+  }, []);
 
   const handleUpdate = (
     e:
@@ -126,12 +157,13 @@ export default function EmployeeUpdatePersonalData(
       },
     };
 
-    await updateEmployeeById(
-      updatedData._id,
-      updatedData,
-      updateConfig.url,
-      updateConfig.token,
-    );
+    await fetch(`/api/employees/update/${updatedData._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
 
     const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
       userId,
