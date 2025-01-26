@@ -1,19 +1,13 @@
 import EmployeeCreator from "../../components/employee/creator/EmployeeCreator.tsx";
-import { useState } from "preact/hooks";
-import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {
-  EmployeeFormData,
-  initEmployeeFormData,
-} from "../../components/employee/types/EmployeeFormData.ts";
+import {useState} from "preact/hooks";
+import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import {EmployeeFormData, initEmployeeFormData,} from "../../components/employee/types/EmployeeFormData.ts";
 import {addEmployee, deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
-import { Employee } from "../../components/utils/api-client/types/Employee.ts";
+import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";
-import {
-  AuthClientConfig,
-  getAuthClient,
-} from "../../components/utils/auth/auth-client/authClient.ts";
-import { addUser } from "../../components/utils/api-client/clients/userClient.ts";
+import {getAuthClient,} from "../../components/utils/auth/auth-client/authClient.ts";
+import {addUser} from "../../components/utils/api-client/clients/userClient.ts";
 import {jobTitles} from "../../components/employee/forms/utils/jobTitles.ts";
 import {EventNotificationCreateRequest} from "../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
@@ -25,11 +19,10 @@ type EmployeesManagerProps = {
     url: string;
     token: string;
   };
-  authConfig: AuthClientConfig;
 };
 
 export default function EmployeesManager(
-  { createConfig, authConfig }: EmployeesManagerProps,
+  { createConfig }: EmployeesManagerProps,
 ) {
   const [employeeFormData, setEmployeeFormData] = useState<EmployeeFormData>(
     initEmployeeFormData,
@@ -85,7 +78,7 @@ export default function EmployeesManager(
           password: "password",
           userId: employeeResponse.id,
         },
-        getAuthClient(authConfig),
+        getAuthClient(),
       );
     }
 

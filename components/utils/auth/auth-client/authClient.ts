@@ -7,10 +7,12 @@ export type AuthClientConfig = {
   };
 };
 
-export function getAuthClient({ config }: AuthClientConfig) {
+export function getAuthClient() {
   const authClient = new Client();
-  authClient.setProject(config.projectId);
-  authClient.setEndpoint(config.endpoint);
+  const projectId = "673792e0002648d5ee7f";
+  const endpoint = "https://cloud.appwrite.io/v1";
+  authClient.setProject(projectId);
+  authClient.setEndpoint(endpoint);
 
   return new Account(authClient);
 }

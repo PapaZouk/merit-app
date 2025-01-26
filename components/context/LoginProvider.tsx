@@ -1,11 +1,10 @@
 import {createContext, h} from "preact";
 import {Signal, useSignal} from "@preact/signals";
-import {useContext, useEffect, useState} from "preact/hooks";
+import {useContext, useEffect} from "preact/hooks";
 import {UserRole, UserRoleEnum} from "../utils/auth/types/userRoles.ts";
 import {AuthClientConfig, getAuthClient,} from "../utils/auth/auth-client/authClient.ts";
 import {getUserByAuthId} from "../utils/api-client/clients/userClient.ts";
 import {User} from "../utils/api-client/types/User.ts";
-import {AuthConfig} from "../utils/auth/auth-client/getAuthConfig.ts";
 
 type LoginContextProps = {
   userId: string | null;
@@ -16,7 +15,6 @@ type LoginContextProps = {
   handleLogin: (
     login: string,
     password: string,
-    config: AuthClientConfig,
   ) => void;
   handleLogout: () => void;
   isLoading: boolean;
@@ -27,7 +25,6 @@ const LoginContext = createContext<LoginContextProps | undefined>(undefined);
 
 type LoginProviderProps = {
   children: h.JSX.Element;
-  authConfig: AuthConfig;
   apiConfig: {
     url: string;
     token: string;
@@ -35,7 +32,7 @@ type LoginProviderProps = {
 };
 
 export const LoginProvider = (
-  { children, authConfig, apiConfig }: LoginProviderProps,
+  { children, apiConfig }: LoginProviderProps,
 ) => {
   const userId: Signal<string | null> = useSignal<string | null>(null);
   const user: Signal<User | null> = useSignal<User | null>(null);
@@ -48,7 +45,7 @@ export const LoginProvider = (
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const userResponse = await getAuthClient({ config: authConfig }).get();
+        const userResponse = await getAuthClient().get();
 
         const userByAuthId = await getUserByAuthId(
           userResponse.$id,
@@ -77,11 +74,10 @@ export const LoginProvider = (
   const handleLogin = async (
     login: string,
     password: string,
-    config: AuthClientConfig,
   ) => {
     try {
-      await getAuthClient(config).createEmailPasswordSession(login, password);
-      const user = await getAuthClient(config).get();
+      await getAuthClient().createEmailPasswordSession(login, password);
+      const user = await getAuthClient().get();
 
       const userByAuthId = await getUserByAuthId(
         user.$id,
@@ -103,7 +99,7 @@ export const LoginProvider = (
 
   const handleLogout = async () => {
     try {
-      await getAuthClient({ config: authConfig }).deleteSessions();
+      await getAuthClient().deleteSessions();
       userRoles.value = [UserRoleEnum.GUEST];
     } catch (error) {
       console.error("Failed to logout:", error);

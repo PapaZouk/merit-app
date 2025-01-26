@@ -1,28 +1,18 @@
-import {
-  Bell,
-  CircleUserRound,
-  Mail,
-} from "https://esm.sh/lucide-preact@latest";
-import { useEffect, useRef, useState } from "preact/hooks";
-import { getAuthClient } from "../components/utils/auth/auth-client/authClient.ts";
-import { AuthConfig } from "../components/utils/auth/auth-client/getAuthConfig.ts";
-import { UserRoleEnum } from "../components/utils/auth/types/userRoles.ts";
-import { EventNotification } from "../components/utils/api-client/types/EventNotification.ts";
+import {Bell, CircleUserRound, Mail,} from "https://esm.sh/lucide-preact@latest";
+import {useEffect, useRef, useState} from "preact/hooks";
+import {getAuthClient} from "../components/utils/auth/auth-client/authClient.ts";
+import {UserRoleEnum} from "../components/utils/auth/types/userRoles.ts";
+import {EventNotification} from "../components/utils/api-client/types/EventNotification.ts";
 import {useNotifications} from "../components/context/NotificationsProvider.tsx";
 import {useLogin} from "../components/context/LoginProvider.tsx";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;
-  authConfig: AuthConfig;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
   appName: string;
 };
 
 export default function MainNavigation(
-  { toggleSidebar, authConfig, apiConfig, appName }: MainNavigationProps,
+  { toggleSidebar, appName }: MainNavigationProps,
 ) {
   const { eventNotifications, updateEventNotification } = useNotifications();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -56,7 +46,7 @@ export default function MainNavigation(
 
   const onLogout = async (): Promise<void> => {
     try {
-      await getAuthClient({ config: authConfig }).deleteSessions();
+      await getAuthClient().deleteSessions();
       console.log("User logged out successfully");
     } catch (error) {
       console.error("Logout failed", error);

@@ -1,11 +1,10 @@
-import { h } from "preact";
-import { getAuthConfig } from "../../../components/utils/auth/auth-client/getAuthConfig.ts";
+import {h} from "preact";
 import TimesheetOverview from "../../../islands/timesheet/TimesheetOverview.tsx";
-import { Timesheet } from "../../../components/utils/api-client/types/Timesheet.ts";
-import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { getApiConfig } from "../../../components/utils/api-client/config/getApiConfig.ts";
-import { getAllTimesheet } from "../../../components/utils/api-client/clients/timesheetClient.ts";
-import { getAllEmployeesWithIds } from "../../../components/utils/api-client/clients/employeeClient.ts";
+import {Timesheet} from "../../../components/utils/api-client/types/Timesheet.ts";
+import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
+import {getApiConfig} from "../../../components/utils/api-client/config/getApiConfig.ts";
+import {getAllTimesheet} from "../../../components/utils/api-client/clients/timesheetClient.ts";
+import {getAllEmployeesWithIds} from "../../../components/utils/api-client/clients/employeeClient.ts";
 import {LoginProvider} from "../../../components/context/LoginProvider.tsx";
 
 export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
@@ -27,10 +26,8 @@ export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
     cacheTimeout,
   ) as Employee[];
 
-  const authConfig = getAuthConfig();
-
   return (
-    <LoginProvider authConfig={authConfig} apiConfig={apiConfig}>
+    <LoginProvider apiConfig={apiConfig}>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 h-full w-full">
         <div class="col-span-3 bg-white p-4 shadow rounded-lg">
           <TimesheetOverview

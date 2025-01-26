@@ -1,6 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
+import {useEffect, useState} from "preact/hooks";
 import FormInput from "../../components/employee/forms/FormInput.tsx";
-import { AuthConfig } from "../../components/utils/auth/auth-client/getAuthConfig.ts";
 import {useLogin} from "../../components/context/LoginProvider.tsx";
 
 type LoginProps = {
@@ -9,11 +8,10 @@ type LoginProps = {
     password: string;
   };
   setLoginData: (data: (prevData: any) => any) => void;
-  authConfig: AuthConfig;
 };
 
 export default function Login(
-  { loginData, setLoginData, authConfig }: LoginProps,
+  { loginData, setLoginData }: LoginProps,
 ) {
   const { handleLogin, loginError } = useLogin();
   const [userCredentials, setUserCredentials] = useState({
@@ -46,9 +44,7 @@ export default function Login(
   const onLogin = (e: Event): void => {
     e.preventDefault();
 
-    handleLogin(userCredentials.login, userCredentials.password, {
-      config: authConfig,
-    });
+    handleLogin(userCredentials.login, userCredentials.password);
   };
 
   return (

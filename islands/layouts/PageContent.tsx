@@ -1,17 +1,15 @@
 import MainNavigation from "../mainNavigation.tsx";
-import { h } from "preact";
+import {h} from "preact";
 import {useState} from "preact/hooks";
 import Sidebar from "../sidebar.tsx";
-import { AuthConfig } from "../../components/utils/auth/auth-client/getAuthConfig.ts";
 import Login from "../auth/login.tsx";
-import { useLogin } from "../../components/context/LoginProvider.tsx";
+import {useLogin} from "../../components/context/LoginProvider.tsx";
 import Loader from "../../components/loader/loader.tsx";
-import { NotificationsProvider } from "../../components/context/NotificationsProvider.tsx";
+import {NotificationsProvider} from "../../components/context/NotificationsProvider.tsx";
 
 type PageContentProps = {
   children: h.JSX.Element;
   toggleSidebar: () => void;
-  authConfig: AuthConfig;
   apiConfig: {
     url: string;
     token: string;
@@ -21,7 +19,7 @@ type PageContentProps = {
 };
 
 export default function PageContent(
-  { children, toggleSidebar, authConfig, apiConfig, appName, isSidebarOpen }:
+  { children, toggleSidebar, apiConfig, appName, isSidebarOpen }:
     PageContentProps,
 ) {
   const { isLoggedIn, isLoading, userId } = useLogin();
@@ -35,7 +33,6 @@ export default function PageContent(
       <Login
         loginData={loginData}
         setLoginData={setLoginData}
-        authConfig={authConfig}
       />
     );
   }
@@ -45,8 +42,6 @@ export default function PageContent(
       <div class="flex flex-col h-screen">
         <MainNavigation
           toggleSidebar={toggleSidebar}
-          authConfig={authConfig}
-          apiConfig={apiConfig}
           appName={appName}
         />
         <div class="flex flex-1">
