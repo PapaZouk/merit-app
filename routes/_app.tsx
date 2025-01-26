@@ -1,12 +1,10 @@
 import {type PageProps} from "$fresh/server.ts";
 import RootLayout from "../islands/layouts/RootLayout.tsx";
-import {getApiConfig} from "../components/utils/api-client/config/getApiConfig.ts";
 import {LoginProvider} from "../components/context/LoginProvider.tsx";
 
 export default function App({ Component }: PageProps) {
   const appName = Deno.env.get("APP_NAME") || "";
   const pageSubtitle = Deno.env.get("APP_SUBTITLE") || "";
-  const apiConfig = getApiConfig();
 
   return (
     <html>
@@ -17,9 +15,8 @@ export default function App({ Component }: PageProps) {
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>
-        <LoginProvider apiConfig={apiConfig}>
+        <LoginProvider>
           <RootLayout
-            apiConfig={apiConfig}
             appName={appName}
           >
             <Component />

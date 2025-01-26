@@ -3,12 +3,12 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import {
   EventNotification,
   EventNotificationCreateRequest,
-} from "../../components/utils/api-client/types/EventNotification.ts";
+} from "../utils/api-client/types/EventNotification.ts";
 import {
   addEventNotification,
   getEventNotificationsByUserId,
   updateEventNotificationByEventId,
-} from "../../components/utils/api-client/notifications/eventNotificationsClient.ts";
+} from "../utils/api-client/notifications/eventNotificationsClient.ts";
 
 type NotificationsContextProps = {
   userId: string;
@@ -26,16 +26,11 @@ const NotificationsContext = createContext<
 type NotificationsProviderProps = {
   children: h.JSX.Element;
   userId: string | null;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
 };
 
 export const NotificationsProvider = ({
   children,
   userId,
-  apiConfig,
 }: NotificationsProviderProps) => {
   const [eventNotifications, setEventNotifications] = useState<
     EventNotification[]
@@ -46,11 +41,7 @@ export const NotificationsProvider = ({
 
     const fetchEventNotifications = async () => {
       try {
-        const eventNotifications = await getEventNotificationsByUserId(
-          userId,
-          apiConfig.url,
-          apiConfig.token,
-        );
+        const eventNotifications = await getEventNotificationsByUserId(userId);
         setEventNotifications(eventNotifications.result);
       } catch (e) {
         console.error(e);
@@ -58,17 +49,13 @@ export const NotificationsProvider = ({
     };
 
     fetchEventNotifications();
-  }, [userId, apiConfig.url, apiConfig.token]);
+  }, [userId]);
 
   const addNewEventNotification = async (
     notification: EventNotificationCreateRequest,
   ) => {
     try {
-      const response = await addEventNotification(
-        notification,
-        apiConfig.url,
-        apiConfig.token,
-      );
+      const response = await addEventNotification(notification);
 
       if (response.status !== 200) {
         throw new Error("Failed to add event notification");
@@ -84,11 +71,7 @@ export const NotificationsProvider = ({
 
   const updateEventNotification = async (notification: EventNotification) => {
     try {
-      await updateEventNotificationByEventId(
-        notification,
-        apiConfig.url,
-        apiConfig.token,
-      );
+      await updateEventNotificationByEventId(notification);
       setEventNotifications((prev) =>
         prev.map((n) => (n.eventId === notification.eventId ? notification : n))
       );

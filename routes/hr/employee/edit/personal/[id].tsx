@@ -18,8 +18,8 @@ export default async function EditEmployeeById(
   const employeeData = (await employee.result) as Employee;
 
   return (
-    <LoginProvider apiConfig={apiConfig}>
-      <NotificationsProvider userId={id} apiConfig={apiConfig}>
+    <LoginProvider>
+      <NotificationsProvider userId={id}>
         <EmployeeUpdatePersonalData
           employeeData={employeeData}
           updateConfig={apiConfig}

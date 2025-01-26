@@ -15,8 +15,8 @@ export default function EventNotifications(
 ): h.JSX.Element {
   const {userId} = useLogin();
   return (
-    <LoginProvider apiConfig={apiConfig}>
-      <NotificationsProvider userId={userId} apiConfig={apiConfig}>
+    <LoginProvider>
+      <NotificationsProvider userId={userId}>
         <EventNotificationsOverview apiConfig={apiConfig} />
       </NotificationsProvider>
     </LoginProvider>

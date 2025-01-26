@@ -1,16 +1,14 @@
 import {EventNotification, EventNotificationCreateRequest} from "../types/EventNotification.ts";
+import {getApiConfig} from "../config/getApiConfig.ts";
 
-export async function getEventNotificationsByUserId(
-  userId: string,
-  url: string,
-  token: string,
-) {
+export async function getEventNotificationsByUserId(userId: string) {
+  const { url, token } = getApiConfig();
+
   const requestUrl = `${url}/api/auth/notification/event/${userId}`;
-
   if (!userId) {
     return;
-  }
 
+  }
   const response = await fetch(requestUrl, {
     method: "GET",
     headers: {
@@ -27,10 +25,9 @@ export async function getEventNotificationsByUserId(
 }
 
 export async function addEventNotification(
-    notification: EventNotificationCreateRequest,
-    url: string,
-    token: string,
+    notification: EventNotificationCreateRequest
 ) {
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/notification/event/add/`, {
     method: "POST",
     headers: {
@@ -48,10 +45,9 @@ export async function addEventNotification(
 }
 
 export async function updateEventNotificationByEventId(
-    notification: EventNotification,
-    url: string,
-    token: string,
+    notification: EventNotification
 ) {
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/notification/event/update/${notification.eventId}`, {
     method: "PUT",
     headers: {

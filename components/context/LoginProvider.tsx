@@ -2,8 +2,7 @@ import {createContext, h} from "preact";
 import {Signal, useSignal} from "@preact/signals";
 import {useContext, useEffect} from "preact/hooks";
 import {UserRole, UserRoleEnum} from "../utils/auth/types/userRoles.ts";
-import {AuthClientConfig, getAuthClient,} from "../utils/auth/auth-client/authClient.ts";
-import {getUserByAuthId} from "../utils/api-client/clients/userClient.ts";
+import {getAuthClient,} from "../utils/auth/auth-client/authClient.ts";
 import {User} from "../utils/api-client/types/User.ts";
 
 type LoginContextProps = {
@@ -25,14 +24,10 @@ const LoginContext = createContext<LoginContextProps | undefined>(undefined);
 
 type LoginProviderProps = {
   children: h.JSX.Element;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
 };
 
 export const LoginProvider = (
-  { children, apiConfig }: LoginProviderProps,
+  { children }: LoginProviderProps,
 ) => {
   const userId: Signal<string | null> = useSignal<string | null>(null);
   const user: Signal<User | null> = useSignal<User | null>(null);
@@ -47,15 +42,13 @@ export const LoginProvider = (
       try {
         const userResponse = await getAuthClient().get();
 
-        const userByAuthId = await getUserByAuthId(
-          userResponse.$id,
-          apiConfig.url,
-          apiConfig.token,
-        );
-        user.value = userByAuthId.result;
+        user.value = {
+          authId: userResponse.$id,
+          roles: userResponse.labels,
+        };
         userId.value = userResponse.$id;
 
-        userRoles.value = userByAuthId.result.roles;
+        userRoles.value = userResponse.labels;
       } catch (_error) {
         userRoles.value = [UserRoleEnum.GUEST];
       } finally {
@@ -79,13 +72,7 @@ export const LoginProvider = (
       await getAuthClient().createEmailPasswordSession(login, password);
       const user = await getAuthClient().get();
 
-      const userByAuthId = await getUserByAuthId(
-        user.$id,
-        apiConfig.url,
-        apiConfig.token,
-      );
-
-      userRoles.value = userByAuthId.result.roles;
+      userRoles.value = user.labels;
       loginError.value = false;
     } catch (e) {
       console.error("Error during login:", e);

@@ -6,7 +6,7 @@ export default async function EventNotificationByUserId() {
   const apiConfig = getApiConfig();
 
   return (
-    <LoginProvider apiConfig={apiConfig}>
+    <LoginProvider>
       <EventNotifications apiConfig={apiConfig}/>
     </LoginProvider>
   );

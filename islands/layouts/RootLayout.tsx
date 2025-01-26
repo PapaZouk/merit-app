@@ -5,15 +5,11 @@ import PageContent from "./PageContent.tsx";
 
 type RootLayoutProps = {
   children: h.JSX.Element;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
   appName: string;
 };
 
 export default function RootLayout(
-  { children, apiConfig, appName }: RootLayoutProps,
+  { children, appName }: RootLayoutProps,
 ) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -22,10 +18,9 @@ export default function RootLayout(
   };
 
   return (
-    <LoginProvider apiConfig={apiConfig}>
+    <LoginProvider>
       <PageContent
         toggleSidebar={toggleSidebar}
-        apiConfig={apiConfig}
         appName={appName}
         isSidebarOpen={isSidebarOpen}
       >

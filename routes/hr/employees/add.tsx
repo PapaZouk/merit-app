@@ -6,7 +6,7 @@ export default function AddEmployeePage() {
   const apiConfig = getApiConfig();
 
   return (
-      <LoginProvider apiConfig={apiConfig} >
+      <LoginProvider>
           <CreateNewEmployee apiConfig={apiConfig} />
       </LoginProvider>
   );

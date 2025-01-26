@@ -17,8 +17,8 @@ export default async function EditEmployeeAddress2(pageProps: PageProps) {
     const employeeData = await employee.result as Employee;
 
     return (
-        <LoginProvider apiConfig={apiConfig}>
-            <NotificationsProvider userId={id} apiConfig={apiConfig} >
+        <LoginProvider>
+            <NotificationsProvider userId={id}>
                 <EmployeeUpdateAddress2
                     employeeData={employeeData}
                     updateConfig={apiConfig}

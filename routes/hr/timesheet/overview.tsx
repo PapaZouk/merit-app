@@ -27,7 +27,7 @@ export default async function TimesheetOverviewPage(): Promise<h.JSX.Element> {
   ) as Employee[];
 
   return (
-    <LoginProvider apiConfig={apiConfig}>
+    <LoginProvider>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 h-full w-full">
         <div class="col-span-3 bg-white p-4 shadow rounded-lg">
           <TimesheetOverview

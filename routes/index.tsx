@@ -10,7 +10,7 @@ export default async function Home() {
   const apiConfig = getApiConfig();
 
   return (
-    <LoginProvider apiConfig={apiConfig}>
+    <LoginProvider>
       <WidgetsLayout employeesData={employeesData} config={apiConfig} />
     </LoginProvider>
   );

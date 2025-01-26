@@ -10,16 +10,12 @@ import {NotificationsProvider} from "../../components/context/NotificationsProvi
 type PageContentProps = {
   children: h.JSX.Element;
   toggleSidebar: () => void;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
   appName: string;
   isSidebarOpen: boolean;
 };
 
 export default function PageContent(
-  { children, toggleSidebar, apiConfig, appName, isSidebarOpen }:
+  { children, toggleSidebar, appName, isSidebarOpen }:
     PageContentProps,
 ) {
   const { isLoggedIn, isLoading, userId } = useLogin();
@@ -38,7 +34,7 @@ export default function PageContent(
   }
 
   return (
-    <NotificationsProvider userId={userId} apiConfig={apiConfig}>
+    <NotificationsProvider userId={userId}>
       <div class="flex flex-col h-screen">
         <MainNavigation
           toggleSidebar={toggleSidebar}
