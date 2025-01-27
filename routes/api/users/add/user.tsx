@@ -1,4 +1,4 @@
-import {addUser} from "../../../../components/utils/api-client/clients/userClient.ts";
+import {addUser} from "../../../../components/utils/api-client/users/userClient.ts";
 
 export const handler = async (req: Request) => {
     const origin = req.headers.get("origin") || req.headers.get("referer");

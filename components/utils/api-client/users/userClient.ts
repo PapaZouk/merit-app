@@ -33,11 +33,8 @@ export async function addUser(
   return response.json();
 }
 
-export async function getUserByAuthId(
-  authId: string,
-  url: string,
-  token: string,
-) {
+export async function getUserByAuthId(authId: string) {
+  const { url, token } = getApiConfig();
   const response = await fetch(`${url}/api/auth/user/${authId}`, {
     method: "GET",
     headers: {

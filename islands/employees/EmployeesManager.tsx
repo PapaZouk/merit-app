@@ -111,7 +111,7 @@ export default function EmployeesManager() {
         ["hr", "manager"]
     );
 
-    addNewEventNotification(eventNotificationRequest);
+    // addNewEventNotification(eventNotificationRequest);
 
     setEmployeeFormData(initEmployeeFormData);
 

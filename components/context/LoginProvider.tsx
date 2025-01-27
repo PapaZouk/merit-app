@@ -48,7 +48,8 @@ export const LoginProvider = (
         };
         userId.value = userResponse.$id;
 
-        userRoles.value = userResponse.labels;
+        const response = await fetch(`/api/users/roles/${userResponse.$id}`);
+        userRoles.value = await response.json();
       } catch (_error) {
         userRoles.value = [UserRoleEnum.GUEST];
       } finally {

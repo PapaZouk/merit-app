@@ -3,6 +3,7 @@ import { useState } from "preact/hooks";
 import NotificationCard from "./NotificationCard.tsx";
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
 import {useNotifications} from "../context/NotificationsProvider.tsx";
+import {sortNotifications} from "./utils/sortNotifications.ts";
 
 type EventNotificationsOverviewProps = {
   apiConfig: {
@@ -18,13 +19,7 @@ export default function EventNotificationsOverview(
   const [currentPage, setCurrentPage] = useState(1);
   const notificationsPerPage = 4;
 
-  const sortedEventNotifications = eventNotifications
-    ?.sort((a: EventNotification, b: EventNotification) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    })
-      .sort((a: EventNotification, b: EventNotification) => {
-        return a.isRead ? 1 : -1;
-      });
+  const sortedEventNotifications = sortNotifications(eventNotifications);
 
   const indexOfLastNotification = currentPage * notificationsPerPage;
   const indexOfFirstNotification = indexOfLastNotification -

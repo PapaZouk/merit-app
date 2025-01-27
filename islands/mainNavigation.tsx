@@ -5,6 +5,7 @@ import {UserRoleEnum} from "../components/utils/auth/types/userRoles.ts";
 import {EventNotification} from "../components/utils/api-client/types/EventNotification.ts";
 import {useNotifications} from "../components/context/NotificationsProvider.tsx";
 import {useLogin} from "../components/context/LoginProvider.tsx";
+import {sortNotifications} from "../components/notifications/utils/sortNotifications.ts";
 
 type MainNavigationProps = {
   toggleSidebar: () => void;
@@ -79,13 +80,7 @@ export default function MainNavigation(
     };
   }, []);
 
-  const sortedNotifications = eventNotifications
-    .sort(
-      (a: EventNotification, b: EventNotification) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
-    )
-    .sort((a: EventNotification, b: EventNotification) => a.isRead ? 1 : -1);
-
+  const sortedNotifications = sortNotifications(eventNotifications);
   const unreadNotificationsLength = sortedNotifications.filter((n: EventNotification) => !n.isRead).length;
 
   return (
