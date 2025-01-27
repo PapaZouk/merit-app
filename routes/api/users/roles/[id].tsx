@@ -1,5 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import {getUserByAuthId} from "../../../../components/utils/api-client/users/userClient.ts";
+import {formatRouteParam} from "../../../../components/utils/formatter/formatRouteParam.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
     const origin = req.headers.get("origin") || req.headers.get("referer");
@@ -14,9 +15,7 @@ export const handler = async (req: Request, props: PageProps) => {
         });
     }
 
-    const url = new URL(props.url);
-    const pathElements = url.pathname.split("/").filter(Boolean);
-    const userId = pathElements[pathElements.length - 1].split("?")[0];
+    const userId = formatRouteParam(props);
 
     if (!userId) {
         throw new Error("Missing userId");

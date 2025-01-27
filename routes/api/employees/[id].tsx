@@ -1,5 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import {getEmployeeById} from "../../../components/utils/api-client/clients/employeeClient.ts";
+import {formatRouteParam} from "../../../components/utils/formatter/formatRouteParam.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
     const origin = req.headers.get("origin") || req.headers.get("referer");
@@ -14,9 +15,7 @@ export const handler = async (req: Request, props: PageProps) => {
         });
     }
 
-    const url = new URL(props.url);
-    const pathElements = url.pathname.split("/").filter(Boolean);
-    const employeeId = pathElements[pathElements.length - 1].split("?")[0];
+    const employeeId = formatRouteParam(props);
 
     if (!employeeId) {
         throw new Error("Missing employeeId");
