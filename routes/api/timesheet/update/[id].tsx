@@ -1,7 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
-import { updateEmployeeById } from "../../../../components/utils/api-client/clients/employeeClient.ts";
-import {formatRouteParam} from "../../../../components/utils/formatter/formatRouteParam.ts";
-import {isValidRequestOrigin} from "../../utils/isValidRequestOrigin.ts";
+import { formatRouteParam } from "../../../../components/utils/formatter/formatRouteParam.ts";
+import { updateTimesheetByEmployeeId } from "../../../../components/utils/api-client/clients/timesheetClient.ts";
+import { isValidRequestOrigin } from "../../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
   if (!isValidRequestOrigin(req)) {
@@ -30,18 +30,12 @@ export const handler = async (req: Request, props: PageProps) => {
   }
 
   try {
-    const response = await updateEmployeeById(employeeId, bodyData);
-    const employees = response.json();
-    return new Response(JSON.stringify(employees), { status: 200 });
+    const response = await updateTimesheetByEmployeeId(employeeId, bodyData);
+    return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
-    console.error(
-        `Error updating employee with ID: ${employeeId}`,
-        error
-    );
+    console.error("Error fetching timesheet:", error);
     return new Response(
-      JSON.stringify({
-        error: `Failed to update employee with ID: ${employeeId}`,
-      }),
+      JSON.stringify({ error: "Failed to update timesheet" }),
       { status: 500 },
     );
   }

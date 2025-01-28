@@ -1,11 +1,10 @@
 import { PageProps } from "$fresh/server.ts";
 import { deleteEmployeeById } from "../../../../components/utils/api-client/clients/employeeClient.ts";
+import {isValidRequestOrigin} from "../../utils/isValidRequestOrigin.ts";
+import {formatRouteParam} from "../../../../components/utils/formatter/formatRouteParam.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
-  const origin = req.headers.get("origin") || req.headers.get("referer");
-  const allowedOrigin = Deno.env.get("BASE_URL") || "";
-
-  if (!origin || !origin.startsWith(allowedOrigin)) {
+  if (!isValidRequestOrigin(req)) {
     return new Response(null, {
       status: 302,
       headers: {
@@ -14,9 +13,7 @@ export const handler = async (req: Request, props: PageProps) => {
     });
   }
 
-  const url = new URL(props.url);
-  const pathElements = url.pathname.split("/").filter(Boolean);
-  const employeeId = pathElements[pathElements.length - 1].split("?")[0];
+  const employeeId = formatRouteParam(props);
 
   if (!employeeId) {
     throw new Error("Missing employeeId");

@@ -1,38 +1,33 @@
-import {addUser} from "../../../../components/utils/api-client/users/userClient.ts";
+import { addUser } from "../../../../components/utils/api-client/users/userClient.ts";
+import { isValidRequestOrigin } from "../../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request) => {
-    const origin = req.headers.get("origin") || req.headers.get("referer");
-    const allowedOrigin = Deno.env.get("BASE_URL") || "";
+  if (!isValidRequestOrigin(req)) {
+    return new Response(null, {
+      status: 302,
+      headers: {
+        "Location": "/",
+      },
+    });
+  }
 
-    if (!origin || !origin.startsWith(allowedOrigin)) {
-        return new Response(null, {
-            status: 302,
-            headers: {
-                "Location": "/",
-            },
-        });
-    }
+  let bodyData = null;
 
-    let bodyData = null;
+  if (req.method === "POST" || req.method === "PUT") {
+    bodyData = await req.json();
+  }
 
-    if (req.method === "POST" || req.method === "PUT") {
-        bodyData = await req.json();
-    }
+  if (!bodyData) {
+    throw new Error("Missing body data");
+  }
 
-    if (!bodyData) {
-        throw new Error("Missing body data");
-    }
-
-    try {
-        const response = await addUser(bodyData);
-
-        if (!response) {
-            throw new Error("Failed to add user");
-        }
-
-        return new Response(JSON.stringify(response), { status: 200 });
-    } catch (error) {
-        console.error("Error adding user:", error);
-        return new Response(JSON.stringify({ error: "Failed to add user" }), { status: 500})
-    }
-}
+  try {
+    const response = await addUser(bodyData);
+    return new Response(JSON.stringify(response), { status: 200 });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    return new Response(JSON.stringify({ error: "Failed to add user" }), {
+      status: 500,
+    });
+  }
+};

@@ -1,11 +1,8 @@
 import { getEmployees } from "../../../components/utils/api-client/clients/employeeClient.ts";
+import {isValidRequestOrigin} from "../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request) => {
-  const origin = req.headers.get("origin") || req.headers.get("referer");
-  const allowedOrigin = Deno.env.get("BASE_URL") || "";
-  const cacheTimeout = Deno.env.get("CACHE_EXPIRATION") || "60";
-
-  if (!origin || !origin.startsWith(allowedOrigin)) {
+  if (!isValidRequestOrigin(req)) {
     return new Response(null, {
       status: 302,
       headers: {
@@ -13,6 +10,8 @@ export const handler = async (req: Request) => {
       },
     });
   }
+
+  const cacheTimeout = Deno.env.get("CACHE_EXPIRATION") || "60";
 
   try {
     const employees = await getEmployees(cacheTimeout);

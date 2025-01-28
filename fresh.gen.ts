@@ -9,12 +9,17 @@ import * as $api_employees_id_ from "./routes/api/employees/[id].tsx";
 import * as $api_employees_add_employee from "./routes/api/employees/add/employee.tsx";
 import * as $api_employees_all from "./routes/api/employees/all.tsx";
 import * as $api_employees_delete_id_ from "./routes/api/employees/delete/[id].tsx";
+import * as $api_employees_list_filter from "./routes/api/employees/list/filter.tsx";
 import * as $api_employees_update_id_ from "./routes/api/employees/update/[id].tsx";
 import * as $api_notifications_userId_ from "./routes/api/notifications/[userId].tsx";
 import * as $api_notifications_add_notification from "./routes/api/notifications/add/notification.tsx";
 import * as $api_notifications_update_notification from "./routes/api/notifications/update/notification.tsx";
+import * as $api_timesheet_id_ from "./routes/api/timesheet/[id].tsx";
+import * as $api_timesheet_all from "./routes/api/timesheet/all.tsx";
+import * as $api_timesheet_update_id_ from "./routes/api/timesheet/update/[id].tsx";
 import * as $api_users_add_user from "./routes/api/users/add/user.tsx";
 import * as $api_users_roles_id_ from "./routes/api/users/roles/[id].tsx";
+import * as $api_utils_isValidRequestOrigin from "./routes/api/utils/isValidRequestOrigin.ts";
 import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
 import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
 import * as $hr_employee_edit_address2_id_ from "./routes/hr/employee/edit/address2/[id].tsx";
@@ -62,14 +67,20 @@ const manifest = {
     "./routes/api/employees/add/employee.tsx": $api_employees_add_employee,
     "./routes/api/employees/all.tsx": $api_employees_all,
     "./routes/api/employees/delete/[id].tsx": $api_employees_delete_id_,
+    "./routes/api/employees/list/filter.tsx": $api_employees_list_filter,
     "./routes/api/employees/update/[id].tsx": $api_employees_update_id_,
     "./routes/api/notifications/[userId].tsx": $api_notifications_userId_,
     "./routes/api/notifications/add/notification.tsx":
       $api_notifications_add_notification,
     "./routes/api/notifications/update/notification.tsx":
       $api_notifications_update_notification,
+    "./routes/api/timesheet/[id].tsx": $api_timesheet_id_,
+    "./routes/api/timesheet/all.tsx": $api_timesheet_all,
+    "./routes/api/timesheet/update/[id].tsx": $api_timesheet_update_id_,
     "./routes/api/users/add/user.tsx": $api_users_add_user,
     "./routes/api/users/roles/[id].tsx": $api_users_roles_id_,
+    "./routes/api/utils/isValidRequestOrigin.ts":
+      $api_utils_isValidRequestOrigin,
     "./routes/hr/employee/[id].tsx": $hr_employee_id_,
     "./routes/hr/employee/edit/address1/[id].tsx":
       $hr_employee_edit_address1_id_,

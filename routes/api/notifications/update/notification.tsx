@@ -1,12 +1,10 @@
 import {
   updateEventNotificationByEventId,
 } from "../../../../components/utils/api-client/notifications/eventNotificationsClient.ts";
+import {isValidRequestOrigin} from "../../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request) => {
-  const origin = req.headers.get("origin") || req.headers.get("referer");
-  const allowedOrigin = Deno.env.get("BASE_URL") || "";
-
-  if (!origin || !origin.startsWith(allowedOrigin)) {
+  if (!isValidRequestOrigin(req)) {
     return new Response(null, {
       status: 302,
       headers: {
@@ -27,11 +25,6 @@ export const handler = async (req: Request) => {
 
   try {
     const response = await updateEventNotificationByEventId(bodyData);
-
-    if (response.status !== 200) {
-      throw new Error("Failed to update event notification");
-    }
-
     const notifications = response.json();
     return new Response(JSON.stringify(notifications), { status: 200 });
   } catch (error) {

@@ -1,26 +1,20 @@
-import {h} from "preact";
-import {useState} from "preact/hooks";
-import {Timesheet,} from "../../components/utils/api-client/types/Timesheet.ts";
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import { Timesheet } from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
 import BackButton from "../../components/buttons/BackButton.tsx";
-import {mapTimesheetMonth} from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
+import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 import Popup from "../../components/popup/popup.tsx";
-import {updateTimesheetByEmployeeId} from "../../components/utils/api-client/clients/timesheetClient.ts";
-import createTimesheetDayUpdateRequest
-  from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
+import createTimesheetDayUpdateRequest from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
 import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
-import {isHolidayInPoland} from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
+import { isHolidayInPoland } from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
+import Loader from "../../components/loader/loader.tsx";
 
 type TimesheetCalendarProps = {
   employeeId: string;
-  timesheet: Timesheet[];
   year: number;
   month: number;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
 };
 
 type DayData = {
@@ -33,8 +27,9 @@ type DayData = {
 };
 
 export default function TimesheetCalendar(
-  { employeeId, timesheet, year, month, apiConfig }: TimesheetCalendarProps,
+  { employeeId, year, month }: TimesheetCalendarProps,
 ): h.JSX.Element {
+  const [timesheet, setTimesheet] = useState<Timesheet[] | null>(null);
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedTimesheet, setSelectedTimesheet] = useState<Timesheet | null>(
@@ -44,6 +39,32 @@ export default function TimesheetCalendar(
     null,
   );
   const [formType, setFormType] = useState<string>("");
+
+  useEffect(() => {
+    async function fetchTimesheet() {
+      const response = await fetch(
+        `/api/timesheet/${employeeId}?year=${year}&month=${month}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        console.error("Failed to fetch timesheet");
+        return;
+      }
+
+      const timesheet: Timesheet[] = (await response.json()).result;
+      setTimesheet(timesheet);
+    }
+
+    if (!timesheet && year && month) {
+      fetchTimesheet();
+    }
+  }, []);
 
   const daysInMonth: number = new Date(year, month, 0).getDate();
   const daysArray: number[] = Array.from(
@@ -55,19 +76,21 @@ export default function TimesheetCalendar(
   const currentDate: Date = new Date();
 
   const getDayData = (day: number): DayData => {
-    for (const t of timesheet) {
-      if (t.year === year && t.month === month) {
-        setSelectedTimesheet(t);
-        const dayData = t.days.find((d) => d.day === day);
-        if (dayData) {
-          return {
-            hours: parseFloat(dayData.hours.$numberDecimal),
-            balance: parseFloat(dayData.balance.$numberDecimal),
-            isHoliday: dayData.dayOff.isHoliday,
-            isDayOff: dayData.dayOff.isDayOff,
-            isSickLeave: dayData.sickLeave.isSickLeave,
-            dayOffType: dayData.dayOff.type,
-          };
+    if (timesheet) {
+      for (const t of timesheet) {
+        if (t.year === year && t.month === month) {
+          setSelectedTimesheet(t);
+          const dayData = t.days.find((d) => d.day === day);
+          if (dayData) {
+            return {
+              hours: parseFloat(dayData.hours.$numberDecimal),
+              balance: parseFloat(dayData.balance.$numberDecimal),
+              isHoliday: dayData.dayOff.isHoliday,
+              isDayOff: dayData.dayOff.isDayOff,
+              isSickLeave: dayData.sickLeave.isSickLeave,
+              dayOffType: dayData.dayOff.type,
+            };
+          }
         }
       }
     }
@@ -156,19 +179,20 @@ export default function TimesheetCalendar(
       );
     }
 
-    try {
-      await updateTimesheetByEmployeeId(
-        employeeId,
-        dayUpdateRequest,
-        apiConfig,
-      );
-      globalThis.location.reload();
-    } catch (error) {
-      console.error("Error while updating timesheet:", error);
-    } finally {
-      handlePopup();
-    }
+    await fetch(`/api/timesheet/update/${employeeId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dayUpdateRequest),
+    });
+
+    globalThis.location.reload();
   };
+
+  if (!timesheet) {
+    return <Loader />;
+  }
 
   return (
     <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">

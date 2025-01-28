@@ -2,13 +2,13 @@ import {h} from "preact";
 import {mapTimesheetMonth} from "../mappers/mapTimesheetMonth.ts";
 
 type TimesheetPeriodSelectorProps = {
-    years: number[];
-    months: number[];
-    selectedYear: number | null;
-    selectedMonth: number | null;
-    handleYearChange: (e: h.JSX.TargetedEvent<HTMLSelectElement>) => void;
-    handleMonthChange: (e: h.JSX.TargetedEvent<HTMLSelectElement>) => void;
-}
+  years: number[];
+  months: number[];
+  selectedYear: number | null;
+  selectedMonth: number | null;
+  handleYearChange: (e: h.JSX.TargetedEvent<HTMLSelectElement>) => void;
+  handleMonthChange: (e: h.JSX.TargetedEvent<HTMLSelectElement>) => void;
+};
 
 export default function TimesheetPeriodSelector(
   {
@@ -36,7 +36,9 @@ export default function TimesheetPeriodSelector(
       </div>
       {selectedYear && (
         <div>
-          <label htmlFor="month" class="text-gray-800 mr-2">Wybierz miesiąc:</label>
+          <label htmlFor="month" class="text-gray-800 mr-2">
+            Wybierz miesiąc:
+          </label>
           <select
             id="month"
             value={selectedMonth ?? ""}

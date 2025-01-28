@@ -1,10 +1,8 @@
-import { PageProps } from "$fresh/server.ts";
+import {PageProps} from "$fresh/server.ts";
 import TimesheetCalendar from "../../../../islands/timesheet/TimesheetCalendar.tsx";
-import { getTimesheetByEmployeeIdYearAndMonth } from "../../../../components/utils/api-client/clients/timesheetClient.ts";
-import { getApiConfig } from "../../../../components/utils/api-client/config/getApiConfig.ts";
-import { formatRouteParam } from "../../../../components/utils/formatter/formatRouteParam.ts";
+import {formatRouteParam} from "../../../../components/utils/formatter/formatRouteParam.ts";
 
-export default async function TimesheetByYearAndMonth(props: PageProps) {
+export default function TimesheetByYearAndMonth(props: PageProps) {
   const url = new URL(props.url);
   const employeeId = formatRouteParam(props);
   const selectedYear = parseInt(
@@ -15,22 +13,13 @@ export default async function TimesheetByYearAndMonth(props: PageProps) {
     url.searchParams.get("month") || "1",
     new Date().getMonth(),
   );
-  const apiConfig = getApiConfig();
-
-  const timesheet = await getTimesheetByEmployeeIdYearAndMonth(
-    employeeId,
-    selectedYear,
-    selectedMonth,
-  );
 
   return (
     <div class="min-w-full w-full">
       <TimesheetCalendar
         employeeId={employeeId}
-        timesheet={timesheet.result}
         year={selectedYear}
         month={selectedMonth}
-        apiConfig={apiConfig}
       />
     </div>
   );

@@ -2,12 +2,11 @@ import { PageProps } from "$fresh/server.ts";
 import {
   getEventNotificationsByUserId,
 } from "../../../components/utils/api-client/notifications/eventNotificationsClient.ts";
+import { isValidRequestOrigin } from "../utils/isValidRequestOrigin.ts";
+import { formatRouteParam } from "../../../components/utils/formatter/formatRouteParam.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
-  const origin = req.headers.get("origin") || req.headers.get("referer");
-  const allowedOrigin = Deno.env.get("BASE_URL") || "";
-
-  if (!origin || !origin.startsWith(allowedOrigin)) {
+  if (!isValidRequestOrigin(req)) {
     return new Response(null, {
       status: 302,
       headers: {
@@ -16,9 +15,7 @@ export const handler = async (req: Request, props: PageProps) => {
     });
   }
 
-  const url = new URL(props.url);
-  const pathElements = url.pathname.split("/").filter(Boolean);
-  const userId = pathElements[pathElements.length - 1].split("?")[0];
+  const userId = formatRouteParam(props);
 
   if (!userId) {
     throw new Error("Missing userId");

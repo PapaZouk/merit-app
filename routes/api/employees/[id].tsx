@@ -1,12 +1,10 @@
 import { PageProps } from "$fresh/server.ts";
 import {getEmployeeById} from "../../../components/utils/api-client/clients/employeeClient.ts";
 import {formatRouteParam} from "../../../components/utils/formatter/formatRouteParam.ts";
+import {isValidRequestOrigin} from "../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
-    const origin = req.headers.get("origin") || req.headers.get("referer");
-    const allowedOrigin = Deno.env.get("BASE_URL") || "";
-
-    if (!origin || !origin.startsWith(allowedOrigin)) {
+    if (!isValidRequestOrigin(req)) {
         return new Response(null, {
             status: 302,
             headers: {
