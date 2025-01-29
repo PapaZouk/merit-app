@@ -6,6 +6,7 @@ import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
 import Loader from "../../components/loader/loader.tsx";
+import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
 
 export default function TimesheetOverview(): h.JSX.Element {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
@@ -18,6 +19,7 @@ export default function TimesheetOverview(): h.JSX.Element {
   );
   const [years, setYears] = useState<number[]>([]);
   const [months, setMonths] = useState<number[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
   useEffect(() => {
     async function fetchTimesheet() {
@@ -82,8 +84,18 @@ export default function TimesheetOverview(): h.JSX.Element {
     setSelectedMonth(parseInt(target.value));
   };
 
+  const handleFilterEmployees = (event: Event) => {
+    const target = event.target as HTMLSelectElement;
+    if (target.value === "Wszyscy") {
+      setSelectedEmployee(null);
+      return;
+    }
+    const employee = employees?.find((e) => e._id === target.value);
+    setSelectedEmployee(employee || null);
+  }
+
   const filteredTimesheet = timesheet?.filter((t) =>
-    t.year === selectedYear && t.month === selectedMonth
+    t.year === selectedYear && t.month === selectedMonth && (!selectedEmployee || t.employeeId === selectedEmployee._id)
   );
 
   if (!employees && !timesheet) {
@@ -95,19 +107,25 @@ export default function TimesheetOverview(): h.JSX.Element {
       <h1 class="flex items-center text-gray-800 text-xl font-bold mb-4">
         <CalendarDays class="mr-2 w-5 h-5" /> Przegląd grafików
       </h1>
-      <TimesheetPeriodSelector
-        years={years}
-        months={months}
-        selectedYear={selectedYear}
-        selectedMonth={selectedMonth}
-        handleYearChange={handleYearChange}
-        handleMonthChange={handleMonthChange}
-        key={selectedYear}
-      />
+      <div class="flex flex-col sm:flex-row items-center justify-start bg-white p-4 mb-2">
+        <TimesheetPeriodSelector
+          years={years}
+          months={months}
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+          handleYearChange={handleYearChange}
+          handleMonthChange={handleMonthChange}
+          key={selectedYear}
+        />
+        <TimesheetOverviewController
+            existingEmployees={employees}
+            setSelectedEmployee={handleFilterEmployees}
+        />
+      </div>
       {selectedYear && selectedMonth && filteredTimesheet && employees && (
         <TimesheetOverviewTable
           timesheet={filteredTimesheet}
-          employees={employees}
+          employees={selectedEmployee ? [selectedEmployee] : employees}
           selectedYear={selectedYear}
           selectedMonth={selectedMonth}
         />

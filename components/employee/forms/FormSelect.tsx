@@ -1,7 +1,7 @@
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import FormLabel from "./FormLabel.tsx";
 
-type Option = {
+export type Option = {
   value: string | undefined;
   label: string;
 };
@@ -19,6 +19,8 @@ type UpdateSelectProps = {
   className?: string;
   extraClass?: string;
   error?: string;
+  hasLabel?: boolean;
+  selectedOption?: string;
 };
 
 export default function FormSelect(
@@ -33,6 +35,8 @@ export default function FormSelect(
     className,
     extraClass,
     error,
+    hasLabel = true,
+    selectedOption,
   }: UpdateSelectProps,
 ) {
   if (typeof value === "object") {
@@ -43,7 +47,7 @@ export default function FormSelect(
     "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2";
   return (
     <div>
-      <FormLabel htmlFor={htmlFor} text={text} />
+      {hasLabel && <FormLabel htmlFor={htmlFor} text={text} />}
       <select
         id={htmlFor}
         name={htmlFor}
@@ -61,7 +65,7 @@ export default function FormSelect(
           </option>
         )}
         {options.map((option: Option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} selected={selectedOption === option.label}>
             {option.label}
           </option>
         ))}
