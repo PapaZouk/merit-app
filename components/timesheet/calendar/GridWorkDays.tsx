@@ -4,6 +4,7 @@ import getGridDayBackgroundColor from "./utils/getGridDayBackgroundColor.ts";
 import { mapDayOffTypeIcon } from "./utils/mapDayOffTypeIcon.tsx";
 import { mapDayOffPayType } from "./utils/mapDayOffPayType.tsx";
 import { isHolidayInPoland } from "./utils/isHolidayInPoland.ts";
+import {mapTotalBalance} from "../mappers/mapTotalBalance.tsx";
 
 type GridWorkDaysProps = {
   firstDayOfMonth: number;
@@ -85,8 +86,7 @@ export default function GridWorkDays(
                 <span
                   class={`${dayData.balance < 0 ? "text-red-500" : "text-green-500"}`}
                 >
-                  {dayData.balance <= 0 ? "" : "+"}
-                  {dayData.balance}
+                  {mapTotalBalance(dayData.balance, false)}
                 </span>
               </div>
               {!isWeekend && mapDayOffPayType(dayData.dayOffType)}

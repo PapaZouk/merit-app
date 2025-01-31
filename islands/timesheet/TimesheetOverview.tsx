@@ -1,12 +1,16 @@
 import { h } from "preact";
 import { CalendarDays } from "https://esm.sh/lucide-preact@latest";
 import { useEffect, useState } from "preact/hooks";
-import { Timesheet } from "../../components/utils/api-client/types/Timesheet.ts";
+import {
+  Days,
+  Timesheet,
+} from "../../components/utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
 import Loader from "../../components/loader/loader.tsx";
 import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
+import mongoose from "npm:mongoose";
 
 export default function TimesheetOverview(): h.JSX.Element {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
@@ -19,7 +23,9 @@ export default function TimesheetOverview(): h.JSX.Element {
   );
   const [years, setYears] = useState<number[]>([]);
   const [months, setMonths] = useState<number[]>([]);
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null,
+  );
 
   useEffect(() => {
     async function fetchTimesheet() {
@@ -43,22 +49,44 @@ export default function TimesheetOverview(): h.JSX.Element {
       const queryIds: string = timesheet.map((t: Timesheet) => t.employeeId)
         .join(",");
 
-      const employeesResponse = await fetch(
-        `/api/employees/list/filter?ids=${queryIds}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      // const employeesResponse = await fetch(
+      //   `/api/employees/list/filter?ids=${queryIds}`,
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   },
+      // );
+      const employeesResponse = await fetch("/api/employees/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       if (!employeesResponse.ok) {
         console.error("Failed to fetch employees");
         return;
       }
 
-      const employees = (await employeesResponse.json()).result;
+      const employees: Employee[] = (await employeesResponse.json()).result;
+      const newTimesheet = employees
+        .filter((employee: Employee) =>
+          !timesheet.some((t: Timesheet) => t.employeeId === employee._id)
+        )
+        .map((employee: Employee) => {
+          return {
+            _id: employee._id,
+            employeeId: employee._id,
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+            totalHours: { $numberDecimal: "0" },
+            totalBalance: { $numberDecimal: "0" },
+            days: [] as Days[],
+          } as unknown as Timesheet;
+        });
+      timesheet.push(...newTimesheet);
 
       setYears(years);
       setMonths(Array.from({ length: 12 }, (_, i) => i + 1));
@@ -92,10 +120,11 @@ export default function TimesheetOverview(): h.JSX.Element {
     }
     const employee = employees?.find((e) => e._id === target.value);
     setSelectedEmployee(employee || null);
-  }
+  };
 
   const filteredTimesheet = timesheet?.filter((t) =>
-    t.year === selectedYear && t.month === selectedMonth && (!selectedEmployee || t.employeeId === selectedEmployee._id)
+    t.year === selectedYear && t.month === selectedMonth &&
+    (!selectedEmployee || t.employeeId === selectedEmployee._id)
   );
 
   if (!employees && !timesheet) {
@@ -118,8 +147,8 @@ export default function TimesheetOverview(): h.JSX.Element {
           key={selectedYear}
         />
         <TimesheetOverviewController
-            existingEmployees={employees}
-            setSelectedEmployee={handleFilterEmployees}
+          existingEmployees={employees}
+          setSelectedEmployee={handleFilterEmployees}
         />
       </div>
       {selectedYear && selectedMonth && filteredTimesheet && employees && (

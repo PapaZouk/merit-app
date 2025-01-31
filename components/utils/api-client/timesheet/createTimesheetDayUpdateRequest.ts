@@ -1,9 +1,8 @@
-import mongoose from "npm:mongoose";
-import {
-  Days,
-  Timesheet,
-  TimesheetDayUpdateRequest,
-} from "../types/Timesheet.ts";
+import {Days, Timesheet, TimesheetDayUpdateRequest,} from "../types/Timesheet.ts";
+import {calculateDayBalance} from "../../../timesheet/utils/calculateDayBalance.ts";
+
+import {calculateWorkedTime} from "../../../timesheet/utils/calculateWorkedTime.ts";
+import {isHolidayInPoland} from "../../../timesheet/calendar/utils/isHolidayInPoland.ts";
 
 export default function createTimesheetDayUpdateRequest(
   _id: string,
@@ -138,7 +137,3 @@ export default function createTimesheetDayUpdateRequest(
     };
   }
 }
-import { calculateDayBalance } from "../../../timesheet/utils/calculateDayBalance.ts";
-
-import { calculateWorkedTime } from "../../../timesheet/utils/calculateWorkedTime.ts";
-import { isHolidayInPoland } from "../../../timesheet/calendar/utils/isHolidayInPoland.ts";

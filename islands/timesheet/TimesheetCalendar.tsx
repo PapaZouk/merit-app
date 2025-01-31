@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { Timesheet } from "../../components/utils/api-client/types/Timesheet.ts";
+import {Days, Timesheet} from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
 import BackButton from "../../components/buttons/BackButton.tsx";
@@ -10,6 +10,8 @@ import createTimesheetDayUpdateRequest from "../../components/utils/api-client/t
 import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
 import { isHolidayInPoland } from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
 import Loader from "../../components/loader/loader.tsx";
+import { emptyTimesheetData } from "../../components/employee/utils/emptyTimesheetData.ts";
+import { AddTimesheetRequest } from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
 
 type TimesheetCalendarProps = {
   employeeId: string;
@@ -39,6 +41,7 @@ export default function TimesheetCalendar(
     null,
   );
   const [formType, setFormType] = useState<string>("");
+  const [isNewTimesheet, setIsNewTimesheet] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchTimesheet() {
@@ -52,12 +55,31 @@ export default function TimesheetCalendar(
         },
       );
 
-      if (!response.ok) {
-        console.error("Failed to fetch timesheet");
+      if (!response || !response.ok) {
+        const emptyTimesheet: Timesheet = emptyTimesheetData(
+          employeeId,
+          year,
+          month,
+        );
+        setTimesheet([emptyTimesheet]);
+        setIsNewTimesheet(true);
         return;
       }
 
-      const timesheet: Timesheet[] = (await response.json()).result;
+      const responseJsonBody = await response.json();
+
+      if (!responseJsonBody.result || responseJsonBody.result.length === 0) {
+        const emptyTimesheet: Timesheet = emptyTimesheetData(
+          employeeId,
+          year,
+          month,
+        );
+        setTimesheet([emptyTimesheet]);
+        setIsNewTimesheet(true);
+        return;
+      }
+
+      const timesheet: Timesheet[] = responseJsonBody.result;
       setTimesheet(timesheet);
     }
 
@@ -179,13 +201,47 @@ export default function TimesheetCalendar(
       );
     }
 
-    await fetch(`/api/timesheet/update/${employeeId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dayUpdateRequest),
-    });
+    if (isNewTimesheet) {
+      const addTimesheetRequest: AddTimesheetRequest = {
+        employeeId: employeeId,
+        year: year,
+        month: month,
+        totalHours: dayUpdateRequest.totalHours,
+        totalBalance: dayUpdateRequest.totalBalance,
+        days: [...dayUpdateRequest.days.map((day: Days) => ({
+            day: day.day,
+            hours: day.hours.toString(),
+            checkIn: day.checkIn,
+            checkOut: day.checkOut,
+            balance: day.balance.toString(),
+            dayOff: {
+                isDayOff: day.dayOff.isDayOff,
+                isHoliday: day.dayOff.isHoliday,
+                isPaid: day.dayOff.isPaid,
+                type: day.dayOff.type,
+            },
+            sickLeave: {
+                isSickLeave: day.sickLeave.isSickLeave,
+            },
+        }))],
+      };
+
+      await fetch(`/api/timesheet/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(addTimesheetRequest),
+      });
+    } else {
+      await fetch(`/api/timesheet/update/${employeeId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dayUpdateRequest),
+      });
+    }
 
     globalThis.location.reload();
   };

@@ -13,10 +13,10 @@ export interface Timesheet {
 
 export interface Days {
     day: number;
-    hours: mongoose.Schema.Types.Decimal128|string;
+    hours: mongoose.Schema.Types.Decimal128|string|number;
     checkIn: string;
     checkOut: string;
-    balance: mongoose.Schema.Types.Decimal128|string;
+    balance: mongoose.Schema.Types.Decimal128|string|number;
     dayOff: DayOff;
     sickLeave: SickLeave;
 }
