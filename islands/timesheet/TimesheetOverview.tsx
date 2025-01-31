@@ -1,21 +1,17 @@
-import { h } from "preact";
-import { CalendarDays } from "https://esm.sh/lucide-preact@latest";
-import { useEffect, useState } from "preact/hooks";
-import {
-  Days,
-  Timesheet,
-} from "../../components/utils/api-client/types/Timesheet.ts";
-import { Employee } from "../../components/utils/api-client/types/Employee.ts";
+import {h} from "preact";
+import {CalendarDays} from "https://esm.sh/lucide-preact@latest";
+import {useEffect, useState} from "preact/hooks";
+import {Days, Timesheet,} from "../../components/utils/api-client/types/Timesheet.ts";
+import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
 import Loader from "../../components/loader/loader.tsx";
 import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
-import mongoose from "npm:mongoose";
 
 export default function TimesheetOverview(): h.JSX.Element {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
   const [timesheet, setTimesheet] = useState<Timesheet[] | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number | null>(
+  const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear(),
   );
   const [selectedMonth, setSelectedMonth] = useState<number | null>(
@@ -43,21 +39,9 @@ export default function TimesheetOverview(): h.JSX.Element {
 
       const timesheet: Timesheet[] = (await response.json()).result;
       const years: number[] = Array.from(
-        new Set(timesheet.map((t: Timesheet) => t.year)),
+          new Set(timesheet.map((t: Timesheet) => t.year)),
       );
 
-      const queryIds: string = timesheet.map((t: Timesheet) => t.employeeId)
-        .join(",");
-
-      // const employeesResponse = await fetch(
-      //   `/api/employees/list/filter?ids=${queryIds}`,
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   },
-      // );
       const employeesResponse = await fetch("/api/employees/all", {
         method: "GET",
         headers: {
@@ -71,35 +55,36 @@ export default function TimesheetOverview(): h.JSX.Element {
       }
 
       const employees: Employee[] = (await employeesResponse.json()).result;
-      const newTimesheet = employees
-        .filter((employee: Employee) =>
-          !timesheet.some((t: Timesheet) => t.employeeId === employee._id)
-        )
-        .map((employee: Employee) => {
-          return {
-            _id: employee._id,
-            employeeId: employee._id,
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            totalHours: { $numberDecimal: "0" },
-            totalBalance: { $numberDecimal: "0" },
-            days: [] as Days[],
-          } as unknown as Timesheet;
-        });
-      timesheet.push(...newTimesheet);
+
+      employees.forEach((employee: Employee) => {
+        for (let month = 1; month <= 12; month++) {
+          const existingTimesheet = timesheet.find((t: Timesheet) =>
+              t.employeeId === employee._id && t.year === selectedYear && t.month === month
+          );
+
+          if (!existingTimesheet) {
+            timesheet.push({
+              _id: `${employee._id}-${selectedYear}-${month}`,
+              employeeId: employee._id,
+              year: selectedYear,
+              month: month,
+              totalHours: { $numberDecimal: "0" },
+              totalBalance: { $numberDecimal: "0" },
+              days: [] as Days[],
+            });
+          }
+        }
+      });
 
       setYears(years);
       setMonths(Array.from({ length: 12 }, (_, i) => i + 1));
       setEmployees(employees);
       setTimesheet(timesheet);
-      setSelectedYear(new Date().getFullYear());
       setSelectedMonth(new Date().getMonth() + 1);
     }
 
-    if (!timesheet) {
-      fetchTimesheet();
-    }
-  }, []);
+    fetchTimesheet();
+  }, [selectedYear]);
 
   const handleYearChange = (event: Event) => {
     const target = event.target as HTMLSelectElement;
@@ -118,11 +103,11 @@ export default function TimesheetOverview(): h.JSX.Element {
       setSelectedEmployee(null);
       return;
     }
-    const employee = employees?.find((e) => e._id === target.value);
+    const employee = employees?.find((e: Employee) => e._id === target.value);
     setSelectedEmployee(employee || null);
   };
 
-  const filteredTimesheet = timesheet?.filter((t) =>
+  const filteredTimesheet = timesheet?.filter((t: Timesheet) =>
     t.year === selectedYear && t.month === selectedMonth &&
     (!selectedEmployee || t.employeeId === selectedEmployee._id)
   );

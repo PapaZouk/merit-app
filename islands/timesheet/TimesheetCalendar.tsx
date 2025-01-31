@@ -93,8 +93,8 @@ export default function TimesheetCalendar(
     { length: daysInMonth },
     (_, i) => i + 1,
   );
-  const firstDayOfMonth: number = (new Date(year, month - 1, 1).getDay() + 6) %
-    7; // Adjust to start from Monday
+  const firstDayOfMonth: number = (
+      new Date(year, month - 1, 1).getDay() + 6) % 7; // Adjust to start from Monday
   const currentDate: Date = new Date();
 
   const getDayData = (day: number): DayData => {

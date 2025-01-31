@@ -1,6 +1,6 @@
-import { h } from "preact";
-import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
-import { Employee } from "../../utils/api-client/types/Employee.ts";
+import {h} from "preact";
+import {Timesheet} from "../../utils/api-client/types/Timesheet.ts";
+import {Employee} from "../../utils/api-client/types/Employee.ts";
 import TimesheetOverviewTableHead from "./TimesheetOverviewTableHead.tsx";
 import TimesheetOverviewTableBody from "./TimesheetOverviewTableBody.tsx";
 

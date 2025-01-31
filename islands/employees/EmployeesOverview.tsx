@@ -1,6 +1,7 @@
 import {Employee} from "../../components/utils/api-client/types/Employee.ts";
 import EmployeesTable from "../tables/employeesTable.tsx";
 import {useEffect, useState} from "preact/hooks";
+import Loader from "../../components/loader/loader.tsx";
 
 export default function EmployeesOverview() {
   const [sortedEmployees, setSortedEmployees] = useState<Employee[]>([]);
@@ -25,6 +26,10 @@ export default function EmployeesOverview() {
 
     fetchEmployees();
   }, []);
+
+  if (!sortedEmployees) {
+    return <Loader />;
+  }
 
   return (
     <div>
