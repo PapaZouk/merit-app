@@ -31,8 +31,7 @@ export const handler = async (req: Request, props: PageProps) => {
 
   try {
     const response = await updateEmployeeById(employeeId, bodyData);
-    const employees = response.json();
-    return new Response(JSON.stringify(employees), { status: 200 });
+    return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.error(
         `Error updating employee with ID: ${employeeId}`,

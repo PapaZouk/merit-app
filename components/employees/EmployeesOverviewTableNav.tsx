@@ -8,13 +8,13 @@ type OverviewTableNavProps = {
   ) => void;
 };
 
-export default function OverviewTableNav(
+export default function EmployeesOverviewTableNav(
   { handleSort }: OverviewTableNavProps,
 ) {
   return (
-    <div class="flex flex-col md:flex-row items-start md:items-center">
-      <p class="flex items-center text-gray-300 mb-2 md:mb-0 md:mr-2">
-        <ArrowDownUp class="mr-1 w-4 h-4 md:w-6 md:h-6" />
+    <div class="flex flex-col sm:flex-row items-center justify-start bg-white p-4 mb-2">
+      <p class="flex items-center text-gray-800 mb-2 sm:mb-0 sm:mr-2">
+        <ArrowDownUp class="mr-1 w-4 h-4 sm:w-6 sm:h-6" />
         <span class="inline">Sortuj według:</span>
       </p>
       <div class="flex flex-wrap">

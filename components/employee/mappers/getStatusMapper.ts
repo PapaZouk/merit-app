@@ -1,18 +1,22 @@
+import {EmployeeStatus} from "../types/EmployeeStatus.ts";
+
 export function getStatusMapper(status: string): string {
   switch (status.toLowerCase()) {
-    case "active":
+    case EmployeeStatus.ACTIVE:
       return "Aktywny";
-    case "inactive":
+    case EmployeeStatus.INACTIVE:
       return "Nieaktywny";
-    case "terminated":
+    case EmployeeStatus.TERMINATED:
       return "Zwolniony";
-    case "suspended":
+    case EmployeeStatus.SUSPENDED:
       return "Zawieszony";
-    case "on-leave":
+    case EmployeeStatus.ON_LEAVE:
       return "Urlop";
-    case "retired":
+    case EmployeeStatus.RETIRED:
       return "Na emeryturze"
+    case EmployeeStatus.ARCHIVED:
+        return "Zarchiwizowany";
     default:
-      return "Brak";
+      return "Brak danych";
   }
 }

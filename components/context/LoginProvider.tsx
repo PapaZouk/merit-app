@@ -16,6 +16,7 @@ type LoginContextProps = {
     password: string,
   ) => void;
   handleLogout: () => void;
+  validateUserRoles: (roles: string[], expectedRoles: UserRoleEnum[]) => boolean;
   isLoading: boolean;
   loginError: boolean;
 };
@@ -99,6 +100,10 @@ export const LoginProvider = (
     userRoles.value = roles;
   }
 
+  const validateUserRoles = (roles: string[], expectedRoles: UserRoleEnum[]): boolean => {
+    return roles.some((role: string) => expectedRoles.includes(role as UserRoleEnum));
+  }
+
   return (
     <LoginContext.Provider
       value={{
@@ -109,6 +114,7 @@ export const LoginProvider = (
         isLoggedIn,
         handleLogin,
         handleLogout,
+        validateUserRoles: validateUserRoles,
         isLoading: isLoading.value,
         loginError: loginError.value,
       }}
