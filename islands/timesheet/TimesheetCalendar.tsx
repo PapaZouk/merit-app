@@ -1,18 +1,20 @@
-import {h} from "preact";
-import {useEffect, useState} from "preact/hooks";
-import {Days, Timesheet} from "../../components/utils/api-client/types/Timesheet.ts";
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import {
+  Days,
+  Timesheet,
+} from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
 import BackButton from "../../components/buttons/BackButton.tsx";
-import {mapTimesheetMonth} from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
+import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 import Popup from "../../components/popup/popup.tsx";
-import createTimesheetDayUpdateRequest
-  from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
+import createTimesheetDayUpdateRequest from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
 import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
-import {isHolidayInPoland} from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
+import { isHolidayInPoland } from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
 import Loader from "../../components/loader/loader.tsx";
-import {emptyTimesheetData} from "../../components/employee/utils/emptyTimesheetData.ts";
-import {AddTimesheetRequest} from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
+import { emptyTimesheetData } from "../../components/employee/utils/emptyTimesheetData.ts";
+import { AddTimesheetRequest } from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
 
 type TimesheetCalendarProps = {
   employeeId: string;
@@ -95,7 +97,8 @@ export default function TimesheetCalendar(
     (_, i) => i + 1,
   );
   const firstDayOfMonth: number = (
-      new Date(year, month - 1, 1).getDay() + 6) % 7; // Adjust to start from Monday
+    new Date(year, month - 1, 1).getDay() + 6
+  ) % 7; // Adjust to start from Monday
   const currentDate: Date = new Date();
 
   const getDayData = (day: number): DayData => {
@@ -210,20 +213,20 @@ export default function TimesheetCalendar(
         totalHours: dayUpdateRequest.totalHours,
         totalBalance: dayUpdateRequest.totalBalance,
         days: [...dayUpdateRequest.days.map((day: Days) => ({
-            day: day.day,
-            hours: day.hours.toString(),
-            checkIn: day.checkIn,
-            checkOut: day.checkOut,
-            balance: day.balance.toString(),
-            dayOff: {
-                isDayOff: day.dayOff.isDayOff,
-                isHoliday: day.dayOff.isHoliday,
-                isPaid: day.dayOff.isPaid,
-                type: day.dayOff.type,
-            },
-            sickLeave: {
-                isSickLeave: day.sickLeave.isSickLeave,
-            },
+          day: day.day,
+          hours: day.hours.toString(),
+          checkIn: day.checkIn,
+          checkOut: day.checkOut,
+          balance: day.balance.toString(),
+          dayOff: {
+            isDayOff: day.dayOff.isDayOff,
+            isHoliday: day.dayOff.isHoliday,
+            isPaid: day.dayOff.isPaid,
+            type: day.dayOff.type,
+          },
+          sickLeave: {
+            isSickLeave: day.sickLeave.isSickLeave,
+          },
         }))],
       };
 

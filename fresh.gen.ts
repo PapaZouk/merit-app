@@ -20,9 +20,7 @@ import * as $api_timesheet_create from "./routes/api/timesheet/create.tsx";
 import * as $api_timesheet_update_id_ from "./routes/api/timesheet/update/[id].tsx";
 import * as $api_users_add_user from "./routes/api/users/add/user.tsx";
 import * as $api_users_roles_id_ from "./routes/api/users/roles/[id].tsx";
-import * as $api_utils_getQueryParam from "./routes/api/utils/getQueryParam.ts";
 import * as $api_utils_isValidRequestOrigin from "./routes/api/utils/isValidRequestOrigin.ts";
-import * as $api_utils_validateQueryParams from "./routes/api/utils/validateQueryParams.ts";
 import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
 import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
 import * as $hr_employee_edit_address2_id_ from "./routes/hr/employee/edit/address2/[id].tsx";
@@ -83,10 +81,8 @@ const manifest = {
     "./routes/api/timesheet/update/[id].tsx": $api_timesheet_update_id_,
     "./routes/api/users/add/user.tsx": $api_users_add_user,
     "./routes/api/users/roles/[id].tsx": $api_users_roles_id_,
-    "./routes/api/utils/getQueryParam.ts": $api_utils_getQueryParam,
     "./routes/api/utils/isValidRequestOrigin.ts":
       $api_utils_isValidRequestOrigin,
-    "./routes/api/utils/validateQueryParams.ts": $api_utils_validateQueryParams,
     "./routes/hr/employee/[id].tsx": $hr_employee_id_,
     "./routes/hr/employee/edit/address1/[id].tsx":
       $hr_employee_edit_address1_id_,

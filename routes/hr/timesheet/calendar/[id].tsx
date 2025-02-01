@@ -5,14 +5,16 @@ import { formatRouteParam } from "../../../../components/utils/formatter/formatR
 export default function TimesheetByYearAndMonth(props: PageProps) {
   const url = new URL(props.url);
   const employeeId = formatRouteParam(props);
-  const selectedYear = parseInt(
-    url.searchParams.get("year") || new Date().getFullYear().toString(),
-    10,
-  );
-  const selectedMonth = parseInt(
-    url.searchParams.get("month") || "1",
-    10,
-  );
+
+  const year = url.searchParams.get("year");
+  const month = url.searchParams.get("month");
+
+  if (!year || !month) {
+    throw new Error("Missing required query parameters");
+  }
+
+  const selectedYear = parseInt(year);
+  const selectedMonth = parseInt(month);
 
   return (
     <div class="min-w-full w-full">

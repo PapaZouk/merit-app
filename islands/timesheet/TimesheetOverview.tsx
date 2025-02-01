@@ -10,6 +10,9 @@ import TimesheetPeriodSelector from "../../components/timesheet/overview/Timeshe
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
 import Loader from "../../components/loader/loader.tsx";
 import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
+import PreviousButton from "../../components/buttons/PreviousButton.tsx";
+import NextButton from "../../components/buttons/NextButton.tsx";
+import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 
 export default function TimesheetOverview(): h.JSX.Element {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
@@ -84,11 +87,14 @@ export default function TimesheetOverview(): h.JSX.Element {
       setMonths(Array.from({ length: 12 }, (_, i) => i + 1));
       setEmployees(employees);
       setTimesheet(timesheet);
-      setSelectedMonth(new Date().getMonth() + 1);
+
+      if (!selectedMonth) {
+        setSelectedMonth(new Date().getMonth() + 1);
+      }
     }
 
     fetchTimesheet();
-  }, [selectedYear]);
+  }, [selectedYear, setSelectedMonth]);
 
   const handleYearChange = (event: Event) => {
     const target = event.target as HTMLSelectElement;
@@ -99,6 +105,28 @@ export default function TimesheetOverview(): h.JSX.Element {
   const handleMonthChange = (event: Event) => {
     const target = event.target as HTMLSelectElement;
     setSelectedMonth(parseInt(target.value));
+  };
+
+  const handleNextMonthChange = () => {
+    if (selectedMonth) {
+      if (selectedMonth >= 1 && selectedMonth <= 11) {
+        setSelectedMonth(selectedMonth + 1);
+      } else {
+        setSelectedMonth(1);
+        setSelectedYear(selectedYear + 1);
+      }
+    }
+  };
+
+  const handlePreviousMonthChange = () => {
+    if (selectedMonth) {
+      if (selectedMonth >= 2 && selectedMonth <= 12) {
+        setSelectedMonth(selectedMonth - 1);
+      } else {
+        setSelectedMonth(12);
+        setSelectedYear(selectedYear - 1);
+      }
+    }
   };
 
   const handleFilterEmployees = (event: Event) => {
@@ -142,6 +170,23 @@ export default function TimesheetOverview(): h.JSX.Element {
         <TimesheetOverviewController
           existingEmployees={employees}
           setSelectedEmployee={handleFilterEmployees}
+        />
+      </div>
+      <div class="flex justify-center items-center mb-4">
+        <PreviousButton
+          disabled={false}
+          handlePrevious={handlePreviousMonthChange}
+          isTextVisible={false}
+        />
+        <p>
+          <strong>
+            {mapTimesheetMonth(selectedMonth ?? new Date().getMonth())}{"  "}
+            {selectedYear}
+          </strong>
+        </p>
+        <NextButton
+          handleNext={handleNextMonthChange}
+          isTextVisible={false}
         />
       </div>
       {selectedYear && selectedMonth && filteredTimesheet && employees && (

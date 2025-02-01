@@ -3,6 +3,7 @@ import { Days, Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { mapTotalBalance } from "../mappers/mapTotalBalance.tsx";
 import Loader from "../../loader/loader.tsx";
+import CheckButton from "../../buttons/CheckButton.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];
@@ -53,12 +54,7 @@ export default function TimesheetOverviewTableBody(
             <td class="py-2 px-4">{totalHours}</td>
             <td class="py-2 px-4">{totalBalance}</td>
             <td class="py-2 px-4">
-              <a
-                href={employeeTimesheetDetailsUrl}
-                class="ml-2 p-2 bg-blue-500 text-white rounded"
-              >
-                Zobacz
-              </a>
+              <CheckButton href={employeeTimesheetDetailsUrl} />
             </td>
           </tr>
         );
