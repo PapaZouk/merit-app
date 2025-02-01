@@ -1,17 +1,18 @@
-import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import {h} from "preact";
+import {useEffect, useState} from "preact/hooks";
 import {Days, Timesheet} from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
 import BackButton from "../../components/buttons/BackButton.tsx";
-import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
+import {mapTimesheetMonth} from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 import Popup from "../../components/popup/popup.tsx";
-import createTimesheetDayUpdateRequest from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
+import createTimesheetDayUpdateRequest
+  from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
 import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
-import { isHolidayInPoland } from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
+import {isHolidayInPoland} from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
 import Loader from "../../components/loader/loader.tsx";
-import { emptyTimesheetData } from "../../components/employee/utils/emptyTimesheetData.ts";
-import { AddTimesheetRequest } from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
+import {emptyTimesheetData} from "../../components/employee/utils/emptyTimesheetData.ts";
+import {AddTimesheetRequest} from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
 
 type TimesheetCalendarProps = {
   employeeId: string;

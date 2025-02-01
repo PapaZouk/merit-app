@@ -1,6 +1,6 @@
-import {PageProps} from "$fresh/server.ts";
+import { PageProps } from "$fresh/server.ts";
 import TimesheetCalendar from "../../../../islands/timesheet/TimesheetCalendar.tsx";
-import {formatRouteParam} from "../../../../components/utils/formatter/formatRouteParam.ts";
+import { formatRouteParam } from "../../../../components/utils/formatter/formatRouteParam.ts";
 
 export default function TimesheetByYearAndMonth(props: PageProps) {
   const url = new URL(props.url);
@@ -11,7 +11,7 @@ export default function TimesheetByYearAndMonth(props: PageProps) {
   );
   const selectedMonth = parseInt(
     url.searchParams.get("month") || "1",
-    new Date().getMonth(),
+    10,
   );
 
   return (

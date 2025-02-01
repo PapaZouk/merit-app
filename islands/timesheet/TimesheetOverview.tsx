@@ -1,8 +1,11 @@
-import {h} from "preact";
-import {CalendarDays} from "https://esm.sh/lucide-preact@latest";
-import {useEffect, useState} from "preact/hooks";
-import {Days, Timesheet,} from "../../components/utils/api-client/types/Timesheet.ts";
-import {Employee} from "../../components/utils/api-client/types/Employee.ts";
+import { h } from "preact";
+import { CalendarDays } from "https://esm.sh/lucide-preact@latest";
+import { useEffect, useState } from "preact/hooks";
+import {
+  Days,
+  Timesheet,
+} from "../../components/utils/api-client/types/Timesheet.ts";
+import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
 import Loader from "../../components/loader/loader.tsx";
@@ -39,7 +42,7 @@ export default function TimesheetOverview(): h.JSX.Element {
 
       const timesheet: Timesheet[] = (await response.json()).result;
       const years: number[] = Array.from(
-          new Set(timesheet.map((t: Timesheet) => t.year)),
+        new Set(timesheet.map((t: Timesheet) => t.year)),
       );
 
       const employeesResponse = await fetch("/api/employees/all", {
@@ -59,7 +62,8 @@ export default function TimesheetOverview(): h.JSX.Element {
       employees.forEach((employee: Employee) => {
         for (let month = 1; month <= 12; month++) {
           const existingTimesheet = timesheet.find((t: Timesheet) =>
-              t.employeeId === employee._id && t.year === selectedYear && t.month === month
+            t.employeeId === employee._id && t.year === selectedYear &&
+            t.month === month
           );
 
           if (!existingTimesheet) {
@@ -107,12 +111,16 @@ export default function TimesheetOverview(): h.JSX.Element {
     setSelectedEmployee(employee || null);
   };
 
-  const filteredTimesheet = timesheet?.filter((t: Timesheet) =>
-    t.year === selectedYear && t.month === selectedMonth &&
-    (!selectedEmployee || t.employeeId === selectedEmployee._id)
-  );
+  const filteredTimesheet = timesheet
+    ?.filter((t: Timesheet) =>
+      t.year === selectedYear && t.month === selectedMonth &&
+      (!selectedEmployee || t.employeeId === selectedEmployee._id)
+    )
+    .sort((a: Timesheet, b: Timesheet) => {
+      return b.days.length - a.days.length;
+    });
 
-  if (!employees && !timesheet) {
+  if (!employees && !filteredTimesheet) {
     return <Loader />;
   }
 
