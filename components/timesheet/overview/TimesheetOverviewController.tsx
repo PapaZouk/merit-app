@@ -80,9 +80,9 @@ export default function TimesheetOverviewController(
   };
 
   return (
-    <div class="ml-4 flex items-center md:flex-row mb-4">
-      <div class="flex items-center">
-        <label htmlFor="year" class="text-gray-800 mr-2">
+    <div class="ml-4 flex flex-col md:flex-row items-center mb-4">
+      <div class="flex flex-col w-full md:flex-row md:w-auto items-center mb-2 md:mb-0">
+        <label htmlFor="year" class="text-gray-800 w-full md:w-auto mr-2 mb-2">
           Wybierz pracownika:
         </label>
         <FormSelect
@@ -94,7 +94,7 @@ export default function TimesheetOverviewController(
           extraValues={["Wszyscy"]}
           handleChange={handleEmployeeChange}
           hasLabel={false}
-          extraClass={"w-48 mr-4"}
+          extraClass={"w-full md:w-48 mr-4"}
         />
       </div>
     </div>
