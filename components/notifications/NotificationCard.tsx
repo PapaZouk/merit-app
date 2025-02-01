@@ -1,5 +1,9 @@
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from "preact/hooks";
+import { getNotificationReadUpdateRequest } from "./utils/getNotificationReadUpdateRequest.ts";
+import { getNotificationHeaderBgColor } from "./utils/getNotificationHeaderBgColor.ts";
+import FormInput from "../employee/forms/FormInput.tsx";
+import { Employee } from "../utils/api-client/types/Employee.ts";
 
 type NotificationCardProps = {
   notification: EventNotification;
@@ -9,42 +13,45 @@ type NotificationCardProps = {
   };
 };
 
-const tagColors: { [key: string]: string } = {
-  finance: "bg-red-500",
-  hr: "bg-blue-500",
-  employee: "bg-yellow-500",
-  default: "bg-gray-800",
-};
-
 export default function NotificationCard(
   { notification, apiConfig }: NotificationCardProps,
 ) {
   const [isChecked, setIsChecked] = useState<boolean>(notification.isRead);
+  const [notificationAuthors, setNotificationAuthors] = useState<string|null>(null);
 
-  const headerBgColor = notification.tags.length > 0
-    ? notification.isRead
-      ? tagColors.default
-      : tagColors[notification.tags[0]] || tagColors.default
-    : tagColors.default;
+  useEffect(() => {
+    async function fetchAuthors() {
+      const response = await fetch(`/api/employees/${notification.createdBy}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  const notificationUpdateRequest = {
-    _id: notification._id,
-    userId: notification.userId,
-    eventId: notification.eventId,
-    title: notification.title,
-    description: notification.description,
-    date: notification.date,
-    time: notification.time,
-    location: notification.location,
-    createdBy: notification.createdBy,
-    tags: notification.tags,
-    isRead: true,
-  };
+      if (!response.ok) {
+        console.error("Failed to fetch authors");
+        return;
+      }
+
+      const author: Employee = (await response.json()).result;
+      setNotificationAuthors(`${author.personalData.firstName} ${author.personalData.lastName}`);
+    }
+
+    if (notification) {
+      fetchAuthors();
+    }
+  }, []);
+
+  const headerBgColor = getNotificationHeaderBgColor(notification);
+  const notificationUpdateRequest = getNotificationReadUpdateRequest(
+    notification,
+  );
+  const bgColor = `${notification.isRead ? "bg-gray-200" : "bg-white"}`;
 
   const handleCheckboxChange = async (): Promise<void> => {
     try {
       const response = await fetch(
-        `${apiConfig.url}/api/auth/notification/event/update/${notification.eventId}`,
+        "/api/notifications/update/notification",
         {
           method: "PUT",
           headers: {
@@ -66,8 +73,6 @@ export default function NotificationCard(
     }
   };
 
-  const bgColor = `${notification.isRead ? "bg-gray-200" : "bg-white"}`;
-
   return (
     <div class={`p-4 shadow-lg rounded-lg mb-2 ${bgColor}`}>
       <div
@@ -76,19 +81,20 @@ export default function NotificationCard(
         <h1 class="text-lg font-bold text-white">
           {notification.title} {isChecked ? "(Przeczytane)" : ""}
         </h1>
-        <input
-          type="checkbox"
-          class="form-checkbox h-5 w-5 text-blue-600"
+        <FormInput
+          type={"checkbox"}
+          name={"notification"}
+          value={notification.title}
           checked={isChecked}
           disabled={isChecked}
-          onChange={handleCheckboxChange}
+          handleChange={handleCheckboxChange}
         />
       </div>
       <p class={`text-gray-700 mb-1 text-sm ${bgColor}`}>
         {notification.description}
       </p>
       <p class="text-gray-500 text-xs">
-        {notification.date} {notification.time}
+        {notification.date} {notification.time}{notificationAuthors ? ` - ${notificationAuthors}` : ""}
       </p>
     </div>
   );

@@ -22,6 +22,7 @@ type UpdateInputProps = {
   error?: string;
   autoComplete?: string;
   checked?: boolean;
+  disabled?: boolean;
 };
 
 export default function FormInput(
@@ -41,6 +42,7 @@ export default function FormInput(
     error,
     autoComplete,
     checked,
+    disabled,
   }: UpdateInputProps,
 ) {
   const labelStyle = "mt-1 block w-full rounded-md border-gray-300 shadow-sm " +
@@ -66,6 +68,7 @@ export default function FormInput(
         required={required ?? false}
         autoComplete={autoComplete}
         checked={checked}
+        disabled={disabled}
       />
       {error && (
         <p class="text-red-500 text-sm">

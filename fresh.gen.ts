@@ -39,6 +39,7 @@ import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
 import * as $auth_login from "./islands/auth/login.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
+import * as $employees_EmployeesTable from "./islands/employees/EmployeesTable.tsx";
 import * as $employees_add_CreateNewEmployee from "./islands/employees/add/CreateNewEmployee.tsx";
 import * as $employees_edit_EmployeeUpdateAddress1 from "./islands/employees/edit/EmployeeUpdateAddress1.tsx";
 import * as $employees_edit_EmployeeUpdateAddress2 from "./islands/employees/edit/EmployeeUpdateAddress2.tsx";
@@ -53,7 +54,6 @@ import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
 import * as $mainNavigation from "./islands/mainNavigation.tsx";
 import * as $notifications_event_EventNotifications from "./islands/notifications/event/EventNotifications.tsx";
 import * as $sidebar from "./islands/sidebar.tsx";
-import * as $tables_employeesTable from "./islands/tables/employeesTable.tsx";
 import * as $timesheet_TimesheetCalendar from "./islands/timesheet/TimesheetCalendar.tsx";
 import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
 import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
@@ -110,6 +110,7 @@ const manifest = {
     "./islands/auth/login.tsx": $auth_login,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,
+    "./islands/employees/EmployeesTable.tsx": $employees_EmployeesTable,
     "./islands/employees/add/CreateNewEmployee.tsx":
       $employees_add_CreateNewEmployee,
     "./islands/employees/edit/EmployeeUpdateAddress1.tsx":
@@ -132,7 +133,6 @@ const manifest = {
     "./islands/notifications/event/EventNotifications.tsx":
       $notifications_event_EventNotifications,
     "./islands/sidebar.tsx": $sidebar,
-    "./islands/tables/employeesTable.tsx": $tables_employeesTable,
     "./islands/timesheet/TimesheetCalendar.tsx": $timesheet_TimesheetCalendar,
     "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,
     "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,

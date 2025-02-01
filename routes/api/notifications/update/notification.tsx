@@ -25,8 +25,7 @@ export const handler = async (req: Request) => {
 
   try {
     const response = await updateEventNotificationByEventId(bodyData);
-    const notifications = response.json();
-    return new Response(JSON.stringify(notifications), { status: 200 });
+    return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.error("Error adding event notification:", error);
     return new Response(

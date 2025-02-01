@@ -4,6 +4,7 @@ import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import TimesheetOverviewTableHead from "./TimesheetOverviewTableHead.tsx";
 import TimesheetOverviewTableBody from "./TimesheetOverviewTableBody.tsx";
+import PaginationNavigation from "../../tables/PaginationNavigation.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];
@@ -46,25 +47,12 @@ export default function TimesheetOverviewTable(
           employees={employees}
         />
       </table>
-      <div class="flex justify-between mt-4">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Poprzednie
-        </button>
-        <span class="px-4 py-2">
-          Strona {currentPage} z {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Następne
-        </button>
-      </div>
+      <PaginationNavigation
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+      />
     </div>
   );
 }

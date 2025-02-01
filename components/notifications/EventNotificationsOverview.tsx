@@ -2,8 +2,10 @@ import { h } from "preact";
 import { useState } from "preact/hooks";
 import NotificationCard from "./NotificationCard.tsx";
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
-import {useNotifications} from "../context/NotificationsProvider.tsx";
-import {sortNotifications} from "./utils/sortNotifications.ts";
+import { useNotifications } from "../context/NotificationsProvider.tsx";
+import { sortNotifications } from "./utils/sortNotifications.ts";
+import PaginationNavigation from "../tables/PaginationNavigation.tsx";
+import NoNotificationMessage from "./NoNotificationMessage.tsx";
 
 type EventNotificationsOverviewProps = {
   apiConfig: {
@@ -58,34 +60,13 @@ export default function EventNotificationsOverview(
               />
             ))
           )
-          : (
-            <div class="bg-white p-4 md:p-4 rounded-lg shadow-lg text-gray-800 w-full">
-              <div class="col-span-4 flex items-end justify-start mb-4 md:mb-6 mt-2">
-                <h1 class="flex items center text-xl font-bold mb-2 md:mb-0">
-                  Brak powiadomień
-                </h1>
-              </div>
-            </div>
-          )}
-        <div class="flex justify-between mt-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          >
-            Poprzednie
-          </button>
-          <span class="px-4 py-2">
-            Strona {currentPage} z {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          >
-            Następne
-          </button>
-        </div>
+          : <NoNotificationMessage />}
+        <PaginationNavigation
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+        />
       </div>
     </div>
   );
