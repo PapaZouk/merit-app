@@ -14,10 +14,11 @@ import PaginationNavigation from "../tables/PaginationNavigation.tsx";
 
 type OverviewTableProps = {
   employees: Employee[];
+  showArchived: boolean;
 };
 
 export default function EmployeesOverviewTable(
-  { employees }: OverviewTableProps,
+  { employees, showArchived }: OverviewTableProps,
 ) {
   const { userRoles, validateUserRoles } = useLogin();
   const [employeeIdToArchive, setEmployeeIdToArchive] = useState<string | null>(
@@ -108,6 +109,10 @@ export default function EmployeesOverviewTable(
             const archived =
               employee.jobDetails.status === EmployeeStatus.ARCHIVED;
 
+            if (!showArchived && archived) {
+              return null;
+            }
+
             return (
               <tr
                 key={employee._id}
@@ -132,18 +137,18 @@ export default function EmployeesOverviewTable(
                 ]) && (
                   archived
                     ? (
-                          <td class="lg:table-cell flex justify-center items-center">
-                            <UserX
-                                size={24}
-                                class="opacity-50 cursor-not-allowed md:ml-4"
-                            />
-                          </td>
-                      )
-                      : (
-                          <td class="lg:table-cell flex justify-center items-center">
-                            <ArchiveButton
-                                handleArchive={() => handleArchivePopup(employee._id)}
-                                extraClasses={archived
+                      <td class="lg:table-cell flex justify-center items-center">
+                        <UserX
+                          size={24}
+                          class="opacity-50 cursor-not-allowed md:ml-4"
+                        />
+                      </td>
+                    )
+                    : (
+                      <td class="lg:table-cell flex justify-center items-center">
+                        <ArchiveButton
+                          handleArchive={() => handleArchivePopup(employee._id)}
+                          extraClasses={archived
                             ? "opacity-50 cursor-not-allowed"
                             : ""}
                           disabled={archived}
@@ -167,7 +172,13 @@ export default function EmployeesOverviewTable(
       </table>
       <PaginationNavigation
         currentPage={currentPage}
-        totalPages={totalPages}
+        totalPages={showArchived
+          ? totalPages
+          : Math.ceil(
+            employees.filter((employee) =>
+              employee.jobDetails.status !== EmployeeStatus.ARCHIVED
+            ).length / employeesPerPage,
+          )}
         handleNextPage={handleNextPage}
         handlePreviousPage={handlePreviousPage}
       />

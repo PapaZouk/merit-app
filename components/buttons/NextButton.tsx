@@ -8,7 +8,7 @@ type NextButtonProps = {
 };
 
 export default function NextButton(
-  { disabled = false, handleNext, isTextVisible = true }: NextButtonProps,
+  { disabled = false, handleNext, isTextVisible = false }: NextButtonProps,
 ): h.JSX.Element {
   return (
     <button

@@ -45,8 +45,15 @@ export default function FormInput(
     disabled,
   }: UpdateInputProps,
 ) {
-  const labelStyle = "mt-1 block w-full rounded-md border-gray-300 shadow-sm " +
-    "focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2";
+  let labelStyle;
+  if (type === "checkbox") {
+    labelStyle =
+      "form-checkbox h-5 w-5 mt-2 text-indigo-600 transition duration-150 ease-in-out";
+  } else {
+    labelStyle = "mt-1 block w-full rounded-md border-gray-300 shadow-sm " +
+      "focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2";
+  }
+
   return (
     <div>
       {(label && name) && <FormLabel htmlFor={name} text={label} />}

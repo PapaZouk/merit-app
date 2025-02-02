@@ -52,7 +52,6 @@ export default function TimesheetOverviewTable(
         totalPages={totalPages}
         handleNextPage={handleNextPage}
         handlePreviousPage={handlePreviousPage}
-        isTextVisible={false}
       />
     </div>
   );

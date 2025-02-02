@@ -16,7 +16,6 @@ export default function PaginationNavigation(
     totalPages,
     handlePreviousPage,
     handleNextPage,
-    isTextVisible = true,
   }: TablePaginationNavigationProps,
 ): h.JSX.Element {
   return (
@@ -24,7 +23,6 @@ export default function PaginationNavigation(
       <PreviousButton
         disabled={currentPage === 1}
         handlePrevious={handlePreviousPage}
-        isTextVisible={isTextVisible}
       />
       <span class="px-4 py-2">
         Strona {currentPage} z {totalPages}
@@ -32,7 +30,6 @@ export default function PaginationNavigation(
       <NextButton
         disabled={currentPage === totalPages}
         handleNext={handleNextPage}
-        isTextVisible={isTextVisible}
       />
     </div>
   );

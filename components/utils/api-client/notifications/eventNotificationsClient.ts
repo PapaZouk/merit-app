@@ -78,3 +78,26 @@ export async function updateEventNotificationByEventId(
 
   return response.json();
 }
+
+export async function updateAllEventNotifications(
+    notification: EventNotification[],
+) {
+    const { url, token } = getApiConfig();
+    const response = await fetch(
+        `${url}/api/auth/notification/event/update/all`,
+        {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(notification),
+        },
+    );
+
+    if (response.status !== 200) {
+        throw new Error("Failed to update event notifications");
+    }
+
+    return response.json();
+}

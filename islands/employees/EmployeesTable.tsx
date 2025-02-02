@@ -16,9 +16,10 @@ type EmployeesTableProps = {
 export default function EmployeesTable(
   { sortedEmployees, setSortedEmployees }: EmployeesTableProps,
 ): h.JSX.Element {
-  const [isLastNameAscending, setIsLastNameAscending] = useState(true);
-  const [isDepartmentAscending, setIsDepartmentAscending] = useState(true);
-  const [isJobTitleAscending, setIsJobTitleAscending] = useState(true);
+  const [isLastNameAscending, setIsLastNameAscending] = useState<boolean>(true);
+  const [isDepartmentAscending, setIsDepartmentAscending] = useState<boolean>(true);
+  const [isJobTitleAscending, setIsJobTitleAscending] = useState<boolean>(true);
+  const [showArchived, setShowArchived] = useState<boolean>(false);
 
   const handleSort = (
     key: keyof Employee["personalData"] | keyof Employee["jobDetails"],
@@ -28,6 +29,10 @@ export default function EmployeesTable(
     );
     toggleOrder(key);
   };
+
+  const handleShowArchived = () => {
+    setShowArchived((prev) => !prev);
+  }
 
   const getOrder = (key: string) => {
     if (key === "lastName") return isLastNameAscending;
@@ -49,9 +54,9 @@ export default function EmployeesTable(
           <Users class="mr-2 w-5 h-5 md:w-6 md:h-6" />
           Pracownicy
         </h1>
-        <EmployeesOverviewTableNav handleSort={handleSort} />
+        <EmployeesOverviewTableNav handleSort={handleSort} handleShowArchived={handleShowArchived} />
       </div>
-      <EmployeesOverviewTable employees={sortedEmployees} />
+      <EmployeesOverviewTable employees={sortedEmployees} showArchived={showArchived} />
     </div>
   );
 }

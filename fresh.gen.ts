@@ -13,6 +13,7 @@ import * as $api_employees_list_filter from "./routes/api/employees/list/filter.
 import * as $api_employees_update_id_ from "./routes/api/employees/update/[id].tsx";
 import * as $api_notifications_userId_ from "./routes/api/notifications/[userId].tsx";
 import * as $api_notifications_add_notification from "./routes/api/notifications/add/notification.tsx";
+import * as $api_notifications_update_all from "./routes/api/notifications/update/all.tsx";
 import * as $api_notifications_update_notification from "./routes/api/notifications/update/notification.tsx";
 import * as $api_timesheet_id_ from "./routes/api/timesheet/[id].tsx";
 import * as $api_timesheet_all from "./routes/api/timesheet/all.tsx";
@@ -73,6 +74,7 @@ const manifest = {
     "./routes/api/notifications/[userId].tsx": $api_notifications_userId_,
     "./routes/api/notifications/add/notification.tsx":
       $api_notifications_add_notification,
+    "./routes/api/notifications/update/all.tsx": $api_notifications_update_all,
     "./routes/api/notifications/update/notification.tsx":
       $api_notifications_update_notification,
     "./routes/api/timesheet/[id].tsx": $api_timesheet_id_,

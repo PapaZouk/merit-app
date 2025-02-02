@@ -77,6 +77,7 @@ export const LoginProvider = (
 
       userRoles.value = user.labels;
       loginError.value = false;
+      userId.value = user.$id;
     } catch (e) {
       console.error("Error during login:", e);
       loginError.value = true;

@@ -8,7 +8,7 @@ type PreviousButtonProps = {
 };
 
 export default function PreviousButton(
-  { disabled, handlePrevious, isTextVisible = true }: PreviousButtonProps,
+  { disabled, handlePrevious, isTextVisible = false }: PreviousButtonProps,
 ): h.JSX.Element {
   return (
     <button
