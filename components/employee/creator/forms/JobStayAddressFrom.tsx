@@ -1,10 +1,10 @@
 import { h } from "preact";
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import FormInput from "../../forms/FormInput.tsx";
-import FormSelect from "../../forms/FormSelect.tsx";
-import { voivodeships } from "../../forms/utils/voivodeships.ts";
-import { countries } from "../../forms/utils/countries.ts";
+import FormInput from "../../../forms/FormInput.tsx";
+import FormSelect from "../../../forms/FormSelect.tsx";
+import { voivodeships } from "../../types/voivodeships.ts";
+import { countries } from "../../types/countries.ts";
 
 type JobStayAddressFromProps = {
   formData: EmployeeFormData;

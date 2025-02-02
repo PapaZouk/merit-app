@@ -1,5 +1,5 @@
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
-import { namePattern, phonePattern } from "../../forms/utils/patterns.ts";
+import { namePattern, phonePattern } from "../../update/utils/patterns.ts";
 
 export function validatePersonalDataForm(data: EmployeeFormData) {
   const errors: { [key: string]: string } = {};

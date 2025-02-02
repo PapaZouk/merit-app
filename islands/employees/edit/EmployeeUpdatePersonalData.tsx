@@ -1,15 +1,19 @@
-import EmployeePersonalDataForm from "../../../components/employee/forms/EmployeePersonalDataForm.tsx";
+import EmployeePersonalDataForm from "../../../components/employee/update/EmployeePersonalDataForm.tsx";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
 import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
-import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
-import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { useLogin } from "../../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
+import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isPersonalDataChanged } from "../../../components/employee/update/utils/isPersonalDataChanged.ts";
+import {
+  createEmployeePersonalDataUpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeePersonalDataUpdateRequest.ts";
 
 type EmployeeUpdateProps = {
   employeeId: string;
@@ -107,55 +111,16 @@ export default function EmployeeUpdatePersonalData(
   ) => {
     e.preventDefault();
 
-    const hasPersonalDataChanged =
-      formData.firstName !== employeeData.personalData.firstName ||
-      formData.lastName !== employeeData.personalData.lastName ||
-      formData.email !== employeeData.personalData.email ||
-      formData.phone !== employeeData.personalData.phone ||
-      formData.pesel !== employeeData.personalData.pesel ||
-      formData.clothSize !== employeeData.personalData.clothSize ||
-      formData.nip !== employeeData.personalData.nip;
+    const hasPersonalDataChanged = isPersonalDataChanged(
+      formData,
+      employeeData,
+    );
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        pesel: formData.pesel,
-        clothSize: formData.clothSize,
-        nip: formData.nip,
-        address1: employeeData.personalData.address1,
-        address2: employeeData.personalData.address2,
-        personalDataHistory: hasPersonalDataChanged
-          ? [
-            ...employeeData.personalData.personalDataHistory,
-            {
-              firstNameBefore: employeeData.personalData.firstName,
-              firstNameAfter: formData.firstName,
-              lastNameBefore: employeeData.personalData.lastName,
-              lastNameAfter: formData.lastName,
-              emailBefore: employeeData.personalData.email,
-              emailAfter: formData.email,
-              phoneBefore: employeeData.personalData.phone,
-              phoneAfter: formData.phone,
-              peselBefore: employeeData.personalData.pesel,
-              peselAfter: formData.pesel,
-              clothSizeBefore: employeeData.personalData.clothSize,
-              clothSizeAfter: formData.clothSize,
-              nipBefore: employeeData.personalData.nip,
-              nipAfter: formData.nip,
-              changeDate: new Date().toISOString(),
-            },
-          ]
-          : employeeData.personalData.personalDataHistory,
-      },
-      jobDetails: {
-        ...employeeData.jobDetails,
-        salary: { ...employeeData.jobDetails.salary },
-      },
-    };
+    const updatedData: Employee = createEmployeePersonalDataUpdateRequest(
+      formData,
+      employeeData,
+      hasPersonalDataChanged,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",
@@ -165,14 +130,15 @@ export default function EmployeeUpdatePersonalData(
       body: JSON.stringify(updatedData),
     });
 
-    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
-      userId,
-      "Zmiana danych osobowych",
-      `Dane osobowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
-      "HR",
-      user?.authId,
-      ["hr", "hrmanager"],
-    );
+    const eventNotificationRequest: EventNotificationCreateRequest =
+      createEventNotification(
+        userId,
+        "Zmiana danych osobowych",
+        `Dane osobowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+        "HR",
+        user?.authId,
+        ["hr", "hrmanager"],
+      );
 
     addNewEventNotification(eventNotificationRequest);
 

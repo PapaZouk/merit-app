@@ -2,26 +2,24 @@ import { EventNotification } from "../utils/api-client/types/EventNotification.t
 import { useEffect, useState } from "preact/hooks";
 import { getNotificationReadUpdateRequest } from "./utils/getNotificationReadUpdateRequest.ts";
 import { getNotificationHeaderBgColor } from "./utils/getNotificationHeaderBgColor.ts";
-import FormInput from "../employee/forms/FormInput.tsx";
+import FormInput from "../forms/FormInput.tsx";
 import { Employee } from "../utils/api-client/types/Employee.ts";
 
 type NotificationCardProps = {
   notification: EventNotification;
-  apiConfig: {
-    url: string;
-    token: string;
-  };
 };
 
 export default function NotificationCard(
-  { notification, apiConfig }: NotificationCardProps,
+  { notification }: NotificationCardProps,
 ) {
   const [isChecked, setIsChecked] = useState<boolean>(notification.isRead);
-  const [notificationAuthors, setNotificationAuthors] = useState<string|null>(null);
+  const [notificationAuthors, setNotificationAuthors] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     async function fetchAuthors() {
-      const response = await fetch(`/api/employees/${notification.createdBy}`, {
+      const response = await fetch(`/api/employees/${notification._id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +32,9 @@ export default function NotificationCard(
       }
 
       const author: Employee = (await response.json()).result;
-      setNotificationAuthors(`${author.personalData.firstName} ${author.personalData.lastName}`);
+      setNotificationAuthors(
+        `${author.personalData.firstName} ${author.personalData.lastName}`,
+      );
     }
 
     if (notification) {
@@ -56,7 +56,6 @@ export default function NotificationCard(
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "authorization": `Bearer ${apiConfig.token}`,
           },
           body: JSON.stringify(notificationUpdateRequest),
         },
@@ -94,7 +93,8 @@ export default function NotificationCard(
         {notification.description}
       </p>
       <p class="text-gray-500 text-xs">
-        {notification.date} {notification.time}{notificationAuthors ? ` - ${notificationAuthors}` : ""}
+        {notification.date} {notification.time}
+        {notificationAuthors ? ` - ${notificationAuthors}` : ""}
       </p>
     </div>
   );

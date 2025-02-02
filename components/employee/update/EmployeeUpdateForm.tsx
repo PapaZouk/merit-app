@@ -14,7 +14,7 @@ type UpdateFormProps = {
   ) => void;
 };
 
-export default function UpdateForm(
+export default function EmployeeUpdateForm(
   { children, employeeData, subTitle, handleSubmit }: UpdateFormProps,
 ) {
   return (

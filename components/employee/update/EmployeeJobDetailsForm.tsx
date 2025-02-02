@@ -1,14 +1,14 @@
 import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import {Employee} from "../../utils/api-client/types/Employee.ts";
-import UpdateForm from "./UpdateForm.tsx";
-import FormSelect from "./FormSelect.tsx";
-import {status} from "./utils/status.ts";
-import {jobTitles} from "./utils/jobTitles.ts";
-import {departments} from "./utils/departments.ts";
-import FormInput from "./FormInput.tsx";
-import {contractTypes} from "./utils/contractTypes.ts";
-import {workSchedules} from "./utils/workSchedules.ts";
-import {insuranceTypes} from "./utils/insuranceTypes.ts";
+import EmployeeUpdateForm from "./EmployeeUpdateForm.tsx";
+import FormSelect from "../../forms/FormSelect.tsx";
+import {status} from "../types/status.ts";
+import {jobTitles} from "../types/jobTitles.ts";
+import {departments} from "../types/departments.ts";
+import FormInput from "../../forms/FormInput.tsx";
+import {contractTypes} from "../types/contractTypes.ts";
+import {workSchedules} from "../types/workSchedules.ts";
+import {insuranceTypes} from "../types/insuranceTypes.ts";
 
 type EmployeeJobDetailsFormProps = {
   employeeData: Employee;
@@ -43,7 +43,7 @@ export default function EmployeeJobDetailsForm(
   }: EmployeeJobDetailsFormProps,
 ) {
   return (
-    <UpdateForm
+    <EmployeeUpdateForm
       employeeData={employeeData}
       subTitle={"Edytuj dane zawodowe"}
       handleSubmit={handleSubmit}
@@ -137,6 +137,6 @@ export default function EmployeeJobDetailsForm(
           />
         </div>
       </>
-    </UpdateForm>
+    </EmployeeUpdateForm>
   );
 }

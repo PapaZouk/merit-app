@@ -1,8 +1,8 @@
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import FormInput from "../../forms/FormInput.tsx";
-import FormSelect from "../../forms/FormSelect.tsx";
-import { currencies } from "../../forms/utils/currencies.ts";
+import FormInput from "../../../forms/FormInput.tsx";
+import FormSelect from "../../../forms/FormSelect.tsx";
+import { currencies } from "../../types/currencies.ts";
 
 type SalaryFormProps = {
   formData: EmployeeFormData;

@@ -1,7 +1,7 @@
 import {
   EmployeeStatus,
   EmployeeStatusPL,
-} from "../../types/EmployeeStatus.ts";
+} from "./EmployeeStatus.ts";
 
 export const status = [
   { value: EmployeeStatus.ACTIVE, label: EmployeeStatusPL.ACTIVE },

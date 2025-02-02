@@ -1,13 +1,13 @@
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import FormSelect from "../../forms/FormSelect.tsx";
-import { status } from "../../forms/utils/status.ts";
-import { jobTitles } from "../../forms/utils/jobTitles.ts";
-import { departments } from "../../forms/utils/departments.ts";
-import FormInput from "../../forms/FormInput.tsx";
-import { contractTypes } from "../../forms/utils/contractTypes.ts";
-import { workSchedules } from "../../forms/utils/workSchedules.ts";
-import { insuranceTypes } from "../../forms/utils/insuranceTypes.ts";
+import FormSelect from "../../../forms/FormSelect.tsx";
+import { status } from "../../types/status.ts";
+import { jobTitles } from "../../types/jobTitles.ts";
+import { departments } from "../../types/departments.ts";
+import FormInput from "../../../forms/FormInput.tsx";
+import { contractTypes } from "../../types/contractTypes.ts";
+import { workSchedules } from "../../types/workSchedules.ts";
+import { insuranceTypes } from "../../types/insuranceTypes.ts";
 
 type JobDetailsFormProps = {
   formData: EmployeeFormData;

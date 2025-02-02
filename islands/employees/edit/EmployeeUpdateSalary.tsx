@@ -1,7 +1,7 @@
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
 import { useEffect, useState } from "preact/hooks";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import EmployeeSalaryForm from "../../../components/employee/forms/EmployeeSalaryForm.tsx";
+import EmployeeSalaryForm from "../../../components/employee/update/EmployeeSalaryForm.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
@@ -9,6 +9,10 @@ import { EventNotificationCreateRequest } from "../../../components/utils/api-cl
 import { useLogin } from "../../../components/context/LoginProvider.tsx";
 import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
 import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isSalaryChanged } from "../../../components/employee/update/utils/isSalaryChanged.ts";
+import {
+  createEmployeeSalaryUpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeeSalaryUpdateRequest.ts";
 
 type EmployeeUpdateSalaryProps = {
   employeeId: string;
@@ -103,45 +107,13 @@ export default function EmployeeUpdateSalary(
   ) => {
     e.preventDefault();
 
-    const hasSalaryChanged =
-      formData.baseSalary !== employeeData.jobDetails.salary.baseSalary ||
-      formData.currency !== employeeData.jobDetails.salary.currency ||
-      formData.hourlyRate !== employeeData.jobDetails.salary.hourlyRate ||
-      formData.bankAccount !== employeeData.jobDetails.salary.bankAccount ||
-      formData.bankName !== employeeData.jobDetails.salary.bankName;
+    const hasSalaryChanged = isSalaryChanged(formData, employeeData);
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: { ...employeeData.personalData },
-      jobDetails: {
-        ...employeeData.jobDetails,
-        salary: {
-          baseSalary: formData.baseSalary,
-          currency: formData.currency,
-          hourlyRate: formData.hourlyRate,
-          bankAccount: formData.bankAccount,
-          bankName: formData.bankName,
-          salaryHistory: hasSalaryChanged
-            ? [
-              ...employeeData.jobDetails.salary.salaryHistory,
-              {
-                salaryBefore: employeeData.jobDetails.salary.baseSalary,
-                salaryAfter: formData.baseSalary,
-                hourlyRateBefore: employeeData.jobDetails.salary.hourlyRate,
-                hourlyRateAfter: formData.hourlyRate,
-                currencyBefore: employeeData.jobDetails.salary.currency,
-                currencyAfter: formData.currency,
-                bankAccountBefore: employeeData.jobDetails.salary.bankAccount,
-                bankAccountAfter: formData.bankAccount,
-                bankNameBefore: employeeData.jobDetails.salary.bankName,
-                bankNameAfter: formData.bankName,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : [...employeeData.jobDetails.salary.salaryHistory],
-        },
-      },
-    };
+    const updatedData: Employee = createEmployeeSalaryUpdateRequest(
+      formData,
+      employeeData,
+      hasSalaryChanged,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",

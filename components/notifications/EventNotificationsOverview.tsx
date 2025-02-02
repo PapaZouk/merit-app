@@ -6,19 +6,10 @@ import { useNotifications } from "../context/NotificationsProvider.tsx";
 import { sortNotifications } from "./utils/sortNotifications.ts";
 import PaginationNavigation from "../tables/PaginationNavigation.tsx";
 import NoNotificationMessage from "./NoNotificationMessage.tsx";
-import FormInput from "../employee/forms/FormInput.tsx";
-import FormLabel from "../employee/forms/FormLabel.tsx";
+import FormInput from "../forms/FormInput.tsx";
+import FormLabel from "../forms/FormLabel.tsx";
 
-type EventNotificationsOverviewProps = {
-  apiConfig: {
-    url: string;
-    token: string;
-  };
-};
-
-export default function EventNotificationsOverview(
-  { apiConfig }: EventNotificationsOverviewProps,
-): h.JSX.Element {
+export default function EventNotificationsOverview(): h.JSX.Element {
   const { eventNotifications } = useNotifications();
   const [currentPage, setCurrentPage] = useState(1);
   const notificationsPerPage = 4;
@@ -56,12 +47,12 @@ export default function EventNotificationsOverview(
       }
     });
 
-    await fetch('/api/notifications/update/all', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(eventNotifications),
+    await fetch("/api/notifications/update/all", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventNotifications),
     });
 
     globalThis.location.reload();
@@ -94,7 +85,6 @@ export default function EventNotificationsOverview(
               <NotificationCard
                 key={notification.eventId}
                 notification={notification}
-                apiConfig={apiConfig}
               />
             ))
           )

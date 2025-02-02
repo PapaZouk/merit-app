@@ -1,14 +1,18 @@
-import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
-import {useEffect, useState} from "preact/hooks";
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import EmployeeJobDetailsForm from "../../../components/employee/forms/EmployeeJobDetailsForm.tsx";
-import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
+import { useEffect, useState } from "preact/hooks";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import EmployeeJobDetailsForm from "../../../components/employee/update/EmployeeJobDetailsForm.tsx";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
-import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
-import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { useLogin } from "../../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
+import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isJobDetailsChanged } from "../../../components/employee/update/utils/isJobDetailsChanged.ts";
+import {
+  createEmployeeJobDetailsUpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeeJobDetailsUpdateRequest.ts";
 
 type EmployeeUpdateSalaryProps = {
   employeeId: string;
@@ -111,59 +115,13 @@ export default function EmployeeUpdateSalary(
   ) => {
     e.preventDefault();
 
-    const hasJobDetailsChanged =
-      formData.status !== employeeData.jobDetails.status ||
-      formData.jobTitle !== employeeData.jobDetails.jobTitle ||
-      formData.department !== employeeData.jobDetails.department ||
-      formData.startDate !== employeeData.jobDetails.startDate ||
-      formData.endDate !== employeeData.jobDetails.endDate ||
-      formData.contractType !== employeeData.jobDetails.contractType ||
-      formData.workSchedule !== employeeData.jobDetails.workSchedule ||
-      formData.insuranceType !== employeeData.jobDetails.insuranceType ||
-      formData.annualLeaveDays !== employeeData.jobDetails.annualLeaveDays;
+    const hasJobDetailsChanged = isJobDetailsChanged(formData, employeeData);
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: { ...employeeData.personalData },
-      jobDetails: {
-        ...employeeData.jobDetails,
-        status: formData.status,
-        jobTitle: formData.jobTitle,
-        department: formData.department,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        contractType: formData.contractType,
-        workSchedule: formData.workSchedule,
-        insuranceType: formData.insuranceType,
-        annualLeaveDays: formData.annualLeaveDays,
-        jobDetailsHistory: hasJobDetailsChanged
-          ? [
-            ...employeeData.jobDetails.jobDetailsHistory,
-            {
-              statusBefore: employeeData.jobDetails.status,
-              statusAfter: formData.status,
-              jobTitleBefore: employeeData.jobDetails.jobTitle,
-              jobTitleAfter: formData.jobTitle,
-              departmentBefore: employeeData.jobDetails.department,
-              departmentAfter: formData.department,
-              startDateBefore: employeeData.jobDetails.startDate,
-              startDateAfter: formData.startDate,
-              endDateBefore: employeeData.jobDetails.endDate,
-              endDateAfter: formData.endDate,
-              contractTypeBefore: employeeData.jobDetails.contractType,
-              contractTypeAfter: formData.contractType,
-              workScheduleBefore: employeeData.jobDetails.workSchedule,
-              workScheduleAfter: formData.workSchedule,
-              insuranceTypeBefore: employeeData.jobDetails.insuranceType,
-              insuranceTypeAfter: formData.insuranceType,
-              annualLeaveDaysBefore: employeeData.jobDetails.annualLeaveDays,
-              annualLeaveDaysAfter: formData.annualLeaveDays,
-              changeDate: new Date().toISOString(),
-            },
-          ]
-          : employeeData.jobDetails.jobDetailsHistory,
-      },
-    };
+    const updatedData: Employee = createEmployeeJobDetailsUpdateRequest(
+      formData,
+      employeeData,
+      hasJobDetailsChanged,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",

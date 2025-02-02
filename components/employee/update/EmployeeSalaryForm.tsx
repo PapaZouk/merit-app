@@ -1,9 +1,9 @@
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
-import { currencies } from "./utils/currencies.ts";
-import UpdateForm from "./UpdateForm.tsx";
-import FormInput from "./FormInput.tsx";
-import FormSelect from "./FormSelect.tsx";
+import { currencies } from "../types/currencies.ts";
+import EmployeeUpdateForm from "./EmployeeUpdateForm.tsx";
+import FormInput from "../../forms/FormInput.tsx";
+import FormSelect from "../../forms/FormSelect.tsx";
 
 type EmployeeSalaryFormProps = {
   employeeData: Employee;
@@ -34,7 +34,7 @@ export default function EmployeeSalaryForm(
   }: EmployeeSalaryFormProps,
 ) {
   return (
-    <UpdateForm
+    <EmployeeUpdateForm
       employeeData={employeeData}
       subTitle={"Edytuj wynagrodzenie"}
       handleSubmit={handleSubmit}
@@ -89,6 +89,6 @@ export default function EmployeeSalaryForm(
           />
         </div>
       </>
-    </UpdateForm>
+    </EmployeeUpdateForm>
   );
 }

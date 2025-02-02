@@ -1,13 +1,17 @@
-import {useEffect, useState} from "preact/hooks";
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
-import EmployeeAddress2Form from "../../../components/employee/forms/EmployeeAddress2Form.tsx";
-import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import { useEffect, useState } from "preact/hooks";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
+import EmployeeAddress2Form from "../../../components/employee/update/EmployeeAddress2Form.tsx";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
-import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { useLogin } from "../../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
+import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isAddress2Changed } from "../../../components/employee/update/utils/isAddress2Changed.ts";
+import {
+  createEmployeeAddress2UpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeeAddress2UpdateRequest.ts";
 
 type EmployeeUpdateAddress2Props = {
   employeeId: string;
@@ -104,50 +108,13 @@ export default function EmployeeUpdateAddress2(
   ) => {
     e.preventDefault();
 
-    const hasAddress2Changed =
-      formData.street2 !== employeeData.personalData.address2.street2 ||
-      formData.house2 !== employeeData.personalData.address2.house2 ||
-      formData.city2 !== employeeData.personalData.address2.city2 ||
-      formData.zip2 !== employeeData.personalData.address2.zip2 ||
-      formData.state2 !== employeeData.personalData.address2.state2 ||
-      formData.voivodeship2 !== employeeData.personalData.address2.voivodeship2;
+    const hasAddress2Changed = isAddress2Changed(formData, employeeData);
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: {
-        ...employeeData.personalData,
-        address2: {
-          street2: formData.street2,
-          house2: formData.house2,
-          city2: formData.city2,
-          zip2: formData.zip2,
-          state2: formData.state2,
-          voivodeship2: formData.voivodeship2,
-          address2History: hasAddress2Changed
-            ? [
-              ...employeeData.personalData.address2.address2History,
-              {
-                street2Before: employeeData.personalData?.address2?.street2,
-                street2After: formData.street2,
-                house2Before: employeeData.personalData?.address2?.house2,
-                house2After: formData.house2,
-                city2Before: employeeData.personalData?.address2?.city2,
-                city2After: formData.city2,
-                zip2Before: employeeData.personalData?.address2?.zip2,
-                zip2After: formData.zip2,
-                state2Before: employeeData.personalData?.address2?.state2,
-                state2After: formData.state2,
-                voivodeship2Before: employeeData.personalData?.address2
-                  ?.voivodeship2,
-                voivodeship2After: formData.voivodeship2,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : employeeData.personalData.address2.address2History,
-        },
-      },
-      jobDetails: { ...employeeData.jobDetails },
-    };
+    const updatedData: Employee = createEmployeeAddress2UpdateRequest(
+      formData,
+      employeeData,
+      hasAddress2Changed,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",
@@ -155,7 +122,7 @@ export default function EmployeeUpdateAddress2(
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedData),
-    })
+    });
 
     const eventNotificationRequest = createEventNotification(
       userId,

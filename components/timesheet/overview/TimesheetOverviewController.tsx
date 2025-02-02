@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
-import FormSelect, { Option } from "../../employee/forms/FormSelect.tsx";
+import FormSelect, { Option } from "../../forms/FormSelect.tsx";
 
 type EmployeeOption = {
   value: string;

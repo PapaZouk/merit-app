@@ -1,10 +1,10 @@
 import {Employee} from "../../utils/api-client/types/Employee.ts";
 import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {countries} from "./utils/countries.ts";
-import {voivodeships} from "./utils/voivodeships.ts";
-import UpdateForm from "./UpdateForm.tsx";
-import FormInput from "./FormInput.tsx";
-import FormSelect from "./FormSelect.tsx";
+import {countries} from "../types/countries.ts";
+import {voivodeships} from "../types/voivodeships.ts";
+import EmployeeUpdateForm from "./EmployeeUpdateForm.tsx";
+import FormInput from "../../forms/FormInput.tsx";
+import FormSelect from "../../forms/FormSelect.tsx";
 
 type EmployeeAddress1FormProps = {
   employeeData: Employee;
@@ -34,7 +34,7 @@ export default function EmployeeAddress1Form({
   handleSubmit,
 }: EmployeeAddress1FormProps) {
   return (
-    <UpdateForm
+    <EmployeeUpdateForm
       employeeData={employeeData}
       subTitle={"Edytuj adres zamieszkania"}
       handleSubmit={handleSubmit}
@@ -97,6 +97,6 @@ export default function EmployeeAddress1Form({
           />
         </div>
       </>
-    </UpdateForm>
+    </EmployeeUpdateForm>
   );
 }

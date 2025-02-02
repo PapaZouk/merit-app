@@ -1,5 +1,5 @@
 import {useEffect, useState} from "preact/hooks";
-import FormInput from "../../components/employee/forms/FormInput.tsx";
+import FormInput from "../../components/forms/FormInput.tsx";
 import {useLogin} from "../../components/context/LoginProvider.tsx";
 
 type LoginProps = {

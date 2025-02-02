@@ -1,7 +1,7 @@
 import { getFormattedDate } from "../../utils/formatter/getFormattedDate.ts";
-import { voivodeships } from "../forms/utils/voivodeships.ts";
-import { countries } from "../forms/utils/countries.ts";
-import { status } from "../forms/utils/status.ts";
+import { voivodeships } from "./voivodeships.ts";
+import { countries } from "./countries.ts";
+import { status } from "./status.ts";
 
 export type EmployeeFormData = {
   firstName: string;

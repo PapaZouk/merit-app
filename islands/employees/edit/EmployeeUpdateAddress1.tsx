@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import EmployeeAddress1Form from "../../../components/employee/forms/EmployeeAddress1Form.tsx";
+import EmployeeAddress1Form from "../../../components/employee/update/EmployeeAddress1Form.tsx";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
@@ -9,6 +9,10 @@ import { EventNotificationCreateRequest } from "../../../components/utils/api-cl
 import { useLogin } from "../../../components/context/LoginProvider.tsx";
 import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
 import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isAddress1Changed } from "../../../components/employee/update/utils/isAddress1Changed.ts";
+import {
+  createEmployeeAddress1UpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeeAddress1UpdateRequest.ts";
 
 type EmployeeUpdateAddress1Props = {
   employeeId: string;
@@ -105,50 +109,17 @@ export default function EmployeeUpdateAddress1(
   ) => {
     e.preventDefault();
 
-    const hasAddress1Changed =
-      formData.street1 !== employeeData.personalData.address1.street1 ||
-      formData.house1 !== employeeData.personalData.address1.house1 ||
-      formData.city1 !== employeeData.personalData.address1.city1 ||
-      formData.zip1 !== employeeData.personalData.address1.zip1 ||
-      formData.state1 !== employeeData.personalData.address1.state1 ||
-      formData.voivodeship1 !== employeeData.personalData.address1.voivodeship1;
+    const hasAddress1Changed = isAddress1Changed(formData, employeeData);
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: {
-        ...employeeData.personalData,
-        address1: {
-          street1: formData.street1,
-          house1: formData.house1,
-          city1: formData.city1,
-          zip1: formData.zip1,
-          state1: formData.state1,
-          voivodeship1: formData.voivodeship1,
-          address1History: hasAddress1Changed
-            ? [
-              ...employeeData.personalData.address1.address1History,
-              {
-                street1Before: employeeData.personalData.address1.street1,
-                street1After: formData.street1,
-                house1Before: employeeData.personalData.address1.house1,
-                house1After: formData.house1,
-                city1Before: employeeData.personalData.address1.city1,
-                city1After: formData.city1,
-                zip1Before: employeeData.personalData.address1.zip1,
-                zip1After: formData.zip1,
-                state1Before: employeeData.personalData.address1.state1,
-                state1After: formData.state1,
-                voivodeship1Before:
-                  employeeData.personalData.address1.voivodeship1,
-                voivodeship1After: formData.voivodeship1,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : employeeData.personalData.address1.address1History,
-        },
-      },
-      jobDetails: { ...employeeData.jobDetails },
-    };
+    if (!hasAddress1Changed) {
+      throw new Error("Address1 has not changed");
+    }
+
+    const updatedData: Employee = createEmployeeAddress1UpdateRequest(
+      formData,
+      employeeData,
+      hasAddress1Changed,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",
@@ -160,7 +131,7 @@ export default function EmployeeUpdateAddress1(
 
     const eventNotificationRequest: EventNotificationCreateRequest =
       createEventNotification(
-        userId,
+        user?.authId,
         "Zmiana danych adresu zamieszkania",
         `Dane adresu zamieszkania pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
         "HR",

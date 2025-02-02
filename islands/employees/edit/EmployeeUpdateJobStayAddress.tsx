@@ -1,14 +1,18 @@
-import {useEffect, useState} from "preact/hooks";
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
-import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
+import { useEffect, useState } from "preact/hooks";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
+import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
-import EmployeeJobStayAddressForm from "../../../components/employee/forms/EmployeeJobStayAddressForm.tsx";
-import {EventNotificationCreateRequest} from "../../../components/utils/api-client/types/EventNotification.ts";
+import EmployeeJobStayAddressForm from "../../../components/employee/update/EmployeeJobStayAddressForm.tsx";
+import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
-import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { useLogin } from "../../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
+import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
+import { isJobStayAddressChanged } from "../../../components/employee/update/utils/isJobStayAddressChanged.ts";
+import {
+  createEmployeeJobStayAddressUpdateRequest,
+} from "../../../components/employee/update/utils/factories/createEmployeeJobStayAddressUpdateRequest.ts";
 
 type EmployeeUpdateJobStayAddressProps = {
   employeeId: string;
@@ -19,12 +23,18 @@ export default function EmployeeUpdateJobStayAddress(
 ) {
   const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployeeData);
   const [formData, setFormData] = useState({
-    jobStayAddressStreet: employeeData.jobDetails.jobStayAddress?.street ?? "Brak danych",
-    jobStayAddressHouse: employeeData.jobDetails.jobStayAddress?.house ?? "Brak danych",
-    jobStayAddressCity: employeeData.jobDetails.jobStayAddress?.city ?? "Brak danych",
-    jobStayAddressZip: employeeData.jobDetails.jobStayAddress?.zip ?? "Brak danych",
-    jobStayAddressState: employeeData.jobDetails.jobStayAddress?.state ?? "Brak danych",
-    jobStayAddressVoivodeship: employeeData.jobDetails.jobStayAddress?.voivodeship ?? "Brak danych",
+    jobStayAddressStreet: employeeData.jobDetails.jobStayAddress?.street ??
+      "Brak danych",
+    jobStayAddressHouse: employeeData.jobDetails.jobStayAddress?.house ??
+      "Brak danych",
+    jobStayAddressCity: employeeData.jobDetails.jobStayAddress?.city ??
+      "Brak danych",
+    jobStayAddressZip: employeeData.jobDetails.jobStayAddress?.zip ??
+      "Brak danych",
+    jobStayAddressState: employeeData.jobDetails.jobStayAddress?.state ??
+      "Brak danych",
+    jobStayAddressVoivodeship:
+      employeeData.jobDetails.jobStayAddress?.voivodeship ?? "Brak danych",
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const { userId, user } = useLogin();
@@ -51,12 +61,16 @@ export default function EmployeeUpdateJobStayAddress(
       const responseBody = await response.json();
       setEmployeeData(responseBody.result);
       setFormData({
-        jobStayAddressStreet: responseBody.result.jobDetails.jobStayAddress.street,
-        jobStayAddressHouse: responseBody.result.jobDetails.jobStayAddress.house,
+        jobStayAddressStreet:
+          responseBody.result.jobDetails.jobStayAddress.street,
+        jobStayAddressHouse:
+          responseBody.result.jobDetails.jobStayAddress.house,
         jobStayAddressCity: responseBody.result.jobDetails.jobStayAddress.city,
         jobStayAddressZip: responseBody.result.jobDetails.jobStayAddress.zip,
-        jobStayAddressState: responseBody.result.jobDetails.jobStayAddress.state,
-        jobStayAddressVoivodeship: responseBody.result.jobDetails.jobStayAddress.voivodeship,
+        jobStayAddressState:
+          responseBody.result.jobDetails.jobStayAddress.state,
+        jobStayAddressVoivodeship:
+          responseBody.result.jobDetails.jobStayAddress.voivodeship,
       });
     }
 
@@ -105,56 +119,16 @@ export default function EmployeeUpdateJobStayAddress(
   ) => {
     e.preventDefault();
 
-    const hasJobStayAddressChanged = formData.jobStayAddressStreet !==
-        employeeData.jobDetails.jobStayAddress?.street ||
-      formData.jobStayAddressHouse !==
-        employeeData.jobDetails.jobStayAddress?.house ||
-      formData.jobStayAddressHouse !==
-        employeeData.jobDetails.jobStayAddress?.city ||
-      formData.jobStayAddressZip !==
-        employeeData.jobDetails.jobStayAddress?.zip ||
-      formData.jobStayAddressState !==
-        employeeData.jobDetails.jobStayAddress?.state ||
-      formData.jobStayAddressVoivodeship !==
-        employeeData.jobDetails.jobStayAddress?.voivodeship;
+    const hasJobStayAddressChanged = isJobStayAddressChanged(
+      formData,
+      employeeData,
+    );
 
-    const updatedData: Employee = {
-      _id: employeeData._id,
-      personalData: employeeData.personalData,
-      jobDetails: {
-        ...employeeData.jobDetails,
-        jobStayAddress: {
-          street: formData.jobStayAddressStreet,
-          house: formData.jobStayAddressHouse,
-          city: formData.jobStayAddressCity,
-          zip: formData.jobStayAddressZip,
-          state: formData.jobStayAddressState,
-          voivodeship: formData.jobStayAddressVoivodeship,
-          jobStayAddressHistory: hasJobStayAddressChanged
-            ? [
-              ...employeeData.jobDetails.jobStayAddress
-                ?.jobStayAddressHistory ?? [],
-              {
-                streetBefore: employeeData.jobDetails.jobStayAddress?.street,
-                streetAfter: formData.jobStayAddressStreet,
-                houseBefore: employeeData.jobDetails.jobStayAddress?.house,
-                houseAfter: formData.jobStayAddressHouse,
-                cityBefore: employeeData.jobDetails.jobStayAddress?.city,
-                cityAfter: formData.jobStayAddressCity,
-                stateBefore: employeeData.jobDetails.jobStayAddress?.state,
-                stateAfter: formData.jobStayAddressState,
-                zipBefore: employeeData.jobDetails.jobStayAddress?.zip,
-                zipAfter: formData.jobStayAddressZip,
-                voivodeshipBefore: employeeData.jobDetails.jobStayAddress
-                  ?.voivodeship,
-                voivodeshipAfter: formData.jobStayAddressVoivodeship,
-                changeDate: new Date().toISOString(),
-              },
-            ]
-            : employeeData.jobDetails.jobStayAddress?.jobStayAddressHistory,
-        },
-      },
-    };
+    const updatedData: Employee = createEmployeeJobStayAddressUpdateRequest(
+      formData,
+      employeeData,
+      hasJobStayAddressChanged,
+    );
 
     await fetch(`/api/employees/update/${updatedData._id}`, {
       method: "PUT",

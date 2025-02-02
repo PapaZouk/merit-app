@@ -1,6 +1,6 @@
-import FormSelect from "../employee/forms/FormSelect.tsx";
+import FormSelect from "../forms/FormSelect.tsx";
 import { mapTimesheetMonth } from "../timesheet/mappers/mapTimesheetMonth.ts";
-import FormInput from "../employee/forms/FormInput.tsx";
+import FormInput from "../forms/FormInput.tsx";
 import CloseButton from "../buttons/CloseButton.tsx";
 import { dayOffTypes } from "../timesheet/types/DayOffTypes.ts";
 import { formTypes } from "../timesheet/types/FormTypes.ts";

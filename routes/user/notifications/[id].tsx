@@ -1,13 +1,10 @@
-import {getApiConfig} from "../../../components/utils/api-client/config/getApiConfig.ts";
 import EventNotifications from "../../../islands/notifications/event/EventNotifications.tsx";
 import {LoginProvider} from "../../../components/context/LoginProvider.tsx";
 
-export default async function EventNotificationByUserId() {
-  const apiConfig = getApiConfig();
-
+export default function EventNotificationByUserId() {
   return (
     <LoginProvider>
-      <EventNotifications apiConfig={apiConfig}/>
+      <EventNotifications />
     </LoginProvider>
   );
 }

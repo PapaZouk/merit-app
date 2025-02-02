@@ -1,10 +1,10 @@
 import { h } from "preact";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
-import UpdateForm from "./UpdateForm.tsx";
-import FormInput from "./FormInput.tsx";
-import FormSelect from "./FormSelect.tsx";
-import { clothSizes } from "./utils/clothSizes.ts";
+import EmployeeUpdateForm from "./EmployeeUpdateForm.tsx";
+import FormInput from "../../forms/FormInput.tsx";
+import FormSelect from "../../forms/FormSelect.tsx";
+import { clothSizes } from "../types/clothSizes.ts";
 import {
   namePattern,
   nipPattern,
@@ -39,7 +39,7 @@ export default function EmployeePersonalDataForm(
     EmployeePersonalDataFormProps,
 ): h.JSX.Element {
   return (
-    <UpdateForm
+    <EmployeeUpdateForm
       employeeData={employeeData}
       subTitle={"Edytuj dane osobowe"}
       handleSubmit={handleSubmit}
@@ -115,6 +115,6 @@ export default function EmployeePersonalDataForm(
           />
         </div>
       </>
-    </UpdateForm>
+    </EmployeeUpdateForm>
   );
 }
