@@ -1,6 +1,5 @@
 import EmployeePersonalDataForm from "../../../components/employee/update/EmployeePersonalDataForm.tsx";
 import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { updateEmployeeById } from "../../../components/utils/api-client/clients/employeeClient.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useEffect, useState } from "preact/hooks";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
@@ -14,6 +13,8 @@ import { isPersonalDataChanged } from "../../../components/employee/update/utils
 import {
   createEmployeePersonalDataUpdateRequest,
 } from "../../../components/employee/update/utils/factories/createEmployeePersonalDataUpdateRequest.ts";
+import { handleChangeFormData } from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
+import { EmployeeEventTagsEnum } from "../../../components/notifications/types/RoleTagsEnum.ts";
 
 type EmployeeUpdateProps = {
   employeeId: string;
@@ -33,7 +34,7 @@ export default function EmployeeUpdatePersonalData(
     nip: employeeData.personalData.nip ?? 0,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
-  const { userId, user } = useLogin();
+  const { userId } = useLogin();
   const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
@@ -42,12 +43,7 @@ export default function EmployeeUpdatePersonalData(
       Event
     >,
   ) => {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
-    const { name, value } = target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    handleChangeFormData(e, setFormData);
   };
 
   useEffect(() => {
@@ -130,17 +126,13 @@ export default function EmployeeUpdatePersonalData(
       body: JSON.stringify(updatedData),
     });
 
-    const eventNotificationRequest: EventNotificationCreateRequest =
-      createEventNotification(
-        userId,
-        "Zmiana danych osobowych",
-        `Dane osobowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
-        "HR",
-        user?.authId,
-        ["hr", "hrmanager"],
-      );
-
-    addNewEventNotification(eventNotificationRequest);
+    addNewEventNotification(createEventNotification(
+      userId,
+      "Zmiana danych osobowych",
+      `Dane osobowe pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+      "HR",
+      [EmployeeEventTagsEnum.UPDATED],
+    ));
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };

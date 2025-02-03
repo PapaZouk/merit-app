@@ -41,19 +41,27 @@ export default function EventNotificationsOverview(): h.JSX.Element {
   };
 
   const handleMarkAllAsRead = async () => {
-    eventNotifications.forEach((notification: EventNotification) => {
-      if (!notification.isRead) {
-        notification.isRead = true;
-      }
-    });
+    const unreadNotificationsIds: string[] = eventNotifications.filter((
+      notification: EventNotification,
+    ) => !notification.isRead)
+      .map((notification: EventNotification) => {
+        return notification._id;
+      });
 
-    await fetch("/api/notifications/update/all", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    if (unreadNotificationsIds.length === 0) {
+      throw new Error("No unread notifications to mark as read");
+    }
+
+    await fetch(
+      `/api/notifications/update/all?ids=${unreadNotificationsIds.join(",")}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventNotifications),
       },
-      body: JSON.stringify(eventNotifications),
-    });
+    );
 
     globalThis.location.reload();
   };

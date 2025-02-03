@@ -5,7 +5,6 @@ import EmployeeAddress1Form from "../../../components/employee/update/EmployeeAd
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
 import { useLogin } from "../../../components/context/LoginProvider.tsx";
 import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
 import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
@@ -13,6 +12,11 @@ import { isAddress1Changed } from "../../../components/employee/update/utils/isA
 import {
   createEmployeeAddress1UpdateRequest,
 } from "../../../components/employee/update/utils/factories/createEmployeeAddress1UpdateRequest.ts";
+import { handleChangeFormData } from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
+import {
+  EmployeeEventTagsEnum,
+  RoleTagsEnum,
+} from "../../../components/notifications/types/RoleTagsEnum.ts";
 
 type EmployeeUpdateAddress1Props = {
   employeeId: string;
@@ -31,7 +35,7 @@ export default function EmployeeUpdateAddress1(
     voivodeship1: employeeData.personalData.address1.voivodeship1,
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
-  const { userId, user } = useLogin();
+  const { userId, userRoles } = useLogin();
   const { addNewEventNotification } = useNotifications();
 
   useEffect(() => {
@@ -73,12 +77,7 @@ export default function EmployeeUpdateAddress1(
       Event
     >,
   ) => {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
-    const { name, value } = target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    handleChangeFormData(e, setFormData);
   };
 
   const handleUpdate = (
@@ -129,17 +128,13 @@ export default function EmployeeUpdateAddress1(
       body: JSON.stringify(updatedData),
     });
 
-    const eventNotificationRequest: EventNotificationCreateRequest =
-      createEventNotification(
-        user?.authId,
-        "Zmiana danych adresu zamieszkania",
-        `Dane adresu zamieszkania pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
-        "HR",
-        user?.authId,
-        ["hr", "hrmanager"],
-      );
-
-    addNewEventNotification(eventNotificationRequest);
+    addNewEventNotification(createEventNotification(
+      userId,
+      "Zmiana danych adresu zamieszkania",
+      `Dane adresu zamieszkania pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione.`,
+      "HR",
+      [EmployeeEventTagsEnum.UPDATED],
+    ));
 
     globalThis.location.href = `/hr/employee/${employeeId}`;
   };

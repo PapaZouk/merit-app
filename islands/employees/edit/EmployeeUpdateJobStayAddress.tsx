@@ -13,6 +13,8 @@ import { isJobStayAddressChanged } from "../../../components/employee/update/uti
 import {
   createEmployeeJobStayAddressUpdateRequest,
 } from "../../../components/employee/update/utils/factories/createEmployeeJobStayAddressUpdateRequest.ts";
+import { handleChangeFormData } from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
+import { EmployeeEventTagsEnum } from "../../../components/notifications/types/RoleTagsEnum.ts";
 
 type EmployeeUpdateJobStayAddressProps = {
   employeeId: string;
@@ -37,7 +39,7 @@ export default function EmployeeUpdateJobStayAddress(
       employeeData.jobDetails.jobStayAddress?.voivodeship ?? "Brak danych",
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
-  const { userId, user } = useLogin();
+  const { userId } = useLogin();
   const { addNewEventNotification } = useNotifications();
 
   useEffect(() => {
@@ -83,12 +85,7 @@ export default function EmployeeUpdateJobStayAddress(
       Event
     >,
   ) => {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
-    const { name, value } = target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    handleChangeFormData(e, setFormData);
   };
 
   const handleUpdate = (
@@ -138,17 +135,13 @@ export default function EmployeeUpdateJobStayAddress(
       body: JSON.stringify(updatedData),
     });
 
-    const eventNotificationRequest: EventNotificationCreateRequest =
-      createEventNotification(
-        userId,
-        "Zmiana adresu noclegu",
-        `Dane adresu noclegu pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
-        "HR",
-        user?.authId,
-        ["hr", "hrmanager"],
-      );
-
-    addNewEventNotification(eventNotificationRequest);
+    addNewEventNotification(createEventNotification(
+      userId,
+      "Zmiana adresu noclegu",
+      `Dane adresu noclegu pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
+      "HR",
+      [EmployeeEventTagsEnum.UPDATED],
+    ));
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };

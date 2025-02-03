@@ -4,7 +4,6 @@ import {isValidRequestOrigin} from "../../utils/isValidRequestOrigin.ts";
 
 export const handler = async (req: Request, props: PageProps) => {
     if (!isValidRequestOrigin(req)) {
-
         return new Response(null, {
             status: 302,
             headers: {
@@ -12,6 +11,7 @@ export const handler = async (req: Request, props: PageProps) => {
             },
         });
     }
+
     const cacheTimeout = Deno.env.get("CACHE_EXPIRATION") || "60";
 
     const url = new URL(props.url);

@@ -107,7 +107,6 @@ export default function EmployeesManager() {
         "Dodano nowego pracownika",
         `Dodano nowego pracownika: ${employeeFormData.firstName} ${employeeFormData.lastName}`,
         "HR",
-        user?.authId,
         ["hr", "manager"]
     );
 

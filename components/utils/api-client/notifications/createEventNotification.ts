@@ -6,7 +6,6 @@ export default function createEventNotification(
     title: string,
     description: string,
     location: string,
-    createdBy: string|null|undefined,
     tags: string[],
 ): EventNotificationCreateRequest {
     const date = new Date();
@@ -20,7 +19,7 @@ export default function createEventNotification(
         date: date.toISOString().split("T")[0],
         time: date.toISOString().split("T")[1].split(".")[0],
         location,
-        createdBy: createdBy || "",
+        createdBy: userId || "",
         tags,
         isRead: false
     };

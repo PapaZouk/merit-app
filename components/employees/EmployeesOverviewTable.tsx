@@ -11,6 +11,9 @@ import { EmployeeStatus } from "../employee/types/EmployeeStatus.ts";
 import Popup from "../popup/popup.tsx";
 import ConfirmAction from "../popup/ConfirmAction.tsx";
 import PaginationNavigation from "../tables/PaginationNavigation.tsx";
+import createEventNotification from "../utils/api-client/notifications/createEventNotification.ts";
+import { useNotifications } from "../context/NotificationsProvider.tsx";
+import {EmployeeEventTagsEnum, RoleTagsEnum} from "../notifications/types/RoleTagsEnum.ts";
 
 type OverviewTableProps = {
   employees: Employee[];
@@ -20,7 +23,8 @@ type OverviewTableProps = {
 export default function EmployeesOverviewTable(
   { employees, showArchived }: OverviewTableProps,
 ) {
-  const { userRoles, validateUserRoles } = useLogin();
+  const { userId, userRoles, validateUserRoles } = useLogin();
+  const { addNewEventNotification } = useNotifications();
   const [employeeIdToArchive, setEmployeeIdToArchive] = useState<string | null>(
     null,
   );
@@ -66,6 +70,14 @@ export default function EmployeesOverviewTable(
         },
         body: JSON.stringify(employeeToArchive),
       });
+
+      addNewEventNotification(createEventNotification(
+        userId,
+        "Pracownik został zarchiwizowany",
+        `Pracownik ${employeeToArchive.personalData.firstName} ${employeeToArchive.personalData.lastName} został zarchiwizowany`,
+        "HR - Pracownicy",
+        [RoleTagsEnum.HR, RoleTagsEnum.HR_MANAGER, EmployeeEventTagsEnum.ARCHIVED],
+      ));
 
       globalThis.location.reload();
     } catch (error) {
@@ -172,13 +184,11 @@ export default function EmployeesOverviewTable(
       </table>
       <PaginationNavigation
         currentPage={currentPage}
-        totalPages={showArchived
-          ? totalPages
-          : Math.ceil(
-            employees.filter((employee) =>
-              employee.jobDetails.status !== EmployeeStatus.ARCHIVED
-            ).length / employeesPerPage,
-          )}
+        totalPages={showArchived ? totalPages : Math.ceil(
+          employees.filter((employee) =>
+            employee.jobDetails.status !== EmployeeStatus.ARCHIVED
+          ).length / employeesPerPage,
+        )}
         handleNextPage={handleNextPage}
         handlePreviousPage={handlePreviousPage}
       />

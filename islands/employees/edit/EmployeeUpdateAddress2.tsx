@@ -12,6 +12,8 @@ import { isAddress2Changed } from "../../../components/employee/update/utils/isA
 import {
   createEmployeeAddress2UpdateRequest,
 } from "../../../components/employee/update/utils/factories/createEmployeeAddress2UpdateRequest.ts";
+import { handleChangeFormData } from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
+import { EmployeeEventTagsEnum } from "../../../components/notifications/types/RoleTagsEnum.ts";
 
 type EmployeeUpdateAddress2Props = {
   employeeId: string;
@@ -30,7 +32,7 @@ export default function EmployeeUpdateAddress2(
     voivodeship2: employeeData.personalData.address2.voivodeship2 || "",
   });
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
-  const { userId, user } = useLogin();
+  const { userId } = useLogin();
   const { addNewEventNotification } = useNotifications();
 
   useEffect(() => {
@@ -72,12 +74,7 @@ export default function EmployeeUpdateAddress2(
       Event
     >,
   ) => {
-    const target = e.target as HTMLInputElement | HTMLSelectElement;
-    const { name, value } = target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    handleChangeFormData(e, setFormData);
   };
 
   const handleUpdate = (
@@ -124,16 +121,13 @@ export default function EmployeeUpdateAddress2(
       body: JSON.stringify(updatedData),
     });
 
-    const eventNotificationRequest = createEventNotification(
+    addNewEventNotification(createEventNotification(
       userId,
       "Zmiana danych adresu korespondencyjnego",
       `Dane adresu korespondencyjnego pracownika ${employeeData.personalData.firstName} ${employeeData.personalData.lastName} zostały zmienione`,
       "HR",
-      user?.authId,
-      ["hr", "hrmanager"],
-    );
-
-    addNewEventNotification(eventNotificationRequest);
+      [EmployeeEventTagsEnum.UPDATED],
+    ));
 
     globalThis.location.href = `/hr/employee/${updatedData._id}`;
   };
