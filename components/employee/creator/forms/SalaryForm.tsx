@@ -42,6 +42,16 @@ export default function SalaryForm(
         error={errors.currency}
       />
       <FormInput
+        type={"number"}
+        name={"hourlyRate"}
+        value={formData.hourlyRate}
+        handleChange={handleChange}
+        className={"w-full p-2 border rounded"}
+        min={0}
+        label={"Stawka godzinowa"}
+        error={errors.hourlyRate}
+      />
+      <FormInput
         type={"text"}
         name={"bankAccount"}
         value={formData.bankAccount}

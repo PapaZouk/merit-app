@@ -11,14 +11,28 @@ export function validateSalaryForm(data: EmployeeFormData) {
     }
   }
 
+  if (!data.hourlyRate) {
+    errors.hourlyRate = "Stawka godzinowa jest wymagana";
+  } else {
+    if (data.hourlyRate < 0) {
+      errors.hourlyRate = "Stawka godzinowa nie może być mniejsza niż 0";
+    }
+  }
+
+  if (!data.currency) {
+    errors.currency = "Waluta jest wymagana";
+  }
+
   if (!data.bankAccount) {
     errors.bankAccount = "Numer konta bankowego jest wymagany";
   } else {
     if (data.bankAccount.length < 26) {
-      errors.bankAccount = "Numer konta bankowego musi mieć co najmniej 26 znaków";
+      errors.bankAccount =
+        "Numer konta bankowego musi mieć co najmniej 26 znaków";
     }
     if (data.bankAccount.length > 26) {
-      errors.bankAccount = "Numer konta bankowego nie może mieć więcej niż 26 znaków";
+      errors.bankAccount =
+        "Numer konta bankowego nie może mieć więcej niż 26 znaków";
     }
   }
 

@@ -1,20 +1,19 @@
-import { Employee } from "../../../components/utils/api-client/types/Employee.ts";
-import { useEffect, useState } from "preact/hooks";
-import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import {Employee} from "../../../components/utils/api-client/types/Employee.ts";
+import {useEffect, useState} from "preact/hooks";
+import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import EmployeeSalaryForm from "../../../components/employee/update/EmployeeSalaryForm.tsx";
-import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
+import {MouseEventHandler} from "npm:@types/react@18.3.17/index.d.ts";
 import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
-import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
-import { useLogin } from "../../../components/context/LoginProvider.tsx";
-import { useNotifications } from "../../../components/context/NotificationsProvider.tsx";
-import { emptyEmployeeData } from "../../../components/employee/utils/emptyEmployeeData.ts";
-import { isSalaryChanged } from "../../../components/employee/update/utils/isSalaryChanged.ts";
+import {useLogin} from "../../../components/context/LoginProvider.tsx";
+import {useNotifications} from "../../../components/context/NotificationsProvider.tsx";
+import {emptyEmployeeData} from "../../../components/employee/utils/emptyEmployeeData.ts";
+import {isSalaryChanged} from "../../../components/employee/update/utils/isSalaryChanged.ts";
 import {
   createEmployeeSalaryUpdateRequest,
 } from "../../../components/employee/update/utils/factories/createEmployeeSalaryUpdateRequest.ts";
-import { handleChangeFormData } from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
-import { EmployeeEventTagsEnum } from "../../../components/notifications/types/RoleTagsEnum.ts";
+import {handleChangeFormData} from "../../../components/employee/update/utils/handlers/handleChangeFormData.tsx";
+import {EmployeeEventTagsEnum} from "../../../components/notifications/types/RoleTagsEnum.ts";
 
 type EmployeeUpdateSalaryProps = {
   employeeId: string;

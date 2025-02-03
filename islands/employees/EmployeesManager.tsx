@@ -1,19 +1,27 @@
 import EmployeeCreator from "../../components/employee/creator/EmployeeCreator.tsx";
-import {useState} from "preact/hooks";
-import {createElement} from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import {EmployeeFormData, initEmployeeFormData,} from "../../components/employee/types/EmployeeFormData.ts";
-import {deleteEmployeeById} from "../../components/utils/api-client/clients/employeeClient.ts";
-import {Employee} from "../../components/utils/api-client/types/Employee.ts";
+import { useState } from "preact/hooks";
+import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
+import {
+  EmployeeFormData,
+  initEmployeeFormData,
+} from "../../components/employee/types/EmployeeFormData.ts";
+import { deleteEmployeeById } from "../../components/utils/api-client/clients/employeeClient.ts";
+import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import Popup from "../../components/popup/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";
-import {getAuthClient,} from "../../components/utils/auth/auth-client/authClient.ts";
-import {EventNotificationCreateRequest} from "../../components/utils/api-client/types/EventNotification.ts";
+import { getAuthClient } from "../../components/utils/auth/auth-client/authClient.ts";
 import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
-import {useLogin} from "../../components/context/LoginProvider.tsx";
-import {useNotifications} from "../../components/context/NotificationsProvider.tsx";
+import { useLogin } from "../../components/context/LoginProvider.tsx";
+import { useNotifications } from "../../components/context/NotificationsProvider.tsx";
 import {
-  mapEmployeeFormDataToUserRole
+  mapEmployeeFormDataToUserRole,
 } from "../../components/utils/api-client/mappers/mapEmployeeFormDataToUserRole.ts";
+import {
+  EmployeeEventTagsEnum,
+  RoleTagsEnum,
+} from "../../components/notifications/types/RoleTagsEnum.ts";
+import { createNewEmployeeRequest } from "../../components/employee/creator/utils/createNewEmployeeRequest.ts";
+import ConfirmAction from "../../components/popup/ConfirmAction.tsx";
 
 export default function EmployeesManager() {
   const [employeeFormData, setEmployeeFormData] = useState<EmployeeFormData>(
@@ -21,7 +29,7 @@ export default function EmployeesManager() {
   );
   const [isPopupOpened, setIsPopupOpened] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const { user } = useLogin();
+  const { userId } = useLogin();
   const { addNewEventNotification } = useNotifications();
 
   const handleChange = (
@@ -50,11 +58,11 @@ export default function EmployeesManager() {
   ): Promise<void> => {
     e.preventDefault();
 
-    const createEmployeeRequest: Employee = getEmployeeRequest(
+    const createEmployeeRequest: Employee = createNewEmployeeRequest(
       employeeFormData,
     );
 
-    const employeeResponse = await fetch('/api/employees/add/employee', {
+    const employeeResponse = await fetch("/api/employees/add/employee", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,14 +76,14 @@ export default function EmployeesManager() {
 
     const employeeResponseBody = await employeeResponse.json();
 
-    let userId = null;
+    let newUserId = null;
     let role = null;
     if (!employeeResponseBody.id) {
       throw new Error("Error: no employee response found");
     } else {
       role = mapEmployeeFormDataToUserRole(employeeFormData);
 
-      userId = await createUserAccount(
+      newUserId = await createUserAccount(
         {
           email: employeeFormData.email,
           password: "password",
@@ -86,11 +94,11 @@ export default function EmployeesManager() {
       );
     }
 
-    if (!userId) {
+    if (!newUserId) {
       await deleteEmployeeById(employeeResponseBody.id);
       throw new Error("Error: no user ID found. Failed to create user account");
     } else {
-      await fetch('/api/users/add/user', {
+      await fetch("/api/users/add/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,18 +107,16 @@ export default function EmployeesManager() {
           authId: userId,
           roles: [role],
         }),
-      })
+      });
     }
 
-    const eventNotificationRequest: EventNotificationCreateRequest = createEventNotification(
-        user?.authId,
-        "Dodano nowego pracownika",
-        `Dodano nowego pracownika: ${employeeFormData.firstName} ${employeeFormData.lastName}`,
-        "HR",
-        ["hr", "manager"]
-    );
-
-    // addNewEventNotification(eventNotificationRequest);
+    addNewEventNotification(createEventNotification(
+      userId,
+      "Dodano nowego pracownika",
+      `Dodano nowego pracownika: ${employeeFormData.firstName} ${employeeFormData.lastName}`,
+      "HR",
+      [RoleTagsEnum.HR, EmployeeEventTagsEnum.ADDED],
+    ));
 
     setEmployeeFormData(initEmployeeFormData);
 
@@ -145,95 +151,13 @@ export default function EmployeesManager() {
       />
       {isPopupOpened && (
         <Popup onClose={handlePopup}>
-          <div class="p-4 space-y-4">
-            <p class="mb-4 text-black">Czy na pewno chcesz zapisać dane?</p>
-            <div class="flex space-x-4 justify-center">
-              <button
-                onClick={confirmSubmit}
-                class="px-4 py-2 bg-green-500 text-black rounded text-center"
-              >
-                Tak
-              </button>
-              <button
-                onClick={handlePopup}
-                class="px-4 py-2 bg-red-500 text-black rounded text-center"
-              >
-                Nie
-              </button>
-            </div>
-          </div>
+          <ConfirmAction
+            handleConfirm={confirmSubmit}
+            handleDecline={handlePopup}
+            message={"Czy na pewno chcesz zapisać dane?"}
+          />
         </Popup>
       )}
     </div>
   );
-}
-
-function getEmployeeRequest(employeeFormData: EmployeeFormData): Employee {
-  if (employeeFormData.state1 instanceof Object) {
-    employeeFormData.state1 = employeeFormData.state1.label;
-  }
-  if (employeeFormData.state2 instanceof Object) {
-    employeeFormData.state2 = employeeFormData.state2.label;
-  }
-  if (employeeFormData.voivodeship1 instanceof Object) {
-    employeeFormData.voivodeship1 = employeeFormData.voivodeship1.value;
-  }
-  if (employeeFormData.voivodeship2 instanceof Object) {
-    employeeFormData.voivodeship2 = employeeFormData.voivodeship2.label;
-  }
-
-  return {
-    _id: "",
-    personalData: {
-      firstName: employeeFormData.firstName,
-      lastName: employeeFormData.lastName,
-      email: employeeFormData.email,
-      phone: employeeFormData.phone,
-      pesel: employeeFormData.pesel,
-      nip: employeeFormData.nip,
-      clothSize: employeeFormData.clothSize,
-      personalDataHistory: [],
-      address1: {
-        street1: employeeFormData.street1,
-        house1: employeeFormData.house1,
-        city1: employeeFormData.city1,
-        zip1: employeeFormData.zip1,
-        state1: employeeFormData.state1,
-        voivodeship1: employeeFormData.voivodeship1,
-        address1History: [],
-      },
-      address2: {
-        street2: employeeFormData.street2,
-        house2: employeeFormData.house2,
-        city2: employeeFormData.city2,
-        zip2: employeeFormData.zip2,
-        state2: employeeFormData.state2,
-        voivodeship2: employeeFormData.voivodeship2,
-        address2History: [],
-      },
-    },
-    jobDetails: {
-      status: employeeFormData.status,
-      jobTitle: employeeFormData.jobTitle,
-      department: employeeFormData.department,
-      startDate: employeeFormData.startDate,
-      endDate: employeeFormData.endDate,
-      contractType: employeeFormData.contractType,
-      workSchedule: employeeFormData.workSchedule,
-      insuranceType: employeeFormData.insuranceType,
-      annualLeaveDays: Number.parseInt(
-        String(employeeFormData.annualLeaveDays),
-        10,
-      ),
-      jobDetailsHistory: [],
-      salary: {
-        baseSalary: Number.parseInt(String(employeeFormData.baseSalary), 10),
-        currency: employeeFormData.currency,
-        hourlyRate: Number.parseInt(String(employeeFormData.hourlyRate), 10),
-        bankAccount: employeeFormData.bankAccount,
-        bankName: employeeFormData.bankName,
-        salaryHistory: [],
-      },
-    },
-  };
 }
