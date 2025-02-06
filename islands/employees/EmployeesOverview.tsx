@@ -3,9 +3,12 @@ import { useEffect, useState } from "preact/hooks";
 import Loader from "../../components/loader/loader.tsx";
 import EmployeesTable from "./EmployeesTable.tsx";
 import { EmployeeStatus } from "../../components/employee/types/EmployeeStatus.ts";
+import { NotificationsProvider } from "../../components/context/NotificationsProvider.tsx";
+import { useLogin } from "../../components/context/LoginProvider.tsx";
 
 export default function EmployeesOverview() {
   const [sortedEmployees, setSortedEmployees] = useState<Employee[]>([]);
+  const { userId } = useLogin();
 
   useEffect(() => {
     async function fetchEmployees() {
@@ -48,11 +51,11 @@ export default function EmployeesOverview() {
   }
 
   return (
-    <div>
+    <NotificationsProvider userId={userId}>
       <EmployeesTable
         sortedEmployees={sortedEmployees}
         setSortedEmployees={setSortedEmployees}
       />
-    </div>
+    </NotificationsProvider>
   );
 }
