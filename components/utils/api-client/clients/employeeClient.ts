@@ -18,7 +18,13 @@ export async function getEmployees(cacheTimeout?: string | undefined) {
     },
   });
 
-  if (!response.ok) {
+  if (response.status === 404) {
+    console.log('Found 0 employees: ', response);
+    return [];
+  }
+
+  if (response.status === 500) {
+    console.log('Failed to fetch employees: ', response);
     throw new Error("Failed to fetch employees");
   }
 
@@ -52,7 +58,13 @@ export async function getAllEmployeesWithIds(
     },
   });
 
-  if (!response.ok) {
+  if (response.status === 404) {
+    console.log('Found 0 employees: ', response);
+    return [];
+  }
+
+  if (response.status === 500) {
+    console.log('Failed to fetch employees: ', response);
     throw new Error("Failed to fetch employees");
   }
 
@@ -78,7 +90,13 @@ export async function getEmployeeById(id: string) {
     },
   });
 
-  if (!response.ok) {
+  if (response.status === 404) {
+    console.log('Found 0 employee: ', response);
+    return null;
+  }
+
+  if (response.status === 500) {
+    console.log('Failed to fetch employee: ', response);
     throw new Error("Failed to fetch employee");
   }
 
@@ -99,7 +117,13 @@ export async function updateEmployeeById(
     body: JSON.stringify(employeeData),
   });
 
-  if (!response.ok) {
+  if (response.status === 404) {
+    console.log(`Found 0 employee with ID: ${id}`, response);
+    return null;
+  }
+
+  if (response.status === 500) {
+    console.log(`Failed to update employee with ID: ${id}`, response);
     throw new Error("Failed to update employee");
   }
 
@@ -117,7 +141,7 @@ export async function addEmployee(employeeData: Employee) {
     body: JSON.stringify(employeeData),
   });
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw new Error("Failed to add employee");
   }
 
@@ -134,7 +158,13 @@ export async function deleteEmployeeById(id: string) {
     },
   });
 
-  if (!response.ok) {
+  if (response.status === 404) {
+    console.log(`Found 0 employee with ID: ${id}`, response);
+    return null;
+  }
+
+  if (response.status === 500) {
+    console.log(`Failed to delete employee with ID: ${id}`, response);
     throw new Error("Failed to delete employee");
   }
 

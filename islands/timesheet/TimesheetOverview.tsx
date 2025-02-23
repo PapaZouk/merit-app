@@ -148,10 +148,6 @@ export default function TimesheetOverview(): h.JSX.Element {
       return b.days.length - a.days.length;
     });
 
-  if (!employees && !filteredTimesheet) {
-    return <Loader />;
-  }
-
   return (
     <div class="bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
       <h1 class="flex items-center text-gray-800 text-xl font-bold mb-4">

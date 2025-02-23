@@ -4,6 +4,10 @@ import { EventNotification } from "../../utils/api-client/types/EventNotificatio
 export const sortNotifications = (
   notifications: EventNotification[],
 ): EventNotification[] => {
+  if (!notifications || notifications.length === 0) {
+    return [];
+  }
+
   return notifications
     .sort((a: EventNotification, b: EventNotification) => {
       const dateA = new Date(`${a.date}T${a.time}`);

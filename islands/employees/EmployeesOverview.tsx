@@ -19,7 +19,7 @@ export default function EmployeesOverview() {
         },
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         console.error("Failed to fetch employees");
         return;
       }
@@ -27,7 +27,11 @@ export default function EmployeesOverview() {
       const responseBody = await response.json();
       const employeesResult = responseBody.result;
 
-      const sortedEmployees = employeesResult
+      if (!employeesResult) {
+        return;
+      }
+
+      const sortedEmployees =  employeesResult.length > 0 ? employeesResult
         .sort((a: Employee, b: Employee) => {
           if (a.personalData.lastName < b.personalData.lastName) {
             return -1;
@@ -39,16 +43,14 @@ export default function EmployeesOverview() {
         })
         .sort((a: Employee, b: Employee) =>
           a.jobDetails.status === EmployeeStatus.ACTIVE ? -1 : 1
-        );
+        ) : [];
       setSortedEmployees(sortedEmployees);
     }
 
-    fetchEmployees();
+    if (!sortedEmployees || sortedEmployees.length === 0) {
+      fetchEmployees();
+    }
   }, []);
-
-  if (!sortedEmployees) {
-    return <Loader />;
-  }
 
   return (
     <NotificationsProvider userId={userId}>

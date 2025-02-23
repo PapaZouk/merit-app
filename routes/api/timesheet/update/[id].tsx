@@ -33,7 +33,7 @@ export const handler = async (req: Request, props: PageProps) => {
     const response = await updateTimesheetByEmployeeId(employeeId, bodyData);
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
-    console.error("Error fetching timesheet:", error);
+    console.error("Error updating timesheet:", error);
     return new Response(
       JSON.stringify({ error: "Failed to update timesheet" }),
       { status: 500 },

@@ -18,7 +18,12 @@ export async function getAllTimesheet(cacheTimeout?: string | undefined) {
         },
     });
 
-    if (!response.ok) {
+    if (response.status === 404) {
+        console.log("Found 0 timesheet", response);
+        return [];
+    }
+
+    if (response.status === 500) {
         throw new Error("Failed to fetch timesheet");
     }
 
@@ -52,7 +57,13 @@ export async function getTimesheetByEmployeeIdYearAndMonth(
         },
     );
 
-    if (!response.ok) {
+    if (response.status === 404) {
+        console.log(`Found 0 timesheet for employee with ID: ${id}`, response);
+        return [];
+    }
+
+    if (response.status === 500) {
+        console.log(`Failed to fetch timesheet for employee with ID: ${id}`, response);
         throw new Error("Failed to fetch timesheet");
     }
 
@@ -74,7 +85,13 @@ export async function updateTimesheetByEmployeeId(id: string, data: any, apiConf
         body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
+    if (response.status === 404) {
+        console.log(`Found 0 timesheet for employee with ID: ${id}`, response);
+        return null;
+    }
+
+    if (response.status === 500) {
+        console.log(`Failed to update timesheet for employee with ID: ${id}`, response);
         throw new Error("Failed to update timesheet");
     }
 
@@ -92,7 +109,7 @@ export async function addTimesheet(timesheet: AddTimesheetRequest) {
         body: JSON.stringify(timesheet),
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
         throw new Error("Failed to add timesheet");
     }
 

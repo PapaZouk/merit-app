@@ -24,7 +24,13 @@ export async function getEventNotificationsByUserId(userId: string) {
     },
   });
 
-  if (response.status !== 200) {
+  if (response.status === 404) {
+    console.log('Found 0 event notification: ', response);
+    return [];
+  }
+
+  if (response.status === 500) {
+    console.log('Failed to fetch event notifications: ', response);
     throw new Error("Failed to fetch event notifications");
   }
 

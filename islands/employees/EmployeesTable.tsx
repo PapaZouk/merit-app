@@ -5,6 +5,7 @@ import { Users } from "https://esm.sh/lucide-preact@latest";
 import EmployeesOverviewTable from "../../components/employees/EmployeesOverviewTable.tsx";
 import EmployeesOverviewTableNav from "../../components/employees/EmployeesOverviewTableNav.tsx";
 import { sortEmployees } from "../../components/employees/utils/sortEmployees.tsx";
+import Loader from "../../components/loader/loader.tsx";
 
 type EmployeesTableProps = {
   sortedEmployees: Employee[];
@@ -46,6 +47,10 @@ export default function EmployeesTable(
     if (key === "department") setIsDepartmentAscending((prev) => !prev);
     if (key === "jobTitle") setIsJobTitleAscending((prev) => !prev);
   };
+
+  if (!sortedEmployees) {
+    return <Loader />;
+  }
 
   return (
     <div class="bg-white p-4 rounded-lg shadow-lg overflow-x-auto">

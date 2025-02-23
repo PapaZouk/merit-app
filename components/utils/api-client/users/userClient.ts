@@ -26,7 +26,7 @@ export async function addUser(
     body: JSON.stringify(user),
   });
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw new Error("Failed to add user");
   }
 
@@ -43,7 +43,8 @@ export async function getUserByAuthId(authId: string) {
     },
   });
 
-  if (!response.ok) {
+  if (response.status !== 200) {
+    console.log(`Failed to fetch user with authId: ${authId}`, response);
     throw new Error("Failed to fetch user roles");
   }
 

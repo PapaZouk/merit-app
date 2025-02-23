@@ -15,6 +15,7 @@ export const handler = async (req: Request) => {
 
   try {
     const employees = await getEmployees(cacheTimeout);
+
     return new Response(JSON.stringify(employees), { status: 200 });
   } catch (error) {
     console.error("Error fetching employees:", error);

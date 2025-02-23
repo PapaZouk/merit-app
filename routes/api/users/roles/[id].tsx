@@ -24,9 +24,9 @@ export const handler = async (req: Request, props: PageProps) => {
     const userRoles = user.result.roles || [];
     return new Response(JSON.stringify(userRoles), { status: 200 });
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error(`Error fetching user with ID: ${userId}`, error);
     return new Response(
-      JSON.stringify({ error: "Failed to fetch user roles" }),
+      JSON.stringify({ error: "Failed to fetch user roles", message: `${(error as Error).message}` }),
       { status: 500 },
     );
   }
