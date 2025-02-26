@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { useState } from "preact/hooks";
 import {
   AppWindowMac,
@@ -102,7 +103,7 @@ export default function Sidebar(
                       <SubMenuLink href="/hr/employees/add">Dodaj</SubMenuLink>
                     </>
                   )}
-                  <SubMenuLink href={"/hr/employees/leave"}>Urlopy</SubMenuLink>
+                  <SubMenuLink href={"/hr/employees/annual-leaves"}>Urlopy</SubMenuLink>
                   <SubMenuLink href={"/hr/employees/contracts"}>Umowy</SubMenuLink>
                 </>
               </SectionElement>

@@ -258,7 +258,7 @@ export default function TimesheetCalendar(
     <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
       <div class="w-full">
         <div class="col-span-4 flex items-end justify-start mb-4 md:mb-6">
-          <BackButton href={"/hr/timesheet/overview"} />
+          <BackButton href="/hr/timesheet/overview" />
         </div>
         <h1 class="text-gray-800 text-2xl font-bold mb-4">
           {mapTimesheetMonth(month)} {year}

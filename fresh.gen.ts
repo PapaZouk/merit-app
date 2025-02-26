@@ -17,6 +17,7 @@ import * as $api_notifications_update_all from "./routes/api/notifications/updat
 import * as $api_notifications_update_notification from "./routes/api/notifications/update/notification.tsx";
 import * as $api_timesheet_id_ from "./routes/api/timesheet/[id].tsx";
 import * as $api_timesheet_all from "./routes/api/timesheet/all.tsx";
+import * as $api_timesheet_annual_leaves_year_ from "./routes/api/timesheet/annual-leaves/[year].tsx";
 import * as $api_timesheet_create from "./routes/api/timesheet/create.tsx";
 import * as $api_timesheet_update_id_ from "./routes/api/timesheet/update/[id].tsx";
 import * as $api_users_add_user from "./routes/api/users/add/user.tsx";
@@ -30,6 +31,7 @@ import * as $hr_employee_edit_jobstayaddress_id_ from "./routes/hr/employee/edit
 import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/personal/[id].tsx";
 import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
+import * as $hr_employees_annual_leaves from "./routes/hr/employees/annual-leaves.tsx";
 import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
 import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id].tsx";
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
@@ -47,6 +49,7 @@ import * as $employees_edit_EmployeeUpdateJobStayAddress from "./islands/employe
 import * as $employees_edit_EmployeeUpdatePersonalData from "./islands/employees/edit/EmployeeUpdatePersonalData.tsx";
 import * as $employees_edit_EmployeeUpdateSalary from "./islands/employees/edit/EmployeeUpdateSalary.tsx";
 import * as $employees_employeeDetails from "./islands/employees/employeeDetails.tsx";
+import * as $employees_holidays_AnnualLeavesOverview from "./islands/employees/holidays/AnnualLeavesOverview.tsx";
 import * as $layouts_PageContent from "./islands/layouts/PageContent.tsx";
 import * as $layouts_RootLayout from "./islands/layouts/RootLayout.tsx";
 import * as $layouts_WidgetsLayout from "./islands/layouts/WidgetsLayout.tsx";
@@ -79,6 +82,8 @@ const manifest = {
       $api_notifications_update_notification,
     "./routes/api/timesheet/[id].tsx": $api_timesheet_id_,
     "./routes/api/timesheet/all.tsx": $api_timesheet_all,
+    "./routes/api/timesheet/annual-leaves/[year].tsx":
+      $api_timesheet_annual_leaves_year_,
     "./routes/api/timesheet/create.tsx": $api_timesheet_create,
     "./routes/api/timesheet/update/[id].tsx": $api_timesheet_update_id_,
     "./routes/api/users/add/user.tsx": $api_users_add_user,
@@ -98,6 +103,7 @@ const manifest = {
       $hr_employee_edit_personal_id_,
     "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
     "./routes/hr/employees/add.tsx": $hr_employees_add,
+    "./routes/hr/employees/annual-leaves.tsx": $hr_employees_annual_leaves,
     "./routes/hr/employees/overview.tsx": $hr_employees_overview,
     "./routes/hr/timesheet/calendar/[id].tsx": $hr_timesheet_calendar_id_,
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
@@ -124,6 +130,8 @@ const manifest = {
     "./islands/employees/edit/EmployeeUpdateSalary.tsx":
       $employees_edit_EmployeeUpdateSalary,
     "./islands/employees/employeeDetails.tsx": $employees_employeeDetails,
+    "./islands/employees/holidays/AnnualLeavesOverview.tsx":
+      $employees_holidays_AnnualLeavesOverview,
     "./islands/layouts/PageContent.tsx": $layouts_PageContent,
     "./islands/layouts/RootLayout.tsx": $layouts_RootLayout,
     "./islands/layouts/WidgetsLayout.tsx": $layouts_WidgetsLayout,

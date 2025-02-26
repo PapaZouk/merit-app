@@ -34,11 +34,11 @@ export default function AddTimesheetDay(
   return (
     <>
       <FormSelect
-        htmlFor={"formType"}
+        htmlFor="formType"
         text={`${selectedDay} ${mapTimesheetMonth(month)} ${year}`}
         options={formTypes}
-        extraClass={"mb-4"}
-        defaultValue={"Wybierz co chcesz dodać"}
+        extraClass="mb-4"
+        defaultValue="Wybierz co chcesz dodać"
         value={formType}
         handleChange={handleFormTypeChange}
       />
@@ -50,22 +50,22 @@ export default function AddTimesheetDay(
             </h2>
             <div>
               <FormInput
-                type={"time"}
-                name={"checkin"}
-                label={"Wejście"}
+                type="time"
+                name="checkin"
+                label="Wejście"
                 required
               />
             </div>
             <div>
               <FormInput
-                type={"time"}
-                name={"checkout"}
-                label={"Wyjście"}
+                type="time"
+                name="checkout"
+                label="Wyjście"
                 required
               />
             </div>
           </div>
-          <div class={"flex items-center justify-center"}>
+          <div class="flex items-center justify-center">
             <SaveButton />
             <CloseButton onClose={handlePopup} />
           </div>
@@ -76,16 +76,16 @@ export default function AddTimesheetDay(
           <div>
             <div>
               <FormSelect
-                htmlFor={"dayOffType"}
-                text={"Rodzaj dnia wolnego"}
+                htmlFor="dayOffType"
+                text="Rodzaj dnia wolnego"
                 options={dayOffTypes}
-                defaultValue={"Wybierz rodzaj dnia wolnego"}
+                defaultValue="Wybierz rodzaj dnia wolnego"
                 value={selectedDayOffType ?? ""}
                 handleChange={handleDayOffTypeSelect}
               />
             </div>
           </div>
-          <div class={"flex items-center justify-center"}>
+          <div class="flex items-center justify-center">
             <SaveButton /><CloseButton onClose={handlePopup} />
           </div>
         </form>

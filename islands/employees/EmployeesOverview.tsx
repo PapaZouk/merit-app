@@ -1,10 +1,9 @@
-import { Employee } from "../../components/utils/api-client/types/Employee.ts";
-import { useEffect, useState } from "preact/hooks";
-import Loader from "../../components/loader/loader.tsx";
+import {Employee} from "../../components/utils/api-client/types/Employee.ts";
+import {useEffect, useState} from "preact/hooks";
 import EmployeesTable from "./EmployeesTable.tsx";
-import { EmployeeStatus } from "../../components/employee/types/EmployeeStatus.ts";
-import { NotificationsProvider } from "../../components/context/NotificationsProvider.tsx";
-import { useLogin } from "../../components/context/LoginProvider.tsx";
+import {EmployeeStatus} from "../../components/employee/types/EmployeeStatus.ts";
+import {NotificationsProvider} from "../../components/context/NotificationsProvider.tsx";
+import {useLogin} from "../../components/context/LoginProvider.tsx";
 
 export default function EmployeesOverview() {
   const [sortedEmployees, setSortedEmployees] = useState<Employee[]>([]);
