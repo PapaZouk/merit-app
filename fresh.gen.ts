@@ -31,8 +31,8 @@ import * as $hr_employee_edit_jobstayaddress_id_ from "./routes/hr/employee/edit
 import * as $hr_employee_edit_personal_id_ from "./routes/hr/employee/edit/personal/[id].tsx";
 import * as $hr_employee_edit_salary_id_ from "./routes/hr/employee/edit/salary/[id].tsx";
 import * as $hr_employees_add from "./routes/hr/employees/add.tsx";
-import * as $hr_employees_annual_leaves from "./routes/hr/employees/annual-leaves.tsx";
 import * as $hr_employees_overview from "./routes/hr/employees/overview.tsx";
+import * as $hr_timesheet_annual_leaves from "./routes/hr/timesheet/annual-leaves.tsx";
 import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id].tsx";
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
@@ -103,8 +103,8 @@ const manifest = {
       $hr_employee_edit_personal_id_,
     "./routes/hr/employee/edit/salary/[id].tsx": $hr_employee_edit_salary_id_,
     "./routes/hr/employees/add.tsx": $hr_employees_add,
-    "./routes/hr/employees/annual-leaves.tsx": $hr_employees_annual_leaves,
     "./routes/hr/employees/overview.tsx": $hr_employees_overview,
+    "./routes/hr/timesheet/annual-leaves.tsx": $hr_timesheet_annual_leaves,
     "./routes/hr/timesheet/calendar/[id].tsx": $hr_timesheet_calendar_id_,
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,

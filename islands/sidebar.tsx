@@ -103,8 +103,6 @@ export default function Sidebar(
                       <SubMenuLink href="/hr/employees/add">Dodaj</SubMenuLink>
                     </>
                   )}
-                  <SubMenuLink href={"/hr/employees/annual-leaves"}>Urlopy</SubMenuLink>
-                  <SubMenuLink href={"/hr/employees/contracts"}>Umowy</SubMenuLink>
                 </>
               </SectionElement>
 
@@ -123,10 +121,13 @@ export default function Sidebar(
                   <SubMenuLink href="/hr/timesheet/overview">
                     Przegląd
                   </SubMenuLink>
-                  <SubMenuLink href="/hr/timesheet/add">Dodaj</SubMenuLink>
-                  <SubMenuLink href="/hr/timesheet/update">
-                    Aktualizuj
-                  </SubMenuLink>
+                  {[UserRoleEnum.ADMIN, UserRoleEnum.HR_MANAGER].some((role) =>
+                  userRoles.includes(role as UserRole)
+                  ) && (
+                      <SubMenuLink href={"/hr/timesheet/annual-leaves"}>
+                        Urlopy
+                      </SubMenuLink>
+                  )}
                 </>
               </SectionElement>
             </>
