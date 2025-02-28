@@ -87,7 +87,7 @@ export default function AnnualLeavesOverview() {
                         const month = index + 1;
                         const daysInMonth = monthsDays[index];
 
-                        const firstDayOfTheMonth = getFirstDayOfMonth(year, month);
+                        const firstDayOfTheMonth = getFirstDayOfMonth(Number.parseInt(year), month);
                         const emptyDays = Array.from({length: firstDayOfTheMonth === 0 ? 6 : firstDayOfTheMonth - 1 });
 
                         return (
@@ -116,9 +116,9 @@ export default function AnnualLeavesOverview() {
                                                 class={`p-2 text-center rounded border ${
                                                     isDayOff
                                                         ? `${(getDayOffBackgroundColor(dayOffs.length))} text-black`
-                                                        : `${isHolidayInPoland(year, month, day)
+                                                        : `${isHolidayInPoland(Number.parseInt(year), month, day)
                                                             ? "bg-red-200"
-                                                            : isWeekend(year, month, day)
+                                                            : isWeekend(Number.parseInt(year), month, day)
                                                                 ? "bg-gray-100"
                                                                 : "bg-white"
                                                         } text-black`
