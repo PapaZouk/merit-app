@@ -5,6 +5,7 @@
 import * as $_403 from "./routes/_403.tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_auth_mfa from "./routes/api/auth/mfa.tsx";
 import * as $api_employees_id_ from "./routes/api/employees/[id].tsx";
 import * as $api_employees_add_employee from "./routes/api/employees/add/employee.tsx";
 import * as $api_employees_all from "./routes/api/employees/all.tsx";
@@ -20,8 +21,10 @@ import * as $api_timesheet_all from "./routes/api/timesheet/all.tsx";
 import * as $api_timesheet_annual_leaves_year_ from "./routes/api/timesheet/annual-leaves/[year].tsx";
 import * as $api_timesheet_create from "./routes/api/timesheet/create.tsx";
 import * as $api_timesheet_update_id_ from "./routes/api/timesheet/update/[id].tsx";
+import * as $api_users_id_ from "./routes/api/users/[id].tsx";
 import * as $api_users_add_user from "./routes/api/users/add/user.tsx";
 import * as $api_users_roles_id_ from "./routes/api/users/roles/[id].tsx";
+import * as $api_users_update_id_ from "./routes/api/users/update/[id].tsx";
 import * as $api_utils_isValidRequestOrigin from "./routes/api/utils/isValidRequestOrigin.ts";
 import * as $hr_employee_id_ from "./routes/hr/employee/[id].tsx";
 import * as $hr_employee_edit_address1_id_ from "./routes/hr/employee/edit/address1/[id].tsx";
@@ -37,6 +40,8 @@ import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id]
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
+import * as $auth_ChallengeOtp from "./islands/auth/ChallengeOtp.tsx";
+import * as $auth_GenerateQRCode from "./islands/auth/GenerateQRCode.tsx";
 import * as $auth_login from "./islands/auth/login.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
@@ -68,6 +73,7 @@ const manifest = {
     "./routes/_403.tsx": $_403,
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/auth/mfa.tsx": $api_auth_mfa,
     "./routes/api/employees/[id].tsx": $api_employees_id_,
     "./routes/api/employees/add/employee.tsx": $api_employees_add_employee,
     "./routes/api/employees/all.tsx": $api_employees_all,
@@ -86,8 +92,10 @@ const manifest = {
       $api_timesheet_annual_leaves_year_,
     "./routes/api/timesheet/create.tsx": $api_timesheet_create,
     "./routes/api/timesheet/update/[id].tsx": $api_timesheet_update_id_,
+    "./routes/api/users/[id].tsx": $api_users_id_,
     "./routes/api/users/add/user.tsx": $api_users_add_user,
     "./routes/api/users/roles/[id].tsx": $api_users_roles_id_,
+    "./routes/api/users/update/[id].tsx": $api_users_update_id_,
     "./routes/api/utils/isValidRequestOrigin.ts":
       $api_utils_isValidRequestOrigin,
     "./routes/hr/employee/[id].tsx": $hr_employee_id_,
@@ -111,6 +119,8 @@ const manifest = {
     "./routes/user/notifications/[id].tsx": $user_notifications_id_,
   },
   islands: {
+    "./islands/auth/ChallengeOtp.tsx": $auth_ChallengeOtp,
+    "./islands/auth/GenerateQRCode.tsx": $auth_GenerateQRCode,
     "./islands/auth/login.tsx": $auth_login,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,

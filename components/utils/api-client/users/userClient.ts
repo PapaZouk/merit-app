@@ -50,3 +50,22 @@ export async function getUserByAuthId(authId: string) {
 
   return response.json();
 }
+
+export async function updateUserByAuthId(authId: string, data: any) {
+    const { url, token } = getApiConfig();
+    const response = await fetch(`${url}/api/auth/user/update/${authId}`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (response.status !== 200) {
+        console.log(`Failed to update user with authId: ${authId}`, response);
+        throw new Error("Failed to update user roles");
+    }
+
+    return response.json();
+}

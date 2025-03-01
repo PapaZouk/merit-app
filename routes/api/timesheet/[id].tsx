@@ -17,14 +17,20 @@ export const handler = async (req: Request, props: PageProps) => {
   const employeeId = formatRouteParam(props);
 
   if (!employeeId) {
-    throw new Error("Missing employee ID parameter");
+    return new Response(
+        JSON.stringify({ error: "Missing employee ID parameter" }),
+        { status: 400 },
+        );
   }
 
   const year = url.searchParams.get("year");
   const month = url.searchParams.get("month");
 
   if (!year || !month) {
-    throw new Error("Missing required query parameters");
+    return new Response(
+      JSON.stringify({ error: "Missing year or month parameter" }),
+      { status: 400 },
+    );
   }
 
   const selectedYear = parseInt(year);
