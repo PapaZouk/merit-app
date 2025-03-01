@@ -55,27 +55,27 @@ export default function Login(
           <div>
             <label class="block text-gray-700">Login</label>
             <FormInput
-              type={"text"}
-              name={"login"}
+              type="text"
+              name="login"
               value={loginData.login}
               handleChange={handleChange}
               extraClass="w-full p-2"
               min={3}
-              required={true}
-              autoComplete={"username"}
+              required
+              autoComplete="username"
             />
           </div>
           <div>
             <label class="block text-gray-700">Hasło</label>
             <FormInput
-              type={"password"}
-              name={"password"}
+              type="password"
+              name="password"
               value={loginData.password}
               handleChange={handleChange}
               extraClass="w-full p-2"
               min={8}
-              required={true}
-              autoComplete={"current-password"}
+              required
+              autoComplete="current-password"
             />
           </div>
           <button

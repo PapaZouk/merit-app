@@ -37,14 +37,17 @@ export const LoginProvider = (
   ]);
   const isLoading: Signal<boolean> = useSignal<boolean>(true);
   const loginError: Signal<boolean> = useSignal<boolean>(false);
+  const otpEnabled: Signal<boolean> = useSignal<boolean>(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
         const userResponse = await getAuthClient().get();
 
-        const response = await fetch(`/api/users/roles/${userResponse.$id}`);
-        userRoles.value = await response.json();
+        const response = await fetch(`/api/users/${userResponse.$id}`);
+        const userDetailsResponse = await response.json() as User;
+        userRoles.value = userDetailsResponse.roles;
+        otpEnabled.value = userDetailsResponse.otpEnabled || false;
 
         user.value = {
           authId: userResponse.$id,

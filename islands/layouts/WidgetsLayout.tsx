@@ -3,7 +3,7 @@ import {useLogin} from "../../components/context/LoginProvider.tsx";
 import {HrWidgets} from "../widgets/HrWidgets.tsx";
 import {FinWidgets} from "../widgets/FinWidgets.tsx";
 import {AdminWidgets} from "../widgets/AdminWidgets.tsx";
-import {UserRoleEnum} from "../../components/utils/auth/types/userRoles.ts";
+import {UserRole, UserRoleEnum} from "../../components/utils/auth/types/userRoles.ts";
 
 export function WidgetsLayout(): h.JSX.Element {
   const { userRoles } = useLogin();
@@ -12,7 +12,7 @@ export function WidgetsLayout(): h.JSX.Element {
     return <FinWidgets />;
   }
 
-  if ([UserRoleEnum.HR_MANAGER, UserRoleEnum.HR_EMPLOYEE].some(role => userRoles.includes(role as UserRoleEnum))) {
+  if ([UserRoleEnum.HR_MANAGER, UserRoleEnum.HR_EMPLOYEE].some(role => userRoles.includes(role as UserRole))) {
     return <HrWidgets />;
   }
 
