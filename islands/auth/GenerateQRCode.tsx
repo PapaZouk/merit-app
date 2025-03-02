@@ -89,7 +89,7 @@ export default function GenerateQRCode() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md">
       {userData && userData.otpEnabled
         ? (
           <>

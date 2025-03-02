@@ -30,44 +30,44 @@ export default function EmployeePersonalDataFrame(
   return (
     <>
       <EmployeeDetailsFrame
-        title={"Dane Osobowe"}
+        title="Dane Osobowe"
         editLink={`/hr/employee/edit/personal/${employeeData._id}`}
-        size={"1"}
+        size="1"
       >
         <>
           <EmployeeDetailsProperty
-            name={"Imię"}
+            name="Imię"
             employeeData={employeeData.personalData.firstName}
           />
           <EmployeeDetailsProperty
-            name={"Nazwisko"}
+            name="Nazwisko"
             employeeData={employeeData.personalData.lastName}
           />
           <EmployeeDetailsProperty
-            name={"E-mail"}
+            name="E-mail"
             employeeData={employeeData.personalData.email}
           />
           <EmployeeDetailsProperty
-            name={"Telefon"}
+            name="Telefon"
             employeeData={employeeData.personalData.phone}
           />
           <EmployeeDetailsProperty
-            name={"PESEL"}
+            name="PESEL"
             employeeData={employeeData.personalData.pesel}
           />
           <EmployeeDetailsProperty
-            name={"NIP"}
+            name="NIP"
             employeeData={employeeData.personalData.nip}
           />
           <EmployeeDetailsProperty
-            name={"Rozmiar ubrań"}
+            name="Rozmiar ubrań"
             employeeData={employeeData.personalData.clothSize}
           />
         </>
       </EmployeeDetailsFrame>
       <EmployeeDetailsFrame
-        title={"Historia zmian danych osobowych"}
-        size={"2"}
+        title="Historia zmian danych osobowych"
+        size="2"
       >
         <HistoryDisplayFrame
           history={employeeData.personalData.personalDataHistory}

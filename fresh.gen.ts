@@ -39,7 +39,7 @@ import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id]
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
-import * as $user_settings_security_mfa from "./routes/user/settings/security/mfa.tsx";
+import * as $user_settings_general from "./routes/user/settings/general.tsx";
 import * as $auth_ChallengeOtp from "./islands/auth/ChallengeOtp.tsx";
 import * as $auth_GenerateQRCode from "./islands/auth/GenerateQRCode.tsx";
 import * as $auth_OtpAuth from "./islands/auth/OtpAuth.tsx";
@@ -64,6 +64,7 @@ import * as $notifications_event_EventNotifications from "./islands/notification
 import * as $sidebar from "./islands/sidebar.tsx";
 import * as $timesheet_TimesheetCalendar from "./islands/timesheet/TimesheetCalendar.tsx";
 import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
+import * as $user_settings_UserSettings from "./islands/user/settings/UserSettings.tsx";
 import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
 import * as $widgets_FinWidgets from "./islands/widgets/FinWidgets.tsx";
 import * as $widgets_HrWidgets from "./islands/widgets/HrWidgets.tsx";
@@ -117,7 +118,7 @@ const manifest = {
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,
     "./routes/user/notifications/[id].tsx": $user_notifications_id_,
-    "./routes/user/settings/security/mfa.tsx": $user_settings_security_mfa,
+    "./routes/user/settings/general.tsx": $user_settings_general,
   },
   islands: {
     "./islands/auth/ChallengeOtp.tsx": $auth_ChallengeOtp,
@@ -153,6 +154,7 @@ const manifest = {
     "./islands/sidebar.tsx": $sidebar,
     "./islands/timesheet/TimesheetCalendar.tsx": $timesheet_TimesheetCalendar,
     "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,
+    "./islands/user/settings/UserSettings.tsx": $user_settings_UserSettings,
     "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,
     "./islands/widgets/FinWidgets.tsx": $widgets_FinWidgets,
     "./islands/widgets/HrWidgets.tsx": $widgets_HrWidgets,

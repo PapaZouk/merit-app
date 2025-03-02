@@ -198,7 +198,7 @@ export default function MainNavigation(
             <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">
               Profil
             </a>
-            <a href="/user/settings/security/mfa" class="block px-4 py-2 hover:bg-gray-100">
+            <a href="/user/settings/general" class="block px-4 py-2 hover:bg-gray-100">
               Ustawienia
             </a>
             <button
