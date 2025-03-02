@@ -2,8 +2,8 @@ import * as OTPAuth from "jsr:@hectorm/otpauth";
 
 export function getOtpAuthClient(secret: OTPAuth.Secret) {
     return new OTPAuth.TOTP({
-        issuer: "Example",
-        label: "Example",
+        issuer: "Merit-App",
+        label: "User",
         algorithm: "SHA1",
         digits: 6,
         period: 30,

@@ -1,4 +1,4 @@
-import { Check } from "https://esm.sh/lucide-preact@latest";
+import { ShieldCheck, CircleAlert } from "https://esm.sh/lucide-preact@latest";
 import QRCode from "npm:qrcode";
 import * as OTPAuth from "jsr:@hectorm/otpauth";
 import { useEffect, useState } from "preact/hooks";
@@ -15,17 +15,19 @@ export default function GenerateQRCode() {
   const [isValidOtp, setValidOtp] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { userId, user } = useLogin();
-  const [userData, setUserData] = useState<User|null>(user);
+  const [userData, setUserData] = useState<User | null>(user);
 
   useEffect(() => {
     async function fetchUserDetails() {
-        try {
-            const response = await fetch(`/api/users/${userId}`);
-            const data = await response.json();
-            setUserData(data);
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-        }
+      try {
+        const response = await fetch(`/api/users/${userId}`);
+        const responseData = await response.json();
+        const data = responseData.result as User;
+        console.log("QR, User data: ", data);
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
     }
 
     async function generateQrCode() {
@@ -88,34 +90,59 @@ export default function GenerateQRCode() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">
-        Zeskanuj kod QR w aplikacji uwierzytelniającej
-      </h1>
-      {isValidOtp
+      {userData && userData.otpEnabled
         ? (
-          <div className="flex items-center space-x-2 text-green-500">
-            <div className="flex justify-center items-center h-48">
-              <Check className="w-24 h-24 text-green-500 animate-check" />
+          <>
+            <div className="flex items-center space-x-2 text-green-500">
+              <div className="flex justify-center items-center h-48">
+                <ShieldCheck className="w-24 h-24 text-green-500 animate-check" />
+              </div>
+              <h2 className="text-green-500 text-2xl font-bold ml-4">
+                Weryfikacja dwuetapowa włączona
+              </h2>
             </div>
-            <h2 className="text-green-500 text-2xl font-bold ml-4">
-              Uwierzytelnianie zakończone
-            </h2>
-            <p>Weryfikacja dwuetapowa włączona</p>
-          </div>
+          </>
         )
         : (
-          qrUrl
-            ? <img src={qrUrl} alt="OTP QR Code" className="mb-4 mx-auto" />
-            : <p className="text-gray-500">Generowanie kodu QR...</p>
-        )}
-      <div>
-        <OtpForm
-          handleChallenge={handleChallenge}
-          code={code}
-          setCode={setCode}
-        />
-      </div>
-      {error && <p className="mt-4 text-red-500">{error}</p>}
+          <>
+            <h1 className="text-2xl font-bold mb-4">
+              Zeskanuj kod QR w aplikacji uwierzytelniającej
+            </h1>
+            {!isValidOtp
+              ? (
+                qrUrl
+                  ? (
+                    <img
+                      src={qrUrl}
+                      alt="OTP QR Code"
+                      className="mb-4 mx-auto"
+                    />
+                  )
+                  : <p className="text-gray-500">Generowanie kodu QR...</p>
+              )
+              : (
+                (
+                  <div className="flex items-center space-x-2 text-green-500">
+                    <div className="flex justify-center items-center h-48">
+                      <ShieldCheck className="w-24 h-24 text-green-500 animate-check" />
+                      Uwierzytelnianie zakończone
+                    </div>
+                  </div>
+                )
+              )}
+            {!userData?.otpEnabled && !isValidOtp && (
+                <div>
+                  <OtpForm
+                      handleChallenge={handleChallenge}
+                      setCode={setCode}
+                  />
+                </div>
+            )}
+          </>
+          )}
+      {error && <p className="mt-4 text-red-500">
+        <CircleAlert size={16} className="w-24 h-24 text-red-500 animate-check"/> {error}
+      </p>}
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function MainNavigation(
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationMenuRef = useRef<HTMLDivElement>(null);
-  const { userId, setUserRole } = useLogin();
+  const { userId, user, setUserRole } = useLogin();
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
@@ -47,6 +47,20 @@ export default function MainNavigation(
 
   const onLogout = async (): Promise<void> => {
     try {
+      if (user) {
+        console.log("Updating user to log out");
+        await fetch(`/api/users/update/${user.authId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...user,
+            otpConfirmed: false,
+          }),
+        });
+      }
+
       await getAuthClient().deleteSessions();
       console.log("User logged out successfully");
     } catch (error) {
@@ -184,7 +198,7 @@ export default function MainNavigation(
             <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">
               Profil
             </a>
-            <a href="/settings" class="block px-4 py-2 hover:bg-gray-100">
+            <a href="/user/settings/security/mfa" class="block px-4 py-2 hover:bg-gray-100">
               Ustawienia
             </a>
             <button

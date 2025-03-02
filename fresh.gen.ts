@@ -5,7 +5,6 @@
 import * as $_403 from "./routes/_403.tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_auth_mfa from "./routes/api/auth/mfa.tsx";
 import * as $api_employees_id_ from "./routes/api/employees/[id].tsx";
 import * as $api_employees_add_employee from "./routes/api/employees/add/employee.tsx";
 import * as $api_employees_all from "./routes/api/employees/all.tsx";
@@ -40,8 +39,10 @@ import * as $hr_timesheet_calendar_id_ from "./routes/hr/timesheet/calendar/[id]
 import * as $hr_timesheet_overview from "./routes/hr/timesheet/overview.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $user_notifications_id_ from "./routes/user/notifications/[id].tsx";
+import * as $user_settings_security_mfa from "./routes/user/settings/security/mfa.tsx";
 import * as $auth_ChallengeOtp from "./islands/auth/ChallengeOtp.tsx";
 import * as $auth_GenerateQRCode from "./islands/auth/GenerateQRCode.tsx";
+import * as $auth_OtpAuth from "./islands/auth/OtpAuth.tsx";
 import * as $auth_login from "./islands/auth/login.tsx";
 import * as $employees_EmployeesManager from "./islands/employees/EmployeesManager.tsx";
 import * as $employees_EmployeesOverview from "./islands/employees/EmployeesOverview.tsx";
@@ -73,7 +74,6 @@ const manifest = {
     "./routes/_403.tsx": $_403,
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/auth/mfa.tsx": $api_auth_mfa,
     "./routes/api/employees/[id].tsx": $api_employees_id_,
     "./routes/api/employees/add/employee.tsx": $api_employees_add_employee,
     "./routes/api/employees/all.tsx": $api_employees_all,
@@ -117,10 +117,12 @@ const manifest = {
     "./routes/hr/timesheet/overview.tsx": $hr_timesheet_overview,
     "./routes/index.tsx": $index,
     "./routes/user/notifications/[id].tsx": $user_notifications_id_,
+    "./routes/user/settings/security/mfa.tsx": $user_settings_security_mfa,
   },
   islands: {
     "./islands/auth/ChallengeOtp.tsx": $auth_ChallengeOtp,
     "./islands/auth/GenerateQRCode.tsx": $auth_GenerateQRCode,
+    "./islands/auth/OtpAuth.tsx": $auth_OtpAuth,
     "./islands/auth/login.tsx": $auth_login,
     "./islands/employees/EmployeesManager.tsx": $employees_EmployeesManager,
     "./islands/employees/EmployeesOverview.tsx": $employees_EmployeesOverview,

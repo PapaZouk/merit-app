@@ -1,10 +1,5 @@
 import * as OTPAuth from "jsr:@hectorm/otpauth";
-import { getOtpAuthClient } from "../../components/auth/getOtpAuthClient.ts";
-
-type OtpChallengeProps = {
-  code: string;
-  secret: OTPAuth.Secret;
-};
+import {getOtpAuthClient} from "../../components/auth/getOtpAuthClient.ts";
 
 export default function challengeOtp(code: string, secret: OTPAuth.Secret): boolean {
   const totp = getOtpAuthClient(secret);

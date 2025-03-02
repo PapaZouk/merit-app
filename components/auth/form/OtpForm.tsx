@@ -1,27 +1,53 @@
+import { useState } from "preact/hooks";
+import VerifyButton from "../../buttons/VerifyButton.tsx";
+import FormInput from "../../forms/FormInput.tsx";
+
 type OtpFormProps = {
-    handleChallenge: (event: Event) => void;
-    code: string;
-    setCode: (code: string) => void;
+  handleChallenge: (event: Event) => void;
+  setCode: (code: string) => void;
 };
 
-export default function OtpForm({ handleChallenge, code, setCode }: OtpFormProps) {
-    return (
-        <form onSubmit={handleChallenge} className="space-y-4">
-            <label className="block">
-                <span className="text-gray-700">Kod jednorazowy:</span>
-                <input
-                    type="text"
-                    value={code}
-                    onChange={(e) => setCode((e.target as HTMLInputElement).value)}
-                    className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </label>
-            <button
-                type="submit"
-                className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Zweryfikuj
-            </button>
-        </form>
-    )
+export default function OtpForm(
+  { handleChallenge, setCode }: OtpFormProps,
+) {
+  const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+
+  const handleChange = (event: Event, index: number) => {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+
+    if (/^\d$/.test(value) || value === "") {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      setCode(newOtp.join(""));
+
+      if (value !== "" && index < otp.length - 1) {
+        const nextInput = document.getElementById(`otp-input-${index + 1}`);
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
+    }
+  };
+
+  return (
+    <form onSubmit={handleChallenge} className="space-y-4">
+      <div className="flex space-x-2 justify-center">
+        {otp.map((value, index) => (
+          <FormInput
+            type="text"
+            name={`otp-input-${index}`}
+            max={1}
+            value={value}
+            handleChange={(e) => handleChange(e, index)}
+            className="w-12 h-12 text-center text-xl border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        ))}
+      </div>
+      <div className="flex justify-center">
+        <VerifyButton />
+      </div>
+    </form>
+  );
 }

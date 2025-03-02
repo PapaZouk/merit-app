@@ -1,6 +1,7 @@
 import {useEffect, useState} from "preact/hooks";
 import FormInput from "../../components/forms/FormInput.tsx";
 import {useLogin} from "../../components/context/LoginProvider.tsx";
+import {mapAppwriteErrorMessage} from "../../components/auth/mapAppwriteErrorMessage.ts";
 
 type LoginProps = {
   loginData: {
@@ -13,18 +14,23 @@ type LoginProps = {
 export default function Login(
   { loginData, setLoginData }: LoginProps,
 ) {
-  const { handleLogin, loginError } = useLogin();
+  const { handleLogin, loginError, loginErrorCode } = useLogin();
   const [userCredentials, setUserCredentials] = useState({
     login: "",
     password: "",
   });
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string|null>(null);
 
   useEffect(() => {
     if (loginError) {
       setShowError(true);
-      const timer = setTimeout(() => setShowError(false), 2000);
+      const timer = setTimeout(() => setShowError(false), 5.000);
       return () => clearTimeout(timer);
+    }
+
+    if (loginErrorCode) {
+      setErrorMessage(mapAppwriteErrorMessage(loginErrorCode));
     }
   }, [loginError]);
 
@@ -91,7 +97,11 @@ export default function Login(
               showError ? "opacity-100" : "opacity-0"
             }`}
           >
-            <strong>Niepoprawny login lub hasło</strong>
+            {errorMessage ? (
+                <strong>{errorMessage}</strong>
+            ) : (
+                <strong>Nieudane logowanie</strong>
+            )}
           </p>
         )}
       </div>
