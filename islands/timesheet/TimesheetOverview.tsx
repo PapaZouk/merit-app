@@ -8,10 +8,10 @@ import {
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
-import Loader from "../../components/loader/loader.tsx";
+import Loader from "../../components/common/loader/loader.tsx";
 import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
-import PreviousButton from "../../components/buttons/PreviousButton.tsx";
-import NextButton from "../../components/buttons/NextButton.tsx";
+import PreviousButton from "../../components/common/buttons/PreviousButton.tsx";
+import NextButton from "../../components/common/buttons/NextButton.tsx";
 import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
 
 export default function TimesheetOverview(): h.JSX.Element {

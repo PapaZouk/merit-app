@@ -65,6 +65,8 @@ import * as $sidebar from "./islands/sidebar.tsx";
 import * as $timesheet_TimesheetCalendar from "./islands/timesheet/TimesheetCalendar.tsx";
 import * as $timesheet_TimesheetOverview from "./islands/timesheet/TimesheetOverview.tsx";
 import * as $user_settings_UserSettings from "./islands/user/settings/UserSettings.tsx";
+import * as $user_settings_tabs_PasswordSettings from "./islands/user/settings/tabs/PasswordSettings.tsx";
+import * as $user_settings_tabs_SecuritySettings from "./islands/user/settings/tabs/SecuritySettings.tsx";
 import * as $widgets_AdminWidgets from "./islands/widgets/AdminWidgets.tsx";
 import * as $widgets_FinWidgets from "./islands/widgets/FinWidgets.tsx";
 import * as $widgets_HrWidgets from "./islands/widgets/HrWidgets.tsx";
@@ -155,6 +157,10 @@ const manifest = {
     "./islands/timesheet/TimesheetCalendar.tsx": $timesheet_TimesheetCalendar,
     "./islands/timesheet/TimesheetOverview.tsx": $timesheet_TimesheetOverview,
     "./islands/user/settings/UserSettings.tsx": $user_settings_UserSettings,
+    "./islands/user/settings/tabs/PasswordSettings.tsx":
+      $user_settings_tabs_PasswordSettings,
+    "./islands/user/settings/tabs/SecuritySettings.tsx":
+      $user_settings_tabs_SecuritySettings,
     "./islands/widgets/AdminWidgets.tsx": $widgets_AdminWidgets,
     "./islands/widgets/FinWidgets.tsx": $widgets_FinWidgets,
     "./islands/widgets/HrWidgets.tsx": $widgets_HrWidgets,

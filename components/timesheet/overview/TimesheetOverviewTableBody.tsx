@@ -2,8 +2,8 @@ import { h } from "preact";
 import { Days, Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { mapTotalBalance } from "../mappers/mapTotalBalance.tsx";
-import Loader from "../../loader/loader.tsx";
-import CheckButton from "../../buttons/CheckButton.tsx";
+import Loader from "../../common/loader/loader.tsx";
+import CheckButton from "../../common/buttons/CheckButton.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];

@@ -1,10 +1,10 @@
 import { EmployeeFormData } from "../../types/EmployeeFormData.ts";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import FormSelect from "../../../forms/FormSelect.tsx";
+import FormSelect from "../../../common/forms/FormSelect.tsx";
 import { status } from "../../types/status.ts";
 import { jobTitles } from "../../types/jobTitles.ts";
 import { departments } from "../../types/departments.ts";
-import FormInput from "../../../forms/FormInput.tsx";
+import FormInput from "../../../common/forms/FormInput.tsx";
 import { contractTypes } from "../../types/contractTypes.ts";
 import { workSchedules } from "../../types/workSchedules.ts";
 import { insuranceTypes } from "../../types/insuranceTypes.ts";

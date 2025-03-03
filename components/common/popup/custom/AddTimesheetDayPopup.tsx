@@ -1,10 +1,10 @@
-import FormSelect from "../forms/FormSelect.tsx";
-import { mapTimesheetMonth } from "../timesheet/mappers/mapTimesheetMonth.ts";
-import FormInput from "../forms/FormInput.tsx";
-import CloseButton from "../buttons/CloseButton.tsx";
-import { dayOffTypes } from "../timesheet/types/DayOffTypes.ts";
-import { formTypes } from "../timesheet/types/FormTypes.ts";
-import SaveButton from "../buttons/SaveButton.tsx";
+import FormSelect from "../../forms/FormSelect.tsx";
+import { mapTimesheetMonth } from "../../../timesheet/mappers/mapTimesheetMonth.ts";
+import FormInput from "../../forms/FormInput.tsx";
+import CloseButton from "../../buttons/CloseButton.tsx";
+import { dayOffTypes } from "../../../timesheet/types/DayOffTypes.ts";
+import { formTypes } from "../../../timesheet/types/FormTypes.ts";
+import SaveButton from "../../buttons/SaveButton.tsx";
 
 type AddTimesheetDayProps = {
   selectedDay: number;
@@ -18,7 +18,7 @@ type AddTimesheetDayProps = {
   handleDayOffTypeSelect: (e: Event) => void;
 };
 
-export default function AddTimesheetDay(
+export default function AddTimesheetDayPopup(
   {
     selectedDay,
     month,

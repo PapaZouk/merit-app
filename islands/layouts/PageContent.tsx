@@ -4,7 +4,7 @@ import { useState } from "preact/hooks";
 import Sidebar from "../sidebar.tsx";
 import Login from "../auth/login.tsx";
 import { useLogin } from "../../components/context/LoginProvider.tsx";
-import Loader from "../../components/loader/loader.tsx";
+import Loader from "../../components/common/loader/loader.tsx";
 import { NotificationsProvider } from "../../components/context/NotificationsProvider.tsx";
 import OtpAuth from "../auth/OtpAuth.tsx";
 

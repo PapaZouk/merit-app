@@ -7,7 +7,7 @@ import {
   Mail,
   User,
 } from "https://esm.sh/lucide-preact@latest";
-import MenuButton from "../../../buttons/MenuButton.tsx";
+import MenuButton from "../../../common/buttons/MenuButton.tsx";
 
 type FormUpdateNavigationProps = {
   onSelect: (section: string) => void;

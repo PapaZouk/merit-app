@@ -7,7 +7,7 @@ import {
 } from "../../components/employee/types/EmployeeFormData.ts";
 import { deleteEmployeeById } from "../../components/utils/api-client/clients/employeeClient.ts";
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
-import Popup from "../../components/popup/popup.tsx";
+import Popup from "../../components/common/popup/template/popup.tsx";
 import createUserAccount from "../../components/utils/auth/accountManager.ts";
 import { getAuthClient } from "../../components/utils/auth/auth-client/authClient.ts";
 import createEventNotification from "../../components/utils/api-client/notifications/createEventNotification.ts";
@@ -21,7 +21,7 @@ import {
   RoleTagsEnum,
 } from "../../components/notifications/types/RoleTagsEnum.ts";
 import { createNewEmployeeRequest } from "../../components/employee/creator/utils/createNewEmployeeRequest.ts";
-import ConfirmAction from "../../components/popup/ConfirmAction.tsx";
+import ConfirmActionPopup from "../../components/common/popup/custom/ConfirmActionPopup.tsx";
 
 export default function EmployeesManager() {
   const [employeeFormData, setEmployeeFormData] = useState<EmployeeFormData>(
@@ -151,7 +151,7 @@ export default function EmployeesManager() {
       />
       {isPopupOpened && (
         <Popup onClose={handlePopup}>
-          <ConfirmAction
+          <ConfirmActionPopup
             handleConfirm={confirmSubmit}
             handleDecline={handlePopup}
             message={"Czy na pewno chcesz zapisać dane?"}

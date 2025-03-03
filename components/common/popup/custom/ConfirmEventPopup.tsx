@@ -1,5 +1,5 @@
 import { h } from "preact";
-import Popup from "./popup.tsx";
+import Popup from "../template/popup.tsx";
 
 type ConfirmPopupEventProps = {
     title: string;
@@ -7,7 +7,7 @@ type ConfirmPopupEventProps = {
     onCancel: () => void;
 }
 
-export default function ConfirmPopupEvent({
+export default function ConfirmEventPopup({
   title,
   onConfirm,
   onCancel,

@@ -54,6 +54,15 @@ export default function FormInput(
       "focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2";
   }
 
+  let maxLength = undefined;
+  let minLength = undefined;
+  if (max) {
+    maxLength = typeof max === 'number' ? max : Number.parseInt(max);
+  }
+  if (min) {
+      minLength = typeof min === 'number' ? min : Number.parseInt(min);
+  }
+
   return (
     <div>
       {(label && name) && <FormLabel htmlFor={name} text={label} />}
@@ -70,8 +79,8 @@ export default function FormInput(
           : labelStyle}
         pattern={pattern}
         placeholder={placeholder}
-        min={min}
-        max={max}
+        min={minLength}
+        maxLength={maxLength}
         required={required ?? false}
         autoComplete={autoComplete}
         checked={checked}

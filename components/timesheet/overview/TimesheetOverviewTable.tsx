@@ -4,7 +4,7 @@ import { Timesheet } from "../../utils/api-client/types/Timesheet.ts";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import TimesheetOverviewTableHead from "./TimesheetOverviewTableHead.tsx";
 import TimesheetOverviewTableBody from "./TimesheetOverviewTableBody.tsx";
-import PaginationNavigation from "../../tables/PaginationNavigation.tsx";
+import PaginationNavigation from "../../common/navigations/PaginationNavigation.tsx";
 
 type TimesheetOverviewTableProps = {
   timesheet: Timesheet[];

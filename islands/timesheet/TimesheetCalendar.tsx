@@ -6,13 +6,13 @@ import {
 } from "../../components/utils/api-client/types/Timesheet.ts";
 import GridWeekDayNames from "../../components/timesheet/calendar/GridWeekDayNames.tsx";
 import GridWorkDays from "../../components/timesheet/calendar/GridWorkDays.tsx";
-import BackButton from "../../components/buttons/BackButton.tsx";
+import BackButton from "../../components/common/buttons/BackButton.tsx";
 import { mapTimesheetMonth } from "../../components/timesheet/mappers/mapTimesheetMonth.ts";
-import Popup from "../../components/popup/popup.tsx";
+import Popup from "../../components/common/popup/template/popup.tsx";
 import createTimesheetDayUpdateRequest from "../../components/utils/api-client/timesheet/createTimesheetDayUpdateRequest.ts";
-import AddTimesheetDay from "../../components/popup/AddTimesheetDay.tsx";
+import AddTimesheetDayPopup from "../../components/common/popup/custom/AddTimesheetDayPopup.tsx";
 import { isHolidayInPoland } from "../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
-import Loader from "../../components/loader/loader.tsx";
+import Loader from "../../components/common/loader/loader.tsx";
 import { emptyTimesheetData } from "../../components/employee/utils/emptyTimesheetData.ts";
 import { AddTimesheetRequest } from "../../components/utils/api-client/types/AddTimesheetRequest.ts";
 
@@ -277,7 +277,7 @@ export default function TimesheetCalendar(
         </div>
         {isPopupOpened && selectedDay && (
           <Popup onClose={handlePopup}>
-            <AddTimesheetDay
+            <AddTimesheetDayPopup
               selectedDay={selectedDay}
               month={month}
               year={year}

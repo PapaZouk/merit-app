@@ -1,8 +1,8 @@
 import {useEffect, useState} from "preact/hooks";
 import {AnnualLeave} from "../../../components/utils/api-client/types/AnnualLeave.ts";
 import {mapTimesheetMonth} from "../../../components/timesheet/mappers/mapTimesheetMonth.ts";
-import NextButton from "../../../components/buttons/NextButton.tsx";
-import PreviousButton from "../../../components/buttons/PreviousButton.tsx";
+import NextButton from "../../../components/common/buttons/NextButton.tsx";
+import PreviousButton from "../../../components/common/buttons/PreviousButton.tsx";
 import {getDayOffBackgroundColor} from "../../../components/timesheet/annual-leaves/getDayOffBackgroundColor.ts";
 import {isHolidayInPoland} from "../../../components/timesheet/calendar/utils/isHolidayInPoland.ts";
 import {isWeekend} from "../../../components/timesheet/utils/isWeekend.ts";

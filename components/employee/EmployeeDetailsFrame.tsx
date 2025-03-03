@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import EditButton from "../buttons/EditButton.tsx";
+import EditButton from "../common/buttons/EditButton.tsx";
 
 type EmployeeDetailsFrameProps = {
     children: h.JSX.Element|string;

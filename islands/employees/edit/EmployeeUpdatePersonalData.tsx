@@ -3,7 +3,7 @@ import { Employee } from "../../../components/utils/api-client/types/Employee.ts
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { useEffect, useState } from "preact/hooks";
 import { MouseEventHandler } from "npm:@types/react@18.3.17/index.d.ts";
-import ConfirmPopupEvent from "../../../components/popup/ConfirmPopupEvent.tsx";
+import ConfirmEventPopup from "../../../components/common/popup/custom/ConfirmEventPopup.tsx";
 import { EventNotificationCreateRequest } from "../../../components/utils/api-client/types/EventNotification.ts";
 import createEventNotification from "../../../components/utils/api-client/notifications/createEventNotification.ts";
 import { useLogin } from "../../../components/context/LoginProvider.tsx";
@@ -146,7 +146,7 @@ export default function EmployeeUpdatePersonalData(
         handleSubmit={handleUpdate}
       />
       {isPopupOpened && (
-        <ConfirmPopupEvent
+        <ConfirmEventPopup
           title={"Czy na pewno chcesz zapisać zmiany?"}
           onConfirm={confirmSubmit}
           onCancel={handlePopup}

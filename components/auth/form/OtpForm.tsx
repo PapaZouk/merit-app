@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
-import VerifyButton from "../../buttons/VerifyButton.tsx";
-import FormInput from "../../forms/FormInput.tsx";
+import VerifyButton from "../../common/buttons/VerifyButton.tsx";
+import FormInput from "../../common/forms/FormInput.tsx";
 
 type OtpFormProps = {
   handleChallenge: (event: Event) => void;
@@ -23,7 +23,7 @@ export default function OtpForm(
       setCode(newOtp.join(""));
 
       if (value !== "" && index < otp.length - 1) {
-        const nextInput = document.getElementById(`otp-input-${index + 1}`);
+        const nextInput = globalThis.document.getElementById(`otp-input-${index + 1}`);
         if (nextInput) {
           nextInput.focus();
         }

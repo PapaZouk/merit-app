@@ -1,16 +1,16 @@
 import { UserX } from "https://esm.sh/lucide-preact@latest";
 import { Employee } from "../utils/api-client/types/Employee.ts";
 import { useState } from "preact/hooks";
-import CheckButton from "../buttons/CheckButton.tsx";
+import CheckButton from "../common/buttons/CheckButton.tsx";
 import { getJobTitle } from "../employee/mappers/getJobTitleMapper.ts";
 import { getDepartment } from "../employee/mappers/getDepartmentMapper.ts";
 import { UserRoleEnum } from "../utils/auth/types/userRoles.ts";
 import { useLogin } from "../context/LoginProvider.tsx";
-import ArchiveButton from "../buttons/ArchiveButton.tsx";
+import ArchiveButton from "../common/buttons/ArchiveButton.tsx";
 import { EmployeeStatus } from "../employee/types/EmployeeStatus.ts";
-import Popup from "../popup/popup.tsx";
-import ConfirmAction from "../popup/ConfirmAction.tsx";
-import PaginationNavigation from "../tables/PaginationNavigation.tsx";
+import Popup from "../common/popup/template/popup.tsx";
+import ConfirmActionPopup from "../common/popup/custom/ConfirmActionPopup.tsx";
+import PaginationNavigation from "../common/navigations/PaginationNavigation.tsx";
 import createEventNotification from "../utils/api-client/notifications/createEventNotification.ts";
 import { useNotifications } from "../context/NotificationsProvider.tsx";
 import {EmployeeEventTagsEnum, RoleTagsEnum} from "../notifications/types/RoleTagsEnum.ts";
@@ -170,7 +170,7 @@ export default function EmployeesOverviewTable(
                 )}
                 {isPopupOpened && (
                   <Popup onClose={() => setIsPopupOpened(false)}>
-                    <ConfirmAction
+                    <ConfirmActionPopup
                       handleConfirm={handleConfirmArchive}
                       handleDecline={handleDecline}
                       message={"Czy na pewno chcesz zarchiwizować tego pracownika?"}

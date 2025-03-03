@@ -1,8 +1,8 @@
 import { ArrowDownUp } from "https://esm.sh/lucide-preact@latest";
 import { Employee } from "../utils/api-client/types/Employee.ts";
-import SortButton from "../buttons/SortButton.tsx";
-import FormInput from "../forms/FormInput.tsx";
-import FormLabel from "../forms/FormLabel.tsx";
+import SortButton from "../common/buttons/SortButton.tsx";
+import FormInput from "../common/forms/FormInput.tsx";
+import FormLabel from "../common/forms/FormLabel.tsx";
 
 type OverviewTableNavProps = {
   handleSort: (

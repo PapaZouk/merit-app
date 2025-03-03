@@ -1,7 +1,8 @@
 import {useEffect, useState} from "preact/hooks";
-import FormInput from "../../components/forms/FormInput.tsx";
+import FormInput from "../../components/common/forms/FormInput.tsx";
 import {useLogin} from "../../components/context/LoginProvider.tsx";
 import {mapAppwriteErrorMessage} from "../../components/auth/mapAppwriteErrorMessage.ts";
+import ErrorMessage from "../../components/common/messages/ErrorMessage.tsx";
 
 type LoginProps = {
   loginData: {
@@ -92,17 +93,13 @@ export default function Login(
           </button>
         </form>
         {loginError && (
-          <p
-            class={`text-red-500 text-center mt-4 transition-opacity duration-1000 ${
-              showError ? "opacity-100" : "opacity-0"
-            }`}
-          >
+          <ErrorMessage showError={showError}>
             {errorMessage ? (
                 <strong>{errorMessage}</strong>
             ) : (
                 <strong>Nieudane logowanie</strong>
             )}
-          </p>
+          </ErrorMessage>
         )}
       </div>
     </div>

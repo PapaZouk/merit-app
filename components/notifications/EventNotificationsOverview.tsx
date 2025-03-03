@@ -4,10 +4,10 @@ import NotificationCard from "./NotificationCard.tsx";
 import { EventNotification } from "../utils/api-client/types/EventNotification.ts";
 import { useNotifications } from "../context/NotificationsProvider.tsx";
 import { sortNotifications } from "./utils/sortNotifications.ts";
-import PaginationNavigation from "../tables/PaginationNavigation.tsx";
+import PaginationNavigation from "../common/navigations/PaginationNavigation.tsx";
 import NoNotificationMessage from "./NoNotificationMessage.tsx";
-import FormInput from "../forms/FormInput.tsx";
-import FormLabel from "../forms/FormLabel.tsx";
+import FormInput from "../common/forms/FormInput.tsx";
+import FormLabel from "../common/forms/FormLabel.tsx";
 
 export default function EventNotificationsOverview(): h.JSX.Element {
   const { eventNotifications } = useNotifications();

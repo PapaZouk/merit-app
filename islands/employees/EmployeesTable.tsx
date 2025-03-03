@@ -5,7 +5,7 @@ import { Users } from "https://esm.sh/lucide-preact@latest";
 import EmployeesOverviewTable from "../../components/employees/EmployeesOverviewTable.tsx";
 import EmployeesOverviewTableNav from "../../components/employees/EmployeesOverviewTableNav.tsx";
 import { sortEmployees } from "../../components/employees/utils/sortEmployees.tsx";
-import Loader from "../../components/loader/loader.tsx";
+import Loader from "../../components/common/loader/loader.tsx";
 
 type EmployeesTableProps = {
   sortedEmployees: Employee[];

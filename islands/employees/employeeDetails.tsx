@@ -1,10 +1,10 @@
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
-import BackButton from "../../components/buttons/BackButton.tsx";
+import BackButton from "../../components/common/buttons/BackButton.tsx";
 import FormUpdateHeader from "../../components/employee/formUpdateHeader.tsx";
 import { useEffect, useState } from "preact/hooks";
 import FormUpdateNavigation from "../../components/employee/details/navigation/FormUpdateNavigation.tsx";
 import FormUpdateContentLayout from "../../components/employee/details/content/FormUpdateContentLayout.tsx";
-import Loader from "../../components/loader/loader.tsx";
+import Loader from "../../components/common/loader/loader.tsx";
 
 type EmployeeDetailsProps = {
   employeeId: string;

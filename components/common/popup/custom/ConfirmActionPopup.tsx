@@ -8,7 +8,7 @@ type ConfirmActionProps = {
   message: string;
 };
 
-export default function ConfirmAction(
+export default function ConfirmActionPopup(
   { handleConfirm, handleDecline, message }: ConfirmActionProps,
 ): h.JSX.Element {
   return (

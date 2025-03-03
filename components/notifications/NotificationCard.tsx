@@ -2,7 +2,7 @@ import { EventNotification } from "../utils/api-client/types/EventNotification.t
 import { useEffect, useState } from "preact/hooks";
 import { getNotificationReadUpdateRequest } from "./utils/getNotificationReadUpdateRequest.ts";
 import { getNotificationHeaderBgColor } from "./utils/getNotificationHeaderBgColor.ts";
-import FormInput from "../forms/FormInput.tsx";
+import FormInput from "../common/forms/FormInput.tsx";
 import { Employee } from "../utils/api-client/types/Employee.ts";
 
 type NotificationCardProps = {

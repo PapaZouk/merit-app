@@ -6,7 +6,7 @@ import Address1Form from "./Address1Form.tsx";
 import Address2Form from "./Address2Form.tsx";
 import JobDetailsForm from "./JobDetailsForm.tsx";
 import SalaryForm from "./SalaryForm.tsx";
-import SaveButton from "../../../buttons/SaveButton.tsx";
+import SaveButton from "../../../common/buttons/SaveButton.tsx";
 import { validatePersonalDataForm } from "../validators/validatePersonalDataForm.ts";
 import { validateAddress1Form } from "../validators/validateAddress1Form.ts";
 import { validateJobDetailsForm } from "../validators/validateJobDetailsForm.ts";

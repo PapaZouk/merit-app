@@ -1,9 +1,9 @@
-import BackButton from "../../buttons/BackButton.tsx";
+import BackButton from "../../common/buttons/BackButton.tsx";
 import FormUpdateHeader from "../formUpdateHeader.tsx";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 import { Employee } from "../../utils/api-client/types/Employee.ts";
 import { h } from "preact";
-import SaveButton from "../../buttons/SaveButton.tsx";
+import SaveButton from "../../common/buttons/SaveButton.tsx";
 
 type UpdateFormProps = {
   children: h.JSX.Element;
