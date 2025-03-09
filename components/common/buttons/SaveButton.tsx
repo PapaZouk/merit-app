@@ -1,13 +1,16 @@
-import { Check } from "https://esm.sh/lucide-preact@latest";
+import { Check as DefaultSaveButtonIcon } from "https://esm.sh/lucide-preact@latest";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 
 type SaveButtonProps = {
   onClick?:
     | (() => void)
     | ((e: createElement.JSX.TargetedEvent<HTMLButtonElement, Event>) => void);
+  SaveButtonIcon?: typeof DefaultSaveButtonIcon;
 };
 
-export default function SaveButton({ onClick }: SaveButtonProps) {
+export default function SaveButton(
+  { onClick, SaveButtonIcon = DefaultSaveButtonIcon }: SaveButtonProps,
+) {
   return (
     <button
       type="submit"
@@ -16,7 +19,7 @@ export default function SaveButton({ onClick }: SaveButtonProps) {
              transition-colors duration-300"
       onClick={onClick}
     >
-      <Check size={20} class="pt-1 mr-2" /> Zapisz
+      <SaveButtonIcon size={20} class="pt-1 mr-2" /> Zapisz
     </button>
   );
 }

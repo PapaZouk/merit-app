@@ -1,10 +1,11 @@
-import { Binoculars } from "https://esm.sh/lucide-preact@latest";
+import { Binoculars as DefaultCheckButtonIcon } from "https://esm.sh/lucide-preact@latest";
 
 type CheckButtonProps = {
   href: string;
+  CheckButtonIcon?: typeof DefaultCheckButtonIcon;
 };
 
-export default function CheckButton({ href }: CheckButtonProps) {
+export default function CheckButton({ href, CheckButtonIcon = DefaultCheckButtonIcon}: CheckButtonProps) {
   return (
     <button
       onClick={() => globalThis.location.href = `${href}`}
@@ -12,7 +13,7 @@ export default function CheckButton({ href }: CheckButtonProps) {
       hover:from-green-400 hover:to-green-600 transition-colors duration-300"
     >
       <span class="hidden lg:inline">Zobacz</span>
-      <Binoculars class="inline lg:hidden" />
+      <CheckButtonIcon class="inline lg:hidden" />
     </button>
   );
 }

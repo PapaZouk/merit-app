@@ -1,10 +1,11 @@
-import { Pencil } from "https://esm.sh/lucide-preact@latest";
+import { Pencil as DefaultEditButton } from "https://esm.sh/lucide-preact@latest";
 
 type EditButtonProps = {
     href: string;
+    EditButtonIcon?: typeof DefaultEditButton;
 }
 
-export default function EditButton({ href }: EditButtonProps) {
+export default function EditButton({ href, EditButtonIcon = DefaultEditButton }: EditButtonProps) {
     return (
         <a
             href={href}
@@ -12,7 +13,7 @@ export default function EditButton({ href }: EditButtonProps) {
             text-white px-3 py-2 rounded hover:from-blue-400 hover:to-blue-600
             transition-colors duration-300 text-sm"
         >
-            <Pencil size={16} class="pt-1 mr-2"/> Edytuj
+            <EditButtonIcon size={16} class="pt-1 mr-2"/> Edytuj
         </a>
     );
 }

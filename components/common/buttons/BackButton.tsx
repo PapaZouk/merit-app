@@ -1,10 +1,13 @@
-import { ArrowLeft } from "https://esm.sh/lucide-preact@latest";
+import { ArrowLeft as DefaultBackButtonIcon } from "https://esm.sh/lucide-preact@latest";
 
 type BackButtonProps = {
   href: string;
+  BackButtonIcon?: typeof DefaultBackButtonIcon;
 };
 
-export default function BackButton({ href }: BackButtonProps) {
+export default function BackButton(
+  { href, BackButtonIcon = DefaultBackButtonIcon }: BackButtonProps,
+) {
   return (
     <a
       href={href}
@@ -12,7 +15,7 @@ export default function BackButton({ href }: BackButtonProps) {
       to-gray-600 text-white px-3 py-2 rounded hover:from-gray-500
       hover:to-gray-700 transition-colors duration-300"
     >
-      <ArrowLeft size={16} class="mr-2" /> Powrót
+      <BackButtonIcon size={16} class="mr-2" /> Powrót
     </a>
   );
 }
