@@ -47,6 +47,18 @@ With an intuitive user interface and real-time data synchronization, Merit App e
       ```
       http://localhost:8000
       
+
+4. Testing
+
+   Unit tests are available in the `tests` directory.
+   To run the tests, use the following command:
+
+   ```sh
+   deno task test:ci
+   ```
+   
+   The coverage report will be generated in the `cov_profile` directory and displayed in the console after test finishes.
+
 4. Contact
 
     - [LinkedIn](https://www.linkedin.com/in/rafal-papala/)
