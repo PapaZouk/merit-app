@@ -1,4 +1,4 @@
-import { ShieldCheck, CircleAlert } from "https://esm.sh/lucide-preact@latest";
+import { LuShieldCheck, LuCircleAlert } from "@preact-icons/lu";
 import QRCode from "npm:qrcode";
 import * as OTPAuth from "jsr:@hectorm/otpauth";
 import { useEffect, useState } from "preact/hooks";
@@ -95,7 +95,7 @@ export default function GenerateQRCode() {
           <>
             <div className="flex items-center space-x-2 text-green-500">
               <div className="flex justify-center items-center h-48">
-                <ShieldCheck className="w-24 h-24 text-green-500 animate-check" />
+                <LuShieldCheck className="w-24 h-24 text-green-500 animate-check" />
               </div>
               <h2 className="text-green-500 text-2xl font-bold ml-4">
                 Weryfikacja dwuetapowa włączona
@@ -124,7 +124,7 @@ export default function GenerateQRCode() {
                 (
                   <div className="flex items-center space-x-2 text-green-500">
                     <div className="flex justify-center items-center h-48">
-                      <ShieldCheck className="w-24 h-24 text-green-500 animate-check" />
+                      <LuShieldCheck className="w-24 h-24 text-green-500 animate-check" />
                       Uwierzytelnianie zakończone
                     </div>
                   </div>
@@ -141,7 +141,7 @@ export default function GenerateQRCode() {
           </>
           )}
       {error && <p className="mt-4 text-red-500">
-        <CircleAlert size={16} className="w-24 h-24 text-red-500 animate-check"/> {error}
+        <LuCircleAlert size={16} className="w-24 h-24 text-red-500 animate-check"/> {error}
       </p>}
     </div>
   );

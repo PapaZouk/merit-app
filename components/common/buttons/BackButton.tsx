@@ -1,4 +1,4 @@
-import { ArrowLeft as DefaultBackButtonIcon } from "https://esm.sh/lucide-preact@latest";
+import { LuArrowLeft as DefaultBackButtonIcon } from "@preact-icons/lu";
 
 type BackButtonProps = {
   href: string;

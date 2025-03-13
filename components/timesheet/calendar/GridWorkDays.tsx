@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Flag, SquarePlus, Sun } from "https://esm.sh/lucide-preact@latest";
+import { LuFlag, LuSquarePlus, LuSun } from "@preact-icons/lu";
 import getGridDayBackgroundColor from "./utils/getGridDayBackgroundColor.ts";
 import { mapDayOffTypeIcon } from "./utils/mapDayOffTypeIcon.tsx";
 import { mapDayOffPayType } from "./utils/mapDayOffPayType.tsx";
@@ -67,7 +67,7 @@ export default function GridWorkDays(
             class={`relative border p-2 text-center flex-1 ${bgColor} flex flex-col hover:bg-opacity-75 hover:shadow-md transition duration-200`}
           >
             <div class="absolute top-1 right-1">
-              <SquarePlus
+              <LuSquarePlus
                 class="w-4 h-4 text-gray-600 hover:text-gray-900 cursor-pointer"
                 onClick={() => onDaySelect(day)}
               />
@@ -76,8 +76,8 @@ export default function GridWorkDays(
               {day}
               {!isWeekend && mapDayOffTypeIcon(dayData.dayOffType)}
               {(dayData.isHoliday || dayData.dayOffType === "bankHoliday") &&
-                <Flag class="ml-1 w-4 h-4" />}
-              {isWeekend && <Sun class="ml-1 w-4 h-4" />}
+                <LuFlag class="ml-1 w-4 h-4" />}
+              {isWeekend && <LuSun class="ml-1 w-4 h-4" />}
             </div>
             <div class="flex-1">
               <div class="text-xs sm:text-sm">Godzin: {dayData.hours}</div>

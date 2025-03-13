@@ -1,12 +1,12 @@
 import { h } from "preact";
 import {
-  BedSingle,
-  Briefcase,
-  DollarSign,
-  Home,
-  Mail,
-  User,
-} from "https://esm.sh/lucide-preact@latest";
+  LuBedSingle,
+  LuBriefcase,
+  LuDollarSign,
+  LuHouse,
+  LuMail,
+  LuUser,
+} from "@preact-icons/lu";
 import MenuButton from "../../../common/buttons/MenuButton.tsx";
 
 type FormUpdateNavigationProps = {
@@ -19,22 +19,22 @@ export default function FormUpdateNavigation(
   return (
     <div class="flex flex-col sm:flex-row items-center justify-start bg-white p-4 shadow-md rounded-lg mb-2">
       <MenuButton onClick={() => onSelect("personalData")}>
-        <User class="mr-2" /> Dane osobowe
+        <LuUser class="mr-2" /> Dane osobowe
       </MenuButton>
       <MenuButton onClick={() => onSelect("address1")}>
-        <Home class="mr-2" /> Adres zamieszkania
+        <LuHouse class="mr-2" /> Adres zamieszkania
       </MenuButton>
       <MenuButton onClick={() => onSelect("address2")}>
-        <Mail class="mr-2" /> Adres korespondencyjny
+        <LuMail class="mr-2" /> Adres korespondencyjny
       </MenuButton>
       <MenuButton onClick={() => onSelect("jobDetails")}>
-        <Briefcase class="mr-2" /> Stanowisko
+        <LuBriefcase class="mr-2" /> Stanowisko
       </MenuButton>
       <MenuButton onClick={() => onSelect("jobStayAddress")}>
-        <BedSingle class="mr-2" /> Nocleg
+        <LuBedSingle class="mr-2" /> Nocleg
       </MenuButton>
       <MenuButton onClick={() => onSelect("salary")}>
-        <DollarSign class="mr-2" /> Wynagrodzenie
+        <LuDollarSign class="mr-2" /> Wynagrodzenie
       </MenuButton>
     </div>
   );

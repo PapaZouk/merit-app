@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { CalendarDays } from "https://esm.sh/lucide-preact@latest";
+import { LuCalendarDays } from "@preact-icons/lu";
 import { useEffect, useState } from "preact/hooks";
 import {
   Days,
@@ -8,7 +8,6 @@ import {
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import TimesheetPeriodSelector from "../../components/timesheet/overview/TimesheetPeriodSelector.tsx";
 import TimesheetOverviewTable from "../../components/timesheet/overview/TimesheetOverviewTable.tsx";
-import Loader from "../../components/common/loader/loader.tsx";
 import TimesheetOverviewController from "../../components/timesheet/overview/TimesheetOverviewController.tsx";
 import PreviousButton from "../../components/common/buttons/PreviousButton.tsx";
 import NextButton from "../../components/common/buttons/NextButton.tsx";
@@ -151,7 +150,7 @@ export default function TimesheetOverview(): h.JSX.Element {
   return (
     <div class="bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
       <h1 class="flex items-center text-gray-800 text-xl font-bold mb-4">
-        <CalendarDays class="mr-2 w-5 h-5" /> Przegląd grafików
+        <LuCalendarDays class="mr-2 w-5 h-5" /> Przegląd grafików
       </h1>
       <div class="flex flex-col sm:flex-row items-center justify-start bg-white p-4 mb-2">
         <TimesheetPeriodSelector

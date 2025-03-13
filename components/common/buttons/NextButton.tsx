@@ -1,5 +1,5 @@
-import { h } from "preact";
-import { ArrowRight as DefaultNextButtonIcon } from "https://esm.sh/lucide-preact@latest";
+import {h} from "preact";
+import {LuArrowRight as DefaultNextButtonIcon} from "@preact-icons/lu";
 
 type NextButtonProps = {
   disabled?: boolean;
@@ -16,7 +16,7 @@ export default function NextButton(
     NextButtonIcon = DefaultNextButtonIcon,
   }: NextButtonProps,
 ): h.JSX.Element {
-  return (
+    return (
     <button
       type="button"
       onClick={handleNext}
@@ -24,7 +24,7 @@ export default function NextButton(
       class="flex items-center px-4 py-2 bg-gray-300 rounded disabled:opacity-50 ml-4"
     >
       {isTextVisible && "Następne "}
-      <NextButtonIcon size={14} class={isTextVisible && "ml-2"} />
+      <NextButtonIcon size={14} class={isTextVisible ? "ml-2" : ""} />
     </button>
   );
 }

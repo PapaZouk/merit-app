@@ -1,4 +1,4 @@
-import { FolderArchive as DefaultFolderArchive } from "https://esm.sh/lucide-preact@latest";
+import { LuFolderArchive as DefaultFolderArchive } from "@preact-icons/lu";
 
 type ArchiveButtonProps = {
   handleArchive: () => void;

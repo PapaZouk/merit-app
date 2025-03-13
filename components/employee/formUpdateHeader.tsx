@@ -1,4 +1,4 @@
-import { SquareUserRound } from "https://esm.sh/lucide-preact@latest";
+import { LuSquareUserRound } from "@preact-icons/lu";
 import { Employee } from "../utils/api-client/types/Employee.ts";
 
 type EmployeeHeaderProps = {
@@ -12,7 +12,7 @@ export default function FormUpdateHeader(
   return (
     <div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-start space-y-2 sm:space-y-0 sm:space-x-4">
       <h1 class="text-2xl sm:text-3xl font-bold p-2 flex items-center">
-        <SquareUserRound size={32} class="mr-4" />
+        <LuSquareUserRound size={32} class="mr-4" />
         {employeeData.personalData.firstName}{" "}
         {employeeData.personalData.lastName}
       </h1>

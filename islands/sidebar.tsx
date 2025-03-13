@@ -1,16 +1,16 @@
 // deno-lint-ignore-file
 import { useState } from "preact/hooks";
 import {
-  AppWindowMac,
-  BookText,
-  BriefcaseBusiness,
-  ChartNoAxesCombined,
-  ClipboardPlus,
-  Clock,
-  Coins,
-  Users,
-  X,
-} from "https://esm.sh/lucide-preact@latest";
+  LuAppWindowMac,
+  LuBookText,
+  LuBriefcaseBusiness,
+  LuChartNoAxesCombined,
+  LuClipboardPlus,
+  LuClock,
+  LuCoins,
+  LuUsers,
+  LuX,
+} from "@preact-icons/lu";
 import SubMenuLink from "../components/sidebar/subMenuLink.tsx";
 import SectionElement from "../components/sidebar/sectionElement.tsx";
 import Section from "../components/sidebar/section.tsx";
@@ -46,11 +46,11 @@ export default function Sidebar(
       <div class="flex justify-between items-center mb-4">
         <h2 class="flex items-center font-bold text-white">
           <a href={"/"} class="flex items-center">
-            <AppWindowMac size={18} class="mr-2" /> PANEL GŁÓWNY
+            <LuAppWindowMac size={18} class="mr-2" /> PANEL GŁÓWNY
           </a>
         </h2>
         <button class="md:hidden text-white" onClick={toggleSidebar}>
-          <X size={24} />
+          <LuX size={24} />
         </button>
       </div>
       <div class="pl-4">
@@ -62,7 +62,7 @@ export default function Sidebar(
           <Section
             title={
               <>
-                <ChartNoAxesCombined size={20} class="mr-2" />HR
+                <LuChartNoAxesCombined size={20} class="mr-2" />HR
               </>
             }
           >
@@ -72,7 +72,7 @@ export default function Sidebar(
                 title={"manager"}
                 nameAndIcon={
                   <>
-                    <BriefcaseBusiness size={14} class="mr-2" /> Manager
+                    <LuBriefcaseBusiness size={14} class="mr-2" /> Manager
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}
@@ -88,7 +88,7 @@ export default function Sidebar(
                 title={"employees"}
                 nameAndIcon={
                   <>
-                    <Users size={14} class="mr-2" /> Pracownicy
+                    <LuUsers size={14} class="mr-2" /> Pracownicy
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}
@@ -111,7 +111,7 @@ export default function Sidebar(
                 title={"timesheet"}
                 nameAndIcon={
                   <>
-                    <Clock size={14} class="mr-2" /> Godziny
+                    <LuClock size={14} class="mr-2" /> Godziny
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}
@@ -140,7 +140,7 @@ export default function Sidebar(
           <Section
             title={
               <>
-                <ChartNoAxesCombined size={20} class="mr-2" />FINANSE
+                <LuChartNoAxesCombined size={20} class="mr-2" />FINANSE
               </>
             }
           >
@@ -150,7 +150,7 @@ export default function Sidebar(
                 title={"invoices"}
                 nameAndIcon={
                   <>
-                    <BookText size={14} class="mr-2" /> Faktury
+                    <LuBookText size={14} class="mr-2" /> Faktury
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}
@@ -166,7 +166,7 @@ export default function Sidebar(
                 title={"payments"}
                 nameAndIcon={
                   <>
-                    <Coins size={14} class="mr-2" /> Rozliczenia
+                    <LuCoins size={14} class="mr-2" /> Rozliczenia
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}
@@ -182,7 +182,7 @@ export default function Sidebar(
                 title={"reports"}
                 nameAndIcon={
                   <>
-                    <ClipboardPlus size={14} class="mr-2" /> Raporty
+                    <LuClipboardPlus size={14} class="mr-2" /> Raporty
                   </>
                 }
                 toggleSubmenu={toggleSubmenu}

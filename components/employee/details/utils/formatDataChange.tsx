@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { ArrowBigRight } from "https://esm.sh/lucide-preact@latest";
+import { LuArrowBigRight } from "@preact-icons/lu";
 
 type EmployeeUpdateSalaryProps = {
   before: string | number;
@@ -17,7 +17,7 @@ export default function FormatDataChange(
           <span class="truncate max-w-xs">{before === null || before === undefined || before === ""
             ? "Brak danych"
             : before}</span>
-          <ArrowBigRight class="mx-1" />
+          <LuArrowBigRight class="mx-1" />
           <span class="truncate max-w-xs">{after === null || after === undefined || after === ""
             ? "Brak danych"
             : after}</span>

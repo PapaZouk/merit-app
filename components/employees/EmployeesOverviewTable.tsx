@@ -1,4 +1,4 @@
-import { UserX } from "https://esm.sh/lucide-preact@latest";
+import { LuUserX } from "@preact-icons/lu";
 import { Employee } from "../utils/api-client/types/Employee.ts";
 import { useState } from "preact/hooks";
 import CheckButton from "../common/buttons/CheckButton.tsx";
@@ -150,7 +150,7 @@ export default function EmployeesOverviewTable(
                   archived
                     ? (
                       <td class="lg:table-cell flex justify-center items-center">
-                        <UserX
+                        <LuUserX
                           size={24}
                           class="opacity-50 cursor-not-allowed md:ml-4"
                         />
@@ -173,7 +173,7 @@ export default function EmployeesOverviewTable(
                     <ConfirmActionPopup
                       handleConfirm={handleConfirmArchive}
                       handleDecline={handleDecline}
-                      message={"Czy na pewno chcesz zarchiwizować tego pracownika?"}
+                      message="Czy na pewno chcesz zarchiwizować tego pracownika?"
                     />
                   </Popup>
                 )}

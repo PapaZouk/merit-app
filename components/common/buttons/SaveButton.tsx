@@ -1,4 +1,4 @@
-import { Check as DefaultSaveButtonIcon } from "https://esm.sh/lucide-preact@latest";
+import { LuCheck as DefaultSaveButtonIcon } from "@preact-icons/lu";
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
 
 type SaveButtonProps = {

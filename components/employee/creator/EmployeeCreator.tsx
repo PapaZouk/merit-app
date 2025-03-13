@@ -1,5 +1,5 @@
 import { createElement } from "https://esm.sh/v128/preact@10.22.0/src/index.js";
-import { UserRoundPlus } from "https://esm.sh/lucide-preact@latest";
+import { LuUserRoundPlus } from "@preact-icons/lu";
 import { EmployeeFormData } from "../types/EmployeeFormData.ts";
 import PaginatedForm from "./forms/PaginatedForm.tsx";
 
@@ -31,7 +31,7 @@ export default function EmployeeCreator({
   return (
     <div class="p-4">
       <h1 class="flex items-center text-2xl font-bold mb-4">
-        <UserRoundPlus class="mr-2 w-5 h-5 md:w-6 md:h-6" /> Dodaj pracownika
+        <LuUserRoundPlus class="mr-2 w-5 h-5 md:w-6 md:h-6" /> Dodaj pracownika
       </h1>
       <PaginatedForm
         formData={formData}

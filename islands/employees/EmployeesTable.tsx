@@ -1,7 +1,7 @@
 import { Employee } from "../../components/utils/api-client/types/Employee.ts";
 import { h } from "preact";
 import { useState } from "preact/hooks";
-import { Users } from "https://esm.sh/lucide-preact@latest";
+import { LuUsers } from "@preact-icons/lu";
 import EmployeesOverviewTable from "../../components/employees/EmployeesOverviewTable.tsx";
 import EmployeesOverviewTableNav from "../../components/employees/EmployeesOverviewTableNav.tsx";
 import { sortEmployees } from "../../components/employees/utils/sortEmployees.tsx";
@@ -56,7 +56,7 @@ export default function EmployeesTable(
     <div class="bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
         <h1 class="flex items-center text-gray-800 text-xl font-bold mb-2 md:mb-0">
-          <Users class="mr-2 w-5 h-5 md:w-6 md:h-6" />
+          <LuUsers class="mr-2 w-5 h-5 md:w-6 md:h-6" />
           Pracownicy
         </h1>
         <EmployeesOverviewTableNav handleSort={handleSort} handleShowArchived={handleShowArchived} />

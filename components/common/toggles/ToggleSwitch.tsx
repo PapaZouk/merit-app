@@ -1,4 +1,4 @@
-import { Check, Minus } from "https://esm.sh/lucide-preact@latest";
+import { LuCheck, LuMinus } from "@preact-icons/lu";
 
 type ToggleSwitchProps = {
   toggled: boolean;
@@ -20,8 +20,8 @@ export default function ToggleSwitch({ toggled, onToggle, toggleDisabled }: Togg
         }`}
       >
         {toggled
-          ? <Check className="w-4 h-4 text-green-500" />
-          : <Minus className="w-4 h-4 text-gray-500" />}
+          ? <LuCheck className="w-4 h-4 text-green-500" />
+          : <LuMinus className="w-4 h-4 text-gray-500" />}
       </div>
     </div>
   );

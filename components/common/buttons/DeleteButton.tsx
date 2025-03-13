@@ -1,4 +1,4 @@
-import { Trash2 as DefaultDeleteButtonIcon } from "https://esm.sh/lucide-preact@latest";
+import { LuTrash2 as DefaultDeleteButtonIcon } from "@preact-icons/lu";
 
 type DeleteButtonProps = {
   handleDelete: () => void;

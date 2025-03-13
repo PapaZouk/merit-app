@@ -1,4 +1,4 @@
-import { Pencil as DefaultEditButton } from "https://esm.sh/lucide-preact@latest";
+import { LuPencil as DefaultEditButton } from "@preact-icons/lu";
 
 type EditButtonProps = {
     href: string;

@@ -1,4 +1,4 @@
-import {Bell, CircleUserRound, Mail,} from "https://esm.sh/lucide-preact@latest";
+import {LuBell, LuCircleUserRound, LuMail,} from "@preact-icons/lu";
 import {useEffect, useRef, useState} from "preact/hooks";
 import {getAuthClient} from "../components/utils/auth/auth-client/authClient.ts";
 import {UserRoleEnum} from "../components/utils/auth/types/userRoles.ts";
@@ -136,7 +136,7 @@ export default function MainNavigation(
           onClick={toggleNotificationMenu}
           class="relative flex items center"
         >
-          <Bell size={24} class="text-gray-600 hover:text-gray-900" />
+          <LuBell size={24} class="text-gray-600 hover:text-gray-900" />
           {sortedNotifications.filter((n) => !n.isRead).length > 0 && (
             <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs
              font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2
@@ -183,9 +183,9 @@ export default function MainNavigation(
             </ul>
           </div>
         )}
-        <Mail size={24} class="text-gray-600 hover:text-gray-900" />
+        <LuMail size={24} class="text-gray-600 hover:text-gray-900" />
         <button onClick={toggleProfileMenu} class="flex items-center">
-          <CircleUserRound
+          <LuCircleUserRound
             size={32}
             class="text-gray-600 hover:text-gray-900"
           />

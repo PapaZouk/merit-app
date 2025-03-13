@@ -1,4 +1,4 @@
-import { Binoculars as DefaultCheckButtonIcon } from "https://esm.sh/lucide-preact@latest";
+import { LuBinoculars as DefaultCheckButtonIcon } from "@preact-icons/lu";
 
 type CheckButtonProps = {
   href: string;

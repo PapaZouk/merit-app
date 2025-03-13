@@ -1,4 +1,4 @@
-import { CircleDollarSign, CircleX } from "https://esm.sh/lucide-preact@latest";
+import { LuCircleDollarSign, LuCircleX } from "@preact-icons/lu";
 
 export const mapDayOffPayType = (dayOffType: string) => {
   switch (dayOffType) {
@@ -9,14 +9,14 @@ export const mapDayOffPayType = (dayOffType: string) => {
     case "occasionalLeave":
       return (
         <div class="flex items-center justify-center mt-1">
-          <CircleDollarSign class="ml-1 w-4 h-4" />
+          <LuCircleDollarSign class="ml-1 w-4 h-4" />
         </div>
       );
     case "unpaid":
     case "childcareLeave":
       return (
         <div class="flex items center justify-center mt-1">
-          <CircleX class="ml-1 w-4 h-4 text-black" />
+          <LuCircleX class="ml-1 w-4 h-4 text-black" />
         </div>
       );
   }
