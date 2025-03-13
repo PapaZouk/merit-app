@@ -140,7 +140,7 @@ export default function PasswordSettings() {
             />
           </div>
           {passwordError && (
-            <ErrorMessage showError={showError}>
+            <ErrorMessage>
               {passwordError}
             </ErrorMessage>
           )}

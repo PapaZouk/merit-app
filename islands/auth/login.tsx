@@ -1,7 +1,7 @@
-import {useEffect, useState} from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import FormInput from "../../components/common/forms/FormInput.tsx";
-import {useLogin} from "../../components/context/LoginProvider.tsx";
-import {mapAppwriteErrorMessage} from "../../components/auth/mapAppwriteErrorMessage.ts";
+import { useLogin } from "../../components/context/LoginProvider.tsx";
+import { mapAppwriteErrorMessage } from "../../components/auth/mapAppwriteErrorMessage.ts";
 import ErrorMessage from "../../components/common/messages/ErrorMessage.tsx";
 
 type LoginProps = {
@@ -21,7 +21,7 @@ export default function Login(
     password: "",
   });
   const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string|null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (loginError) {
@@ -33,7 +33,7 @@ export default function Login(
     if (loginErrorCode) {
       setErrorMessage(mapAppwriteErrorMessage(loginErrorCode));
     }
-  }, [loginError]);
+  }, [loginError, loginErrorCode]);
 
   const handleChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
@@ -62,6 +62,7 @@ export default function Login(
           <div>
             <label class="block text-gray-700">Login</label>
             <FormInput
+              id="login"
               type="text"
               name="login"
               value={loginData.login}
@@ -75,6 +76,7 @@ export default function Login(
           <div>
             <label class="block text-gray-700">Hasło</label>
             <FormInput
+              id="password"
               type="password"
               name="password"
               value={loginData.password}
@@ -93,12 +95,10 @@ export default function Login(
           </button>
         </form>
         {loginError && (
-          <ErrorMessage showError={showError}>
-            {errorMessage ? (
-                <strong>{errorMessage}</strong>
-            ) : (
-                <strong>Nieudane logowanie</strong>
-            )}
+          <ErrorMessage>
+            {errorMessage
+              ? <strong>{errorMessage}</strong>
+              : <strong>Nie udało się zalogować</strong>}
           </ErrorMessage>
         )}
       </div>

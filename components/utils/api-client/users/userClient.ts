@@ -35,6 +35,7 @@ export async function addUser(
 
 export async function getUserByAuthId(authId: string) {
   const { url, token } = getApiConfig();
+  console.log("URL: ", url);
   const response = await fetch(`${url}/api/auth/user/${authId}`, {
     method: "GET",
     headers: {

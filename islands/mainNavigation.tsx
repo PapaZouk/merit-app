@@ -48,7 +48,6 @@ export default function MainNavigation(
   const onLogout = async (): Promise<void> => {
     try {
       if (user) {
-        console.log("Updating user to log out");
         await fetch(`/api/users/update/${user.authId}`, {
           method: "PUT",
           headers: {
@@ -63,6 +62,7 @@ export default function MainNavigation(
 
       await getAuthClient().deleteSessions();
       console.log("User logged out successfully");
+      globalThis.location.reload();
     } catch (error) {
       console.error("Logout failed", error);
     }

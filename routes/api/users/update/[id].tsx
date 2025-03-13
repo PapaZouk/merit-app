@@ -12,6 +12,7 @@ export const handler = async (req: Request, props: PageProps) => {
       },
     });
   }
+  console.log("Updating user")
 
   const userId = formatRouteParam(props);
 
@@ -34,6 +35,8 @@ export const handler = async (req: Request, props: PageProps) => {
   }
 
   try {
+    console.log("Updating user with authId: ", userId);
+    console.log(JSON.stringify(bodyData));
     const response = await updateUserByAuthId(userId, bodyData);
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {

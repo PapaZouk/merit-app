@@ -3,6 +3,7 @@ import FormLabel from "./FormLabel.tsx";
 
 type UpdateInputProps = {
   type: string;
+  id: string;
   name: string;
   value?: string | number | undefined;
   handleChange?: (
@@ -11,6 +12,7 @@ type UpdateInputProps = {
       Event
     >,
   ) => void;
+  handleKeyDown?: (e: KeyboardEvent) => void;
   label?: string | undefined;
   pattern?: string;
   placeholder?: string;
@@ -28,9 +30,11 @@ type UpdateInputProps = {
 export default function FormInput(
   {
     type,
+    id,
     name,
     value,
     handleChange,
+    handleKeyDown,
     label,
     pattern,
     placeholder,
@@ -57,10 +61,10 @@ export default function FormInput(
   let maxLength = undefined;
   let minLength = undefined;
   if (max) {
-    maxLength = typeof max === 'number' ? max : Number.parseInt(max);
+    maxLength = typeof max === "number" ? max : Number.parseInt(max);
   }
   if (min) {
-      minLength = typeof min === 'number' ? min : Number.parseInt(min);
+    minLength = typeof min === "number" ? min : Number.parseInt(min);
   }
 
   return (
@@ -68,10 +72,11 @@ export default function FormInput(
       {(label && name) && <FormLabel htmlFor={name} text={label} />}
       <input
         type={type}
-        id={name}
+        id={id}
         name={name}
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         class={className
           ? className
           : extraClass

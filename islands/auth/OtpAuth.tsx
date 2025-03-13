@@ -20,7 +20,8 @@ export default function OtpAuth() {
 
     if (isVerified) {
       handleOtpVerification();
-      globalThis.location.reload();
+      // globalThis.location.reload();
+      console.log("OTP verification successful");
     } else {
       setVerificationError("Niepoprawny kod weryfikacji");
       handleLogout();

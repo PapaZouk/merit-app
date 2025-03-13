@@ -85,6 +85,11 @@ export const LoginProvider = (
       await getAuthClient().createEmailPasswordSession(login, password);
       const userAuthResponse = await getAuthClient().get();
 
+      if (!userAuthResponse) {
+        console.error("Failed to login. No user response found.");
+        return;
+      }
+
       const userResponse = await fetch(`/api/users/${userAuthResponse.$id}`);
       const userDetails = (await userResponse.json()).result as User;
 
@@ -101,7 +106,12 @@ export const LoginProvider = (
         });
       }
 
-      userRoles.value = userDetails.roles;
+      if (userDetails.roles) {
+        userRoles.value = userDetails.roles;
+      } else {
+        userRoles.value = [UserRoleEnum.GUEST];
+      }
+
       loginError.value = false;
       userId.value = userAuthResponse.$id;
 
@@ -110,8 +120,7 @@ export const LoginProvider = (
       };
     } catch (e) {
       if (e instanceof AppwriteException) {
-        console.log("Appwrite error:", e.message);
-        console.log("Appwrite error code:", e.code);
+        console.error("Appwrite exception during login:", e);
         loginErrorCode.value = e.code;
       }
       console.error("Error during login:", e);
@@ -149,16 +158,34 @@ export const LoginProvider = (
 
   const handleOtpVerification = async () => {
     try {
-      await fetch(`/api/users/update/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      if (user && user.value) {
+        const userUpdate = {
           ...user.value,
           otpConfirmed: true,
-        }),
-      });
+        };
+
+        const authId = user.value.authId;
+
+        if (!authId) {
+          throw new Error("authId is missing from user object");
+        }
+
+        const response = await fetch(`/api/users/update/${authId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userUpdate),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update user OTP confirmation: ${response.statusText}`);
+        }
+
+        setTimeout(() => {
+          globalThis.location.reload();
+        }, 1000);
+      }
     } catch (error) {
       console.error("Failed to update user OTP confirmation:", error);
     }

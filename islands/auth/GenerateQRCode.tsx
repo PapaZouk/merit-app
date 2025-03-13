@@ -81,6 +81,7 @@ export default function GenerateQRCode() {
         if (response.status === 200) {
           console.log("User updated successfully");
         }
+        globalThis.location.reload();
       } catch (error) {
         console.error("Error updating user:", error);
         setError("Failed to update user");
